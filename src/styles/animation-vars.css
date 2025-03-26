@@ -1,0 +1,15 @@
+/* 动画相关的CSS变量 */
+:root {
+  /* 将颜色转换为RGB格式，用于背景动画 */
+  --primary-rgb: 153, 64, 0;       /* 杨红色 */
+  --secondary-rgb: 51, 153, 102;   /* 绿色 */
+  --accent-rgb: 102, 204, 153;     /* 浅绿色 */
+  --background-rgb: 250, 250, 250; /* 背景色 */
+}
+
+.dark {
+  --primary-rgb: 235, 235, 235;    /* 浅灰色 */
+  --secondary-rgb: 68, 68, 68;     /* 深灰色 */
+  --accent-rgb: 68, 68, 68;        /* 深灰色 */
+  --background-rgb: 37, 37, 37;    /* 深色背景 */
+}
