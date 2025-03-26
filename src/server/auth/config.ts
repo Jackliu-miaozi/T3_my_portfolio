@@ -1,7 +1,10 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 // import DiscordProvider from "next-auth/providers/discord";
-import GitHubProvider from "next-auth/providers/github";
+import GitHub from "next-auth/providers/github";
+import Credentials from "next-auth/providers/credentials";
+import { saltAndHashPassword } from "@/lib/saltAndHashPassword";
+import { getUserFromDb } from "@/lib/getUserFromDb";
 
 import { db } from "@/server/db";
 import {
@@ -10,6 +13,7 @@ import {
   users,
   verificationTokens,
 } from "@/server/db/schema";
+import { z } from "zod";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -39,10 +43,39 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+    Credentials({
+      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+      // e.g. domain, username, password, 2FA token, etc.
+      // 定义登录凭证字段
+      credentials: {
+        email: { type: "email", label: "邮箱", placeholder: "请输入邮箱" },
+        password: { type: "password", label: "密码", placeholder: "请输入密码" },
+      },
+      authorize: async (credentials) => {
+
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("请提供邮箱和密码");
+        }
+
+        let user = null
+ 
+        // logic to salt and hash password
+        const pwHash = await saltAndHashPassword(credentials.password as string)
+ 
+        // logic to verify if the user exists
+        user = await getUserFromDb(credentials.email as string, pwHash)
+ 
+        if (!user) {
+          // No user found, so this is their first attempt to login
+          // Optionally, this is also the place you could do a user registration
+          throw new Error("Invalid credentials.")
+        }
+ 
+        // return user object with their profile data
+        return user
+      },
     }),
+    GitHub,
     /**
      * ...add more providers here.
      *
@@ -68,5 +101,11 @@ export const authConfig = {
         id: user.id,
       },
     }),
+    signIn: () => {
+      return "/"
+    }
   },
+  pages: {
+    signIn: "/sign-in",
+  }
 } satisfies NextAuthConfig;

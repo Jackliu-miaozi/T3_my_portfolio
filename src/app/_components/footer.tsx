@@ -7,18 +7,18 @@ export function Footer() {
     <footer className="border-t py-8 md:py-9">
       <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
         <div className="flex flex-col items-center gap-4 md:items-start">
-          <Link
+          {/* <Link
             href="/"
             className="hover:text-primary text-xl font-bold transition-colors"
           >
             Jack Liu
-          </Link>
+          </Link> */}
           <p className="text-muted-foreground text-center text-sm md:text-left">
             &copy; {new Date().getFullYear()} Jack Liu. 保留所有权利。
           </p>
         </div>
         <div className="flex flex-col items-center gap-4 md:items-end">
-          <nav className="flex gap-4 sm:gap-6">
+          {/* <nav className="flex gap-4 sm:gap-6">
             <Link
               href="/"
               className="hover:text-primary text-sm font-medium transition-colors"
@@ -43,7 +43,7 @@ export function Footer() {
             >
               博客
             </Link>
-          </nav>
+          </nav> */}
           <div className="flex gap-4">
             <Link
               href="/privacy"

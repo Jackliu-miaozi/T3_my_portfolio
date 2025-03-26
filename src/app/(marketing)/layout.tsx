@@ -2,12 +2,10 @@ import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist, Noto_Sans_SC, Noto_Serif_SC } from "next/font/google";
-import { SessionProvider } from "next-auth/react"
 import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
-import {auth} from "@/server/auth";
 
 
 export const metadata: Metadata = {
@@ -37,7 +35,6 @@ const notoSerifSC = Noto_Serif_SC({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await auth();
   return (
     <html
       lang="en"
@@ -48,11 +45,9 @@ export default async function RootLayout({
         className="bg-background text-foreground relative container mx-auto min-h-screen w-full justify-center p-1 font-sans"
         suppressHydrationWarning={true}
       >
-        <SessionProvider  session={session}>
           <Header />
           <TRPCReactProvider>{children}</TRPCReactProvider>
           <Footer />
-        </SessionProvider>
       </body>
     </html>
   );
