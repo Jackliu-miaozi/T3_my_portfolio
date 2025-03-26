@@ -53,7 +53,7 @@ export function HeroSection() {
         </AnimatedSection>
 
         <AnimatedSection delay={600}>
-          <div className="mt-8 flex justify-center space-x-4 items-center">
+          <div className="mt-8 flex items-center justify-center space-x-4">
             <p>联系方式：</p>
 
             <Link

@@ -2,9 +2,13 @@ import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist, Noto_Sans_SC, Noto_Serif_SC } from "next/font/google";
-
+import { SessionProvider } from "next-auth/react"
 import { TRPCReactProvider } from "@/trpc/react";
-import { BackgroundAnimation } from "../_components/background-animation";
+// import { BackgroundAnimation } from "../_components/background-animation";
+import { Header } from "../_components/header";
+import { Footer } from "../_components/footer";
+import {auth} from "@/server/auth";
+
 
 export const metadata: Metadata = {
   title: "Jack's 主页",
@@ -29,20 +33,26 @@ const notoSerifSC = Noto_Serif_SC({
   variable: "--font-noto-serif-sc",
 });
 
-export default function RootLayout({
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth();
   return (
     <html
       lang="en"
       className={`${geist.variable} ${notoSansSC.variable} ${notoSerifSC.variable}`}
     >
-        <BackgroundAnimation />
+      
       <body
-        className="flex min-h-screen justify-center font-sans"
+        className="bg-background text-foreground relative container mx-auto min-h-screen w-full justify-center p-1 font-sans"
         suppressHydrationWarning={true}
       >
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <SessionProvider  session={session}>
+          <Header />
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

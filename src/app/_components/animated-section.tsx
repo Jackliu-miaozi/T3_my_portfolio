@@ -57,15 +57,25 @@ export function AnimatedSection({
 
   // 渲染带有动画效果的div
   return (
-    <div
-      ref={ref}
-      className={cn(
-        "transition-all duration-700 ease-in-out", // 基础过渡效果
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0", // 根据可见状态设置透明度和位移
-        className, // 合并自定义类名
-      )}
-    >
-      {children}
+    <div className="relative">
+      {/* 渐变背景动画层 */}
+      <div
+        className={cn(
+          "gradient-background absolute inset-0 -z-10", // 渐变背景样式
+          isVisible ? "opacity-100" : "opacity-0", // 根据可见状态设置透明度
+        )}
+      />
+      {/* 内容层 */}
+      <div
+        ref={ref}
+        className={cn(
+          "relative z-10 transition-all duration-700 ease-in-out", // 基础过渡效果
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0", // 根据可见状态设置透明度和位移
+          className, // 合并自定义类名
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }

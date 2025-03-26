@@ -5,8 +5,11 @@ import { MoonIcon, SunIcon } from "lucide-react";
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark" | undefined>(undefined);
+  const [mounted, setMounted] = useState(false);
 
+  // 只在客户端执行
   useEffect(() => {
+    setMounted(true);
     // 初始化主题状态
     const storedTheme = localStorage.getItem("theme") as
       | "light"
@@ -27,8 +30,6 @@ export function ThemeToggle() {
     localStorage.setItem("theme", newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
-
-  if (theme === undefined) return null;
 
   return (
     <button
