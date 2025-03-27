@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist, Noto_Sans_SC, Noto_Serif_SC } from "next/font/google";
+import { Geist} from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -16,17 +16,6 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
-const notoSansSC = Noto_Sans_SC({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-noto-sans-sc",
-});
-
-const notoSerifSC = Noto_Serif_SC({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-noto-serif-sc",
-});
 
 export default function RootLayout({
   children,
@@ -34,7 +23,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${notoSansSC.variable} ${notoSerifSC.variable}`}
+      className={`${geist.variable}`}
     >
       <body className="bg-background text-foreground relative container mx-auto min-h-screen w-full justify-center p-1 font-sans" suppressHydrationWarning={true}>
         <TRPCReactProvider>{children}</TRPCReactProvider>
