@@ -1,6 +1,7 @@
 import { db } from "@/server/db";
 import { users } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+import {verifyPassword} from "./saltAndHashPassword";
 
 /**
  * 从数据库中获取用户信息并验证密码
@@ -14,9 +15,9 @@ export async function getUserFromDb(email: string, pwHash: string) {
     const user = await db.query.users.findFirst({
       where: eq(users.email, email),
     });
-
+    const isValid = await verifyPassword(pwHash, user!.passwordHash!);
     // 如果未找到用户或密码哈希不匹配，返回null
-    if (!user || user.passwordHash !== pwHash) {
+    if (!user || !isValid) {
       return null;
     }
 

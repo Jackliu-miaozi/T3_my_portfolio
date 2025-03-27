@@ -36,7 +36,10 @@ export default function RootLayout({
       lang="en"
       className={`${geist.variable} ${notoSansSC.variable} ${notoSerifSC.variable}`}
     >
-      <body className="bg-background text-foreground relative container mx-auto min-h-screen w-full justify-center p-1 font-sans" suppressHydrationWarning={true}>
+      <body
+        className="bg-background text-foreground relative container mx-auto min-h-screen w-full justify-center font-sans"
+        suppressHydrationWarning={true}
+      >
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>

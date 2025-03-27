@@ -49,30 +49,35 @@ export const authConfig = {
       // 定义登录凭证字段
       credentials: {
         email: { type: "email", label: "邮箱", placeholder: "请输入邮箱" },
-        password: { type: "password", label: "密码", placeholder: "请输入密码" },
+        password: {
+          type: "password",
+          label: "密码",
+          placeholder: "请输入密码",
+        },
       },
       authorize: async (credentials) => {
-
         if (!credentials?.email || !credentials?.password) {
           throw new Error("请提供邮箱和密码");
         }
 
-        let user = null
- 
+        let user = null;
+
         // logic to salt and hash password
-        const pwHash = await saltAndHashPassword(credentials.password as string)
- 
+        const pwHash = await saltAndHashPassword(
+          credentials.password as string,
+        );
+
         // logic to verify if the user exists
-        user = await getUserFromDb(credentials.email as string, pwHash)
- 
+        user = await getUserFromDb(credentials.email as string, pwHash);
+
         if (!user) {
           // No user found, so this is their first attempt to login
           // Optionally, this is also the place you could do a user registration
-          throw new Error("Invalid credentials.")
+          throw new Error("Invalid credentials.");
         }
- 
+
         // return user object with their profile data
-        return user
+        return user;
       },
     }),
     GitHub,
@@ -102,10 +107,10 @@ export const authConfig = {
       },
     }),
     signIn: () => {
-      return "/"
-    }
+      return "/";
+    },
   },
   pages: {
     signIn: "/sign-in",
-  }
+  },
 } satisfies NextAuthConfig;

@@ -5,6 +5,7 @@
 import { useState } from "react"; // 导入useState hook用于管理状态
 import Link from "next/link"; // 导入Next.js的Link组件用于页面导航
 import { X } from "lucide-react"; // 导入X图标组件用于关闭按钮
+import { useSession } from "next-auth/react"; // 导入Next-Auth的useSession hook用于获取用户会话信息
 
 // 定义MobileNav组件的props接口
 interface MobileNavProps {

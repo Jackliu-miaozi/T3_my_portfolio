@@ -6,6 +6,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
+import { SessionProvider } from "next-auth/react";
 
 
 export const metadata: Metadata = {
@@ -31,7 +32,6 @@ const notoSerifSC = Noto_Serif_SC({
   variable: "--font-noto-serif-sc",
 });
 
-
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -40,14 +40,15 @@ export default async function RootLayout({
       lang="en"
       className={`${geist.variable} ${notoSansSC.variable} ${notoSerifSC.variable}`}
     >
-      
       <body
-        className="bg-background text-foreground relative container mx-auto min-h-screen w-full justify-center p-1 font-sans"
+        className="bg-background text-foreground relative container mx-auto min-h-screen  justify-center p-1 font-sans"
         suppressHydrationWarning={true}
       >
+        <SessionProvider>
           <Header />
           <TRPCReactProvider>{children}</TRPCReactProvider>
           <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

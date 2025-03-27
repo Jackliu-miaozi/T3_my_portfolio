@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <section className="relative overflow-hidden py-15 md:py-28">
       {/* 背景装饰元素 */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="bg-primary/5 absolute -top-[40%] -right-[60%] h-[800px] w-[800px] rounded-full blur-3xl" />
@@ -15,10 +15,13 @@ export function HeroSection() {
 
       <div className="container flex flex-col items-center justify-center text-center">
         <AnimatedSection>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            <span className="block">你好，我是 Jack Liu</span>
-            <span className="text-primary mt-2 block">欢迎来到我的网站</span>
-          </h1>
+          <div className="flex-col text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+            <p className="flex">
+              你好，我是&nbsp;&nbsp;
+              <span>刘正源 🤝</span>
+            </p>
+            <p className="text-primary mt-4 block">欢迎来到我的网站</p>
+          </div>
         </AnimatedSection>
 
         <AnimatedSection delay={200}>
