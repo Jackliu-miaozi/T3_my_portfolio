@@ -15,6 +15,20 @@
       "when": 1742995691957,
       "tag": "0001_shallow_toad_men",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1743165790414,
+      "tag": "0002_large_richard_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1743170617216,
+      "tag": "0003_dusty_tattoo",
+      "breakpoints": true
     }
   ]
 }

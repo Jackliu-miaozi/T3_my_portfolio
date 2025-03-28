@@ -1,3 +1,4 @@
+
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
@@ -6,7 +7,6 @@ import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
-
 
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ const geist = Geist({
 
 
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -35,7 +35,10 @@ export default async function RootLayout({
         suppressHydrationWarning={true}
       >
         <Header />
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+
+          {children}
+        </TRPCReactProvider>
         <Footer />
 
       </body>
