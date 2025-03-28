@@ -31,6 +31,6 @@ export const signupRouter = createTRPCRouter({
         passwordHash: await saltAndHashPassword(input.password),
       });
 
-      return null;
+      return true;
     }),
 });

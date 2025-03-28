@@ -33,7 +33,7 @@ export function HeroSection() {
 
         <AnimatedSection delay={400}>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <p>不想给自己打标签：</p>
+            <p>给自己打标签：</p>
             <span className="focus:ring-ring bg-primary text-primary-foreground hover:bg-primary/80 inline-flex items-center rounded-full border border-transparent px-2.5 py-0.5 text-xs font-semibold transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none">
               全栈开发
             </span>

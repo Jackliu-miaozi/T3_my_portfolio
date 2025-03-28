@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { api } from "@/trpc/react";
+import { toast } from "sonner";
 
 
 import {
@@ -22,7 +22,24 @@ export default function SignUpPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const registe = api.signup.register.useMutation();
+    const registe = api.signup.register.useMutation({
+        onSuccess: () => {
+            toast("注册成功", {
+                description: "您注册成功了，现在去登录吧",
+                action: {
+                    label: "立即前往",
+                    onClick: () => router.push("/sign-in"),
+                },
+            });
+            // 延迟1.5秒后跳转到登录页面，让用户有时间看到提示
+            setTimeout(() => {
+                router.push("/sign-in");
+            }, 1500);
+        },
+        onError: (error) => {
+            setError(error.message || "注册过程中发生错误");
+        }
+    });
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -45,18 +62,6 @@ export default function SignUpPage() {
                 email,
                 password,
             });
-            const result = await signIn("credentials", {
-                email,
-                password,
-                redirect: false,
-            });
-
-            if (result?.error) {
-                setError(result.error);
-            } else {
-                router.push("/");
-                router.refresh();
-            }
         } catch (e) {
             setError("注册过程中发生错误");
         } finally {

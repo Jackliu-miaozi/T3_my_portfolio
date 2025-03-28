@@ -1,7 +1,5 @@
-"use client";
 
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
 import { Dog } from "lucide-react";
 import {
@@ -12,10 +10,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { useSession } from "next-auth/react";
+import {auth} from "@/server/auth";
 
-export function MobileNav() {
-  const { data: session } = useSession();
+export async function MobileNav() {
+  const session = await auth();
   return (
     <NavigationMenu className="px-3 md:hidden">
       <NavigationMenuList>

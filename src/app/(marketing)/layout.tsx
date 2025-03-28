@@ -6,7 +6,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
-import { SessionProvider } from "next-auth/react";
+
 
 
 export const metadata: Metadata = {
@@ -34,11 +34,10 @@ export default async function RootLayout({
         className="bg-background text-foreground relative container mx-auto min-h-screen  justify-center p-1 font-sans"
         suppressHydrationWarning={true}
       >
-        <SessionProvider>
-          <Header />
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-          <Footer />
-        </SessionProvider>
+        <Header />
+        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Footer />
+
       </body>
     </html>
   );
