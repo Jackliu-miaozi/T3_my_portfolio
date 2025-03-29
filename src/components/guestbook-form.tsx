@@ -17,17 +17,17 @@ type GuestbookFormProps = {
 
 export function GuestbookForm({ user }: GuestbookFormProps) {
   const utils = api.useUtils();
-// 创建一个用于提交留言的mutation钩子
-// 使用tRPC的useMutation来处理留言创建
-// onSuccess回调在留言创建成功后执行:
-// 1. 使用utils.post.invalidate()使缓存失效，强制重新获取最新数据
-// 2. 清空输入框的内容
-const createPost = api.post.create.useMutation({
-  onSuccess: async () => {
-    await utils.post.invalidate();
-    setMessage("");
-  },
-});
+  // 创建一个用于提交留言的mutation钩子
+  // 使用tRPC的useMutation来处理留言创建
+  // onSuccess回调在留言创建成功后执行:
+  // 1. 使用utils.post.invalidate()使缓存失效，强制重新获取最新数据
+  // 2. 清空输入框的内容
+  const createPost = api.post.create.useMutation({
+    onSuccess: async () => {
+      await utils.post.invalidate();
+      setMessage("");
+    },
+  });
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -43,7 +43,7 @@ const createPost = api.post.create.useMutation({
         context: message,
         // 不需要显式传递createdById，因为它在服务器端从session中获取
       });
-      
+
       // 不再需要手动清空输入框，因为onSuccess回调会处理
       // 不再使用alert，避免阻塞UI更新
     } catch (error) {

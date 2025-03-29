@@ -17,8 +17,8 @@ export const posts = createTable(
   (d) => ({
     id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
     context: d.text({ length: 256 }),
-    image : d.text({ length: 256 }),
-    name : d.text({ length: 256 }),
+    image: d.text({ length: 256 }),
+    name: d.text({ length: 256 }),
     createdBy: d.text({ length: 256 }),
     createdAt: d
       .integer({ mode: "timestamp" })
@@ -26,9 +26,7 @@ export const posts = createTable(
       .notNull(),
     updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
   }),
-  (t) => [
-    index("id_idx").on(t.id),
-  ],
+  (t) => [index("id_idx").on(t.id)],
 );
 
 export const users = createTable("user", (d) => ({

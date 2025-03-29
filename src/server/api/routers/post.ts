@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { desc } from "drizzle-orm";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { posts } from "@/server/db/schema";
 
 export const postRouter = createTRPCRouter({
@@ -23,7 +27,7 @@ export const postRouter = createTRPCRouter({
     });
     return post ?? null;
   }),
-  
+
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
       const entries = await ctx.db

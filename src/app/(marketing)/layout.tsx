@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body
-        className="bg-background text-foreground relative container mx-auto min-h-screen justify-center p-1 font-sans"
+        className="bg-background text-foreground relative container mx-auto min-h-screen justify-center font-sans"
         suppressHydrationWarning={true}
       >
         <Header />

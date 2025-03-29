@@ -5,7 +5,6 @@ import { Button } from "@/app/_components/ui/button";
 import Link from "next/link";
 import { HydrateClient } from "@/trpc/server";
 
-
 export default async function GuestbookPage() {
   const session = await auth();
   return (
@@ -46,5 +45,4 @@ export default async function GuestbookPage() {
       </div>
     </HydrateClient>
   );
-
 }
