@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Dog } from "lucide-react";
@@ -10,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import {auth} from "@/server/auth";
+import { auth } from "@/server/auth";
 
 export async function MobileNav() {
   const session = await auth();

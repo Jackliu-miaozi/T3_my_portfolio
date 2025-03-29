@@ -1,1 +1,0 @@
-ALTER TABLE `my_portfolio_2_post` DROP COLUMN `content`;

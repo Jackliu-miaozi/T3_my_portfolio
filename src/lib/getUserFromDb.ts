@@ -23,7 +23,7 @@ export async function getUserFromDb(email: string, password: string) {
 
     // 验证密码是否匹配
     const isValid = await verifyPassword(user.passwordHash, password);
-    
+
     // 如果密码不匹配，返回null
     if (!isValid) {
       return null;

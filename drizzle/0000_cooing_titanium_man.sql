@@ -18,13 +18,10 @@ CREATE INDEX `account_user_id_idx` ON `my_portfolio_2_account` (`userId`);--> st
 CREATE TABLE `my_portfolio_2_post` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(256),
-	`createdById` text(255) NOT NULL,
 	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
-	`updatedAt` integer,
-	FOREIGN KEY (`createdById`) REFERENCES `my_portfolio_2_user`(`id`) ON UPDATE no action ON DELETE no action
+	`updatedAt` integer
 );
 --> statement-breakpoint
-CREATE INDEX `created_by_idx` ON `my_portfolio_2_post` (`createdById`);--> statement-breakpoint
 CREATE INDEX `name_idx` ON `my_portfolio_2_post` (`name`);--> statement-breakpoint
 CREATE TABLE `my_portfolio_2_session` (
 	`sessionToken` text(255) PRIMARY KEY NOT NULL,
@@ -39,7 +36,8 @@ CREATE TABLE `my_portfolio_2_user` (
 	`name` text(255),
 	`email` text(255) NOT NULL,
 	`emailVerified` integer DEFAULT (unixepoch()),
-	`image` text(255)
+	`image` text(255),
+	`passwordHash` text(255)
 );
 --> statement-breakpoint
 CREATE TABLE `my_portfolio_2_verification_token` (

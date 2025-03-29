@@ -1,13 +1,11 @@
-
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist, } from "next/font/google";
+import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
-
 
 export const metadata: Metadata = {
   title: "Jack's 主页",
@@ -20,27 +18,18 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
-
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geist.variable}`}
-    >
+    <html lang="en" className={`${geist.variable}`}>
       <body
-        className="bg-background text-foreground relative container mx-auto min-h-screen  justify-center p-1 font-sans"
+        className="bg-background text-foreground relative container mx-auto min-h-screen justify-center p-1 font-sans"
         suppressHydrationWarning={true}
       >
         <Header />
-        <TRPCReactProvider>
-
-          {children}
-        </TRPCReactProvider>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
         <Footer />
-
       </body>
     </html>
   );

@@ -15,7 +15,7 @@ declare module "next-auth" {
 export const authConfig = {
   secret: process.env.AUTH_SECRET,
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   providers: [
     Credentials({
@@ -23,7 +23,7 @@ export const authConfig = {
         email: { type: "email", label: "邮箱", placeholder: "请输入邮箱" },
         password: {
           type: "password",
-          label: "密码", 
+          label: "密码",
           placeholder: "请输入密码",
         },
       },
@@ -34,7 +34,7 @@ export const authConfig = {
 
         const user = await getUserFromDb(
           credentials.email as string,
-          credentials.password as string
+          credentials.password as string,
         );
 
         if (!user) {
@@ -52,16 +52,16 @@ export const authConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id
+        token.id = user.id;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string
+        session.user.id = token.id as string;
       }
-      return session
-    }
+      return session;
+    },
   },
   pages: {
     signIn: "/sign-in",
