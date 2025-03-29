@@ -4,6 +4,7 @@ import { GuestbookEntries } from "@/components/guestbook-entries";
 import { Button } from "@/app/_components/ui/button";
 import Link from "next/link";
 
+
 export default async function GuestbookPage() {
   const session = await auth();
   return (

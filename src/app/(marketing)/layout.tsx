@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
+// import { HydrateClient } from "@/trpc/server";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
