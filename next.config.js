@@ -7,7 +7,13 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ["avatars.githubusercontent.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

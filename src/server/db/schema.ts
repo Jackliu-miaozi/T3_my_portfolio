@@ -17,6 +17,8 @@ export const posts = createTable(
   (d) => ({
     id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
     context: d.text({ length: 256 }),
+    image : d.text({ length: 256 }),
+    name : d.text({ length: 256 }),
     createdBy: d.text({ length: 256 }),
     createdAt: d
       .integer({ mode: "timestamp" })

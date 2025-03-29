@@ -9,6 +9,8 @@ export const postRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(posts).values({
         context: input.context,
+        image: ctx.session.user.image,
+        name: ctx.session.user.name,
         createdBy: ctx.session.user.name,
         createdAt: new Date(),
       });
