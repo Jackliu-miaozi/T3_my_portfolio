@@ -16,7 +16,18 @@ type GuestbookFormProps = {
 };
 
 export function GuestbookForm({ user }: GuestbookFormProps) {
-  const createPost = api.post.create.useMutation();
+  const utils = api.useUtils();
+// 创建一个用于提交留言的mutation钩子
+// 使用tRPC的useMutation来处理留言创建
+// onSuccess回调在留言创建成功后执行:
+// 1. 使用utils.post.invalidate()使缓存失效，强制重新获取最新数据
+// 2. 清空输入框的内容
+const createPost = api.post.create.useMutation({
+  onSuccess: async () => {
+    await utils.post.invalidate();
+    setMessage("");
+  },
+});
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,17 +38,14 @@ export function GuestbookForm({ user }: GuestbookFormProps) {
     // 获取表单中提交的消息内容
     setIsSubmitting(true);
     try {
-      // 这里将来需要添加实际的API调用来保存留言
-      // 例如: await fetch('/api/guestbook', { method: 'POST', body: JSON.stringify({ message }) });
       // 这里使用了trpc来调用API
       createPost.mutate({
         context: message,
         // 不需要显式传递createdById，因为它在服务器端从session中获取
       });
-
-      // 成功后清空输入框
-      setMessage("");
-      alert("留言已提交！");
+      
+      // 不再需要手动清空输入框，因为onSuccess回调会处理
+      // 不再使用alert，避免阻塞UI更新
     } catch (error) {
       console.error("提交留言失败", error);
       alert("提交失败，请稍后再试");

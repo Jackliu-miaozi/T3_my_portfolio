@@ -68,6 +68,7 @@ export default function SignInPage() {
   // GitHub登录处理
   const handleGithubSignIn = () => {
     void signIn("github", {
+      redirect: false,
       callbackUrl: "/",
     });
   };

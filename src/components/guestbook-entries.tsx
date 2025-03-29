@@ -1,12 +1,11 @@
 
+"use client";
+
 import Image from "next/image";
-import { getGuestbookEntries } from "@/lib/getGuestbookEntries";
+import { api } from "@/trpc/react";
 
-
-
-
-export async function GuestbookEntries() {
-    const entries = await getGuestbookEntries();
+export function GuestbookEntries() {
+    const { data: entries, isLoading } = api.post.getAll.useQuery();
     // 格式化日期
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -17,7 +16,7 @@ export async function GuestbookEntries() {
         }).format(date);
     };
 
-    if (!entries) {
+    if (isLoading || !entries) {
         return (
             <div className="flex justify-center py-8">
                 <div className="animate-pulse text-gray-500 dark:text-gray-400">

@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Dog } from "lucide-react";
@@ -9,10 +10,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { auth } from "@/server/auth";
 
-export async function MobileNav() {
-  const session = await auth();
+import { SignOut } from "./signoutbutton";
+import { useSession } from "next-auth/react";
+
+export function MobileNav() {
+  const session = useSession();
   return (
     <NavigationMenu className="px-3 md:hidden">
       <NavigationMenuList>
@@ -35,7 +38,7 @@ export async function MobileNav() {
               {!session ? (
                 <ListItem href="/sign-in" title="登录"></ListItem>
               ) : (
-                <ListItem href="/dashboard" title="我的后台"></ListItem>
+                <ListItem href="/sign-out" title="登出"></ListItem>
               )}
             </ul>
           </NavigationMenuContent>

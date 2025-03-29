@@ -9,7 +9,6 @@ const navLinks = [
   { href: "/aboutme", label: "关于我" },
   { href: "/myartical", label: "博客" },
   { href: "/guestbook", label: "留言板" },
-  { href: "/contact", label: "联系方式" },
 ];
 
 export default function Navbar() {

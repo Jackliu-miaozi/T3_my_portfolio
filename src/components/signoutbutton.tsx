@@ -1,4 +1,5 @@
 import { signOut } from "@/server/auth";
+import router from 'next/navigation';
 
 export function SignOut() {
   return (

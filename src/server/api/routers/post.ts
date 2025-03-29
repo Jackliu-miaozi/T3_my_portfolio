@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { desc } from "drizzle-orm";
 
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 import { posts } from "@/server/db/schema";
 
 export const postRouter = createTRPCRouter({
@@ -21,5 +22,25 @@ export const postRouter = createTRPCRouter({
       orderBy: (posts, { desc }) => [desc(posts.createdAt)],
     });
     return post ?? null;
+  }),
+  
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const entries = await ctx.db
+        .select({
+          id: posts.id,
+          context: posts.context,
+          createdAt: posts.createdAt,
+          createdBy: posts.createdBy,
+          image: posts.image,
+        })
+        .from(posts)
+        .orderBy(desc(posts.createdAt))
+        .limit(50);
+      return entries;
+    } catch (error) {
+      console.error("Failed to fetch guestbook entries:", error);
+      return [];
+    }
   }),
 });
