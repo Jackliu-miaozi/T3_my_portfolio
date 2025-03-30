@@ -22,10 +22,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable} `}>
-      <body
-        className="bg-background text-foreground relative container mx-auto min-h-screen w-full justify-center font-sans"
-        suppressHydrationWarning={true}
-      >
+      <body className="mx-auto" suppressHydrationWarning={true}>
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Toaster />
       </body>

@@ -8,6 +8,7 @@ import { SignIn } from "@/components/signinbutton";
 import { SignOut } from "@/components/signoutbutton";
 //sessionprovider可以在服务端组件中使用
 import { SessionProvider } from "next-auth/react";
+import { Button } from "./ui/button";
 
 export async function Header() {
   const session = await auth();
@@ -31,9 +32,17 @@ export async function Header() {
           <SessionProvider session={session}>
             <MobileNav />
           </SessionProvider>
-
           <div className="hidden md:flex">
             {session?.user ? <SignOut /> : <SignIn />}
+          </div>
+          <div>
+            {session?.user.email === "lzyujn@gmail.com" ? (
+              <Link href="/dashboard">
+                <Button className="text-sm font-medium text-white hover:underline">
+                  仪表盘
+                </Button>
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>

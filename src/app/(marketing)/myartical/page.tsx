@@ -111,7 +111,7 @@ export default function ArticlesPage() {
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
-            <Card key={article.id} className="h-full flex flex-col">
+            <Card key={article.id} className="flex h-full flex-col">
               <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
                 <Image
                   src={article.image}
@@ -122,11 +122,11 @@ export default function ArticlesPage() {
               </div>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     {formatDate(article.date)}
                   </div>
                   {article.category && (
-                    <div className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                    <div className="bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
                       {article.category}
                     </div>
                   )}

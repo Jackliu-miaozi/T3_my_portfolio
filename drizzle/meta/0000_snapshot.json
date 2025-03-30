@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "69ccd42f-401e-4c36-b362-940767636975",
+  "id": "aa0a5f22-25c1-4c9d-bb44-55e0b0ac8759",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "my_portfolio_2_account": {
@@ -121,6 +121,88 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "my_portfolio_2_myartical": {
+      "name": "my_portfolio_2_myartical",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "category": {
+          "name": "category",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdBy": {
+          "name": "createdBy",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(datetime('now'))"
+        }
+      },
+      "indexes": {
+        "myartical_id_idx": {
+          "name": "myartical_id_idx",
+          "columns": [
+            "id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "my_portfolio_2_post": {
       "name": "my_portfolio_2_post",
       "columns": {
@@ -131,8 +213,29 @@
           "notNull": true,
           "autoincrement": true
         },
+        "context": {
+          "name": "context",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "name": {
           "name": "name",
+          "type": "text(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdBy": {
+          "name": "createdBy",
           "type": "text(256)",
           "primaryKey": false,
           "notNull": false,
@@ -155,10 +258,10 @@
         }
       },
       "indexes": {
-        "name_idx": {
-          "name": "name_idx",
+        "id_idx": {
+          "name": "id_idx",
           "columns": [
-            "name"
+            "id"
           ],
           "isUnique": false
         }

@@ -4,7 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Dog } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/_components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/app/_components/ui/dialog";
 import { Button } from "@/app/_components/ui/button";
 
 export function MobileNav() {
@@ -107,11 +113,17 @@ export function MobileNav() {
             <DialogTitle>确认退出登录</DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-center text-sm text-gray-500">您确定要退出登录吗？</p>
+            <p className="text-center text-sm text-gray-500">
+              您确定要退出登录吗？
+            </p>
           </div>
           <DialogFooter className="flex justify-between sm:justify-between">
-            <Button variant="outline" onClick={cancelLogout}>取消</Button>
-            <Button variant="default" onClick={confirmLogout}>确认退出</Button>
+            <Button variant="outline" onClick={cancelLogout}>
+              取消
+            </Button>
+            <Button variant="default" onClick={confirmLogout}>
+              确认退出
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
