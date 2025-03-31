@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Button } from "@/app/_components/ui/button";
 import Link from "next/link";
 
-// export const runtime = 'edge';
-// export const preferredRegion = 'home';
 export default async function AboutMe() {
   return (
     <HydrateClient>
@@ -84,7 +82,8 @@ export default async function AboutMe() {
               <div className="rounded-lg border p-4">
                 <h3 className="font-semibold">全栈开发</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  React, Next.js, TypeScript, Tailwind CSS, PostgreSQL
+                  React, Next.js, TypeScript, Tailwind CSS, PostgreSQL, Prisma,
+                  NextAuth, tRPC, OpenAI, Drizzle
                 </p>
               </div>
               <div className="rounded-lg border p-4">

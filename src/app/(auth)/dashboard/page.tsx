@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { HydrateClient } from "@/trpc/server";
 import { api } from "@/trpc/react";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
@@ -15,9 +14,8 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+
 import {
   Dialog,
   DialogContent,

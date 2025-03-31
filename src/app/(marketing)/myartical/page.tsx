@@ -10,16 +10,6 @@ import {
   CardFooter,
 } from "@/app/_components/ui/card";
 
-type Article = {
-  id: string;
-  title: string;
-  date: string;
-  summary: string;
-  link: string;
-  category?: string;
-  image: string;
-};
-
 export default async function ArticlesPage() {
   // 模拟文章数据
   void api.artical.getAll.prefetch();
