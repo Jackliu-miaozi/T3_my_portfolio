@@ -1,5 +1,4 @@
 import { signOut } from "@/server/auth";
-import router from "next/navigation";
 
 export function SignOut() {
   return (
@@ -9,7 +8,9 @@ export function SignOut() {
         await signOut();
       }}
     >
-      <button type="submit">登出</button>
+      <button type="submit" className="cursor-pointer">
+        退出登录
+      </button>
     </form>
   );
 }

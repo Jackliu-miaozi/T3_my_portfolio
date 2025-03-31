@@ -8,7 +8,9 @@ export function SignIn() {
         await signIn();
       }}
     >
-      <button type="submit">登录</button>
+      <button type="submit" className="cursor-pointer">
+        登录
+      </button>
     </form>
   );
 }

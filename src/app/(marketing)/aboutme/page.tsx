@@ -36,12 +36,12 @@ export default async function AboutMe() {
           <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_450px]">
             <div className="flex flex-col justify-between">
               <div>
-                <AnimatedSection >
+                <AnimatedSection>
                   <h1 className="mb-7 text-3xl font-bold tracking-tighter sm:text-5xl">
                     关于我
                   </h1>
                 </AnimatedSection>
-                <AnimatedSection delay={100} >
+                <AnimatedSection delay={100}>
                   <div className="gap-1">
                     <p className="pt-2 leading-10 text-gray-900 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
                       我是一名
@@ -65,12 +65,12 @@ export default async function AboutMe() {
                     </p>
                   </div>
                 </AnimatedSection>
-                <AnimatedSection delay={100} >
+                <AnimatedSection delay={100}>
                   <div className="leading-loose dark:text-gray-400">
                     <p>
                       当我不在编程时，你可以看到我在
-                      <span className="font-bold text-green-700">山间徒步</span>，
-                      <span className="font-bold text-blue-500">听音乐</span>
+                      <span className="font-bold text-green-700">山间徒步</span>
+                      ，<span className="font-bold text-blue-500">听音乐</span>
                       或在
                       <span className="font-bold text-orange-900">
                         厨房尝试新的食谱
@@ -87,7 +87,7 @@ export default async function AboutMe() {
                   </div>
                 </AnimatedSection>
               </div>
-              <AnimatedSection delay={300} >
+              <AnimatedSection delay={300}>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link href="/guestbook">
                     <Button>访问留言板</Button>
@@ -98,7 +98,7 @@ export default async function AboutMe() {
                 </div>
               </AnimatedSection>
             </div>
-            <AnimatedSection delay={300} >
+            <AnimatedSection delay={300}>
               <div>
                 <Image
                   alt="个人照片"
@@ -112,22 +112,21 @@ export default async function AboutMe() {
             </AnimatedSection>
           </div>
           <div className="mt-16 space-y-6">
-            <AnimatedSection delay={400} >
+            <AnimatedSection delay={400}>
               <h2 className="text-2xl font-bold">技能与专长</h2>
             </AnimatedSection>
 
-
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <AnimatedSection delay={500} >
+              <AnimatedSection delay={500}>
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">全栈开发</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    React, Next.js, TypeScript, Tailwind CSS, PostgreSQL, Prisma,
-                    NextAuth, tRPC, OpenAI, Drizzle
+                    React, Next.js, TypeScript, Tailwind CSS, PostgreSQL,
+                    Prisma, NextAuth, tRPC, OpenAI, Drizzle
                   </p>
                 </div>
               </AnimatedSection>
-              <AnimatedSection delay={500} >
+              <AnimatedSection delay={500}>
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">开发运维</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -135,7 +134,7 @@ export default async function AboutMe() {
                   </p>
                 </div>
               </AnimatedSection>
-              <AnimatedSection delay={500} >
+              <AnimatedSection delay={500}>
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">给排水设计</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -143,8 +142,7 @@ export default async function AboutMe() {
                   </p>
                 </div>
               </AnimatedSection>
-              <AnimatedSection delay={500} >
-
+              <AnimatedSection delay={500}>
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">人工智能</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -152,7 +150,7 @@ export default async function AboutMe() {
                   </p>
                 </div>
               </AnimatedSection>
-              <AnimatedSection delay={500} >
+              <AnimatedSection delay={500}>
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">区块链技术</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -160,8 +158,7 @@ export default async function AboutMe() {
                   </p>
                 </div>
               </AnimatedSection>
-              <AnimatedSection delay={500} >
-
+              <AnimatedSection delay={500}>
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">投资理财</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -169,7 +166,6 @@ export default async function AboutMe() {
                   </p>
                 </div>
               </AnimatedSection>
-
             </div>
           </div>
         </div>

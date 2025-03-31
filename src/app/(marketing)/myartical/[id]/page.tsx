@@ -8,12 +8,12 @@ import { type Metadata, type ResolvingMetadata } from "next";
 // 动态生成metadata
 export async function generateMetadata(
   { params }: { params: { id: string } },
-  _parent: ResolvingMetadata
+  _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   try {
     // 获取文章详情
     const article = await api.artical.getById({ id: params.id });
-    
+
     // 如果文章不存在，返回默认metadata
     if (!article) {
       return {
@@ -21,24 +21,28 @@ export async function generateMetadata(
         description: "抱歉，您请求的文章不存在。",
       };
     }
-    
+
     // 使用文章信息生成metadata
     return {
       title: `${article.title} | Jack's 主页`,
       description: article.summary ?? "阅读Jack的文章",
-      keywords: article.category ? [article.category, "文章", "博客"] : ["文章", "博客"],
+      keywords: article.category
+        ? [article.category, "文章", "博客"]
+        : ["文章", "博客"],
       openGraph: {
         title: `${article.title} | Jack's 主页`,
         description: article.summary ?? "阅读Jack的文章",
         url: `https://jackliu.com/myartical/${params.id}`,
-        images: article.image ? [
-          {
-            url: article.image,
-            width: 1200,
-            height: 630,
-            alt: article.title ?? "文章封面",
-          }
-        ] : undefined,
+        images: article.image
+          ? [
+              {
+                url: article.image,
+                width: 1200,
+                height: 630,
+                alt: article.title ?? "文章封面",
+              },
+            ]
+          : undefined,
         locale: "zh_CN",
         type: "article",
         publishedTime: article.createdAt.toISOString(),

@@ -26,7 +26,6 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-
 // 定义用户类型
 type User = {
   id: string;

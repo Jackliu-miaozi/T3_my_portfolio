@@ -11,7 +11,7 @@ export function ThemeToggle() {
   useEffect(() => {
     // 设置已挂载标志
     setMounted(true);
-    
+
     // 初始化主题状态
     const storedTheme = localStorage.getItem("theme") as
       | "light"
@@ -35,7 +35,7 @@ export function ThemeToggle() {
 
   // 如果组件尚未挂载，返回null或占位符，避免闪烁
   if (!mounted) {
-    return <div className="w-5 h-5" />;
+    return <div className="h-5 w-5" />;
   }
 
   return (

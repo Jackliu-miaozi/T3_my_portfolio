@@ -27,7 +27,6 @@ import {
 } from "@/app/_components/ui/card";
 import { AnimatedSection } from "@/app/_components/animated-section";
 
-
 export default async function ArticlesPage() {
   // 模拟文章数据
   void api.artical.getAll.prefetch();
@@ -63,9 +62,9 @@ export default async function ArticlesPage() {
             </div>
           </AnimatedSection>
         </div>
-        <AnimatedSection delay={200} >
+        <AnimatedSection delay={200}>
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {articles?.map((article,index) => (
+            {articles?.map((article, index) => (
               <AnimatedSection key={article.id} delay={(index + 1) * 100}>
                 <Card key={article.id} className="flex h-full flex-col">
                   <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
@@ -87,7 +86,9 @@ export default async function ArticlesPage() {
                         </div>
                       )}
                     </div>
-                    <CardTitle className="mt-2 text-xl">{article.title}</CardTitle>
+                    <CardTitle className="mt-2 text-xl">
+                      {article.title}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <CardDescription className="line-clamp-3">

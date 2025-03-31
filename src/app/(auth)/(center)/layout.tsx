@@ -11,24 +11,26 @@ export default function CenterLayout({
   useEffect(() => {
     setMounted(true);
     try {
-      const storedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = storedTheme ?? (prefersDark ? 'dark' : 'light');
-      
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
+      const storedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      const theme = storedTheme ?? (prefersDark ? "dark" : "light");
+
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
       } else {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.remove("dark");
       }
     } catch (e) {
-      console.error('主题初始化失败:', e);
+      console.error("主题初始化失败:", e);
     }
   }, []);
 
   // 添加内联脚本到head中
   useEffect(() => {
     // 创建脚本元素
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.innerHTML = `
       (function() {
         try {
@@ -57,11 +59,19 @@ export default function CenterLayout({
 
   // 如果尚未挂载，返回一个占位符，避免闪烁
   if (!mounted) {
-    return <div className="bg-background text-foreground flex min-h-screen w-full items-center justify-center" suppressHydrationWarning />;
+    return (
+      <div
+        className="bg-background text-foreground flex min-h-screen w-full items-center justify-center"
+        suppressHydrationWarning
+      />
+    );
   }
 
   return (
-    <div className="bg-background text-foreground flex min-h-screen w-full items-center justify-center" suppressHydrationWarning>
+    <div
+      className="bg-background text-foreground flex min-h-screen w-full items-center justify-center"
+      suppressHydrationWarning
+    >
       {children}
     </div>
   );

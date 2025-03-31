@@ -7,7 +7,8 @@ export const metadata: Metadata = {
   keywords: ["留言板", "留言", "反馈", "交流"],
   openGraph: {
     title: "留言板 | Jack's 主页",
-    description: "在Jack的留言板上留下你的消息，分享你的想法，或者只是打个招呼！",
+    description:
+      "在Jack的留言板上留下你的消息，分享你的想法，或者只是打个招呼！",
     url: "https://jackliu.com/guestbook",
     locale: "zh_CN",
     type: "website",
