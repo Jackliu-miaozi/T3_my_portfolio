@@ -27,8 +27,6 @@ import {
 } from "@/app/_components/ui/dialog";
 import { cn } from "@/lib/utils";
 
-
-
 // 定义用户类型
 type User = {
   id: string;
@@ -61,8 +59,8 @@ export default function DashboardPage() {
       await utils.artical.invalidate();
     },
   });
-  const { data: users, status: isLoaded } = api.user.getAll.useQuery();
 
+  const { data: users, status: isLoaded } = api.user.getAll.useQuery();
 
   // 处理添加文章
   const handleAddArticle = (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +69,6 @@ export default function DashboardPage() {
     const formData = new FormData(e.currentTarget);
     // 提交文章数据
     try {
-
       createArticle.mutate({
         title: formData.get("title") as string,
         category: formData.get("category") as string,
@@ -104,7 +101,7 @@ export default function DashboardPage() {
     // 这里添加删除文章逻辑
     deleteArticle.mutate({
       id: articleId!,
-    })
+    });
     toast.success("文章已删除！");
     setShowDeleteArticleDialog(false);
   };
@@ -167,8 +164,7 @@ export default function DashboardPage() {
         {/* 文章管理 */}
 
         {activeTab === "articles" && (
-
-          <div >
+          <div>
             <div className="mb-6 flex items-center justify-between">
               <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
                 文章管理
@@ -178,7 +174,14 @@ export default function DashboardPage() {
               </Button>
             </div>
             <div>
-              <div className={cn("grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3", isLoading ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" : "hidden")}>
+              <div
+                className={cn(
+                  "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3",
+                  isLoading
+                    ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+                    : "hidden",
+                )}
+              >
                 {articles?.map((article) => (
                   <Card key={article.id} className="overflow-hidden">
                     <div className="relative h-48">
@@ -194,12 +197,16 @@ export default function DashboardPage() {
                         <div>
                           <CardTitle>{article.title}</CardTitle>
                           <CardDescription className="mt-1">
-                            {new Date(article.createdAt).toLocaleDateString('zh-CN', {
-                              timeZone: 'Asia/Shanghai',
-                              year: 'numeric',
-                              month: '2-digit',
-                              day: '2-digit'
-                            })} · {article.category}
+                            {new Date(article.createdAt).toLocaleDateString(
+                              "zh-CN",
+                              {
+                                timeZone: "Asia/Shanghai",
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              },
+                            )}{" "}
+                            · {article.category}
                           </CardDescription>
                         </div>
                       </div>
@@ -231,8 +238,7 @@ export default function DashboardPage() {
         {/* 用户管理 */}
         {activeTab === "users" && (
           <div>
-            <div>
-            </div>
+            <div></div>
             <h1 className="mb-6 text-2xl font-bold text-gray-800 dark:text-white">
               用户管理
             </h1>
@@ -303,15 +309,29 @@ export default function DashboardPage() {
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <Label htmlFor="title">文章标题</Label>
-                <Input id="title" name="title" placeholder="输入文章标题" required />
+                <Input
+                  id="title"
+                  name="title"
+                  placeholder="输入文章标题"
+                  required
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="category">分类</Label>
-                <Input id="category" name="category" placeholder="输入文章分类" />
+                <Input
+                  id="category"
+                  name="category"
+                  placeholder="输入文章分类"
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="summary">摘要</Label>
-                <Input id="summary" name="summary" placeholder="输入文章摘要" required />
+                <Input
+                  id="summary"
+                  name="summary"
+                  placeholder="输入文章摘要"
+                  required
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="content">内容</Label>

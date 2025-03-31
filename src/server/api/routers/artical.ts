@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { desc, eq } from "drizzle-orm";
 
-
-
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -59,9 +57,6 @@ export const articalRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db
-        .delete(myartical)
-        .where(eq(myartical.id, input.id));
-
+      await ctx.db.delete(myartical).where(eq(myartical.id, input.id));
     }),
 });
