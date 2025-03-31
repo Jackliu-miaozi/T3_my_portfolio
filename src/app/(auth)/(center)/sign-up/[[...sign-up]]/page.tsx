@@ -10,6 +10,7 @@ import { api } from "@/trpc/react";
 import { toast } from "sonner";
 import { CheckCircle, AlertCircle, XCircle } from "lucide-react";
 
+
 import {
   Card,
   CardContent,
@@ -17,6 +18,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
+
+
 
 export default function SignUpPage() {
   const [isCheckingName, setIsCheckingName] = useState(false);

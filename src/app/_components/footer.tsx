@@ -57,12 +57,6 @@ export function Footer() {
             >
               使用条款
             </Link>
-            <Link
-              href="/sitemap"
-              className="text-muted-foreground hover:text-primary text-sm transition-colors"
-            >
-              网站地图
-            </Link>
           </div>
         </div>
       </div>

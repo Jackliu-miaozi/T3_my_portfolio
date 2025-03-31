@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "lucide-react";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark" | undefined>(undefined);
+  const [theme, setTheme] = useState<"light" | "dark">("light"); // 默认为light，避免undefined状态
   const [mounted, setMounted] = useState(false);
 
   // 只在客户端执行
   useEffect(() => {
+    // 设置已挂载标志
     setMounted(true);
+    
     // 初始化主题状态
     const storedTheme = localStorage.getItem("theme") as
       | "light"
@@ -21,15 +23,20 @@ export function ThemeToggle() {
 
     const initialTheme = storedTheme ?? (prefersDark ? "dark" : "light");
     setTheme(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
   }, []);
 
+  // 切换主题
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
+
+  // 如果组件尚未挂载，返回null或占位符，避免闪烁
+  if (!mounted) {
+    return <div className="w-5 h-5" />;
+  }
 
   return (
     <button

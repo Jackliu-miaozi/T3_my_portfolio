@@ -1,3 +1,19 @@
+// 在文件顶部添加
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "我的文章 | Jack's 主页",
+  description: "浏览Jack的技术文章、学习笔记和行业见解。",
+  keywords: ["技术文章", "学习笔记", "编程教程", "行业见解"],
+  openGraph: {
+    title: "我的文章 | Jack's 主页",
+    description: "浏览Jack的技术文章、学习笔记和行业见解。",
+    url: "https://jackliu.com/myartical",
+    locale: "zh_CN",
+    type: "website",
+  },
+};
+
 import Link from "next/link";
 import Image from "next/image";
 import { api, HydrateClient } from "@/trpc/server";
@@ -9,6 +25,8 @@ import {
   CardContent,
   CardFooter,
 } from "@/app/_components/ui/card";
+import { AnimatedSection } from "@/app/_components/animated-section";
+
 
 export default async function ArticlesPage() {
   // 模拟文章数据
@@ -34,56 +52,61 @@ export default async function ArticlesPage() {
     <HydrateClient>
       <div className="container mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
         <div className="flex flex-col items-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-              我的文章
-            </h1>
-            <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              分享我的技术心得、学习笔记和行业见解
-            </p>
-          </div>
+          <AnimatedSection>
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                我的文章
+              </h1>
+              <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                分享我的技术心得、学习笔记和行业见解
+              </p>
+            </div>
+          </AnimatedSection>
         </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {articles?.map((article) => (
-            <Card key={article.id} className="flex h-full flex-col">
-              <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-                <Image
-                  src={article.image!}
-                  alt={article.title!}
-                  fill
-                  className="object-cover transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="text-muted-foreground text-sm">
-                    {formatDate(article.createdAt.toString())}
+        <AnimatedSection delay={200} >
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {articles?.map((article,index) => (
+              <AnimatedSection key={article.id} delay={(index + 1) * 100}>
+                <Card key={article.id} className="flex h-full flex-col">
+                  <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+                    <Image
+                      src={article.image!}
+                      alt={article.title!}
+                      fill={true}
+                      className="object-cover transition-transform duration-300 hover:scale-105"
+                    />
                   </div>
-                  {article.category && (
-                    <div className="bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
-                      {article.category}
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="text-muted-foreground text-sm">
+                        {formatDate(article.createdAt.toString())}
+                      </div>
+                      {article.category && (
+                        <div className="bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
+                          {article.category}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <CardTitle className="mt-2 text-xl">{article.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="line-clamp-3">
-                  {article.summary}
-                </CardDescription>
-              </CardContent>
-              <CardFooter className="mt-auto">
-                <Link
-                  href={"/#"}
-                  className="text-primary text-sm font-medium hover:underline"
-                >
-                  阅读更多 →
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                    <CardTitle className="mt-2 text-xl">{article.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="line-clamp-3">
+                      {article.summary}
+                    </CardDescription>
+                  </CardContent>
+                  <CardFooter className="mt-auto">
+                    <Link
+                      href={`/myartical/${article.id}`}
+                      className="text-primary text-sm font-medium hover:underline"
+                    >
+                      阅读更多 →
+                    </Link>
+                  </CardFooter>
+                </Card>
+              </AnimatedSection>
+            ))}
+          </div>
+        </AnimatedSection>
       </div>
     </HydrateClient>
   );

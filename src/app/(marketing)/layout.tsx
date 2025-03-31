@@ -23,10 +23,34 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`}>
+    <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+      <head>
+        {/* 其他head内容 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const storedTheme = localStorage.getItem('theme');
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const theme = storedTheme || (prefersDark ? 'dark' : 'light');
+                  
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {
+                  console.error('主题初始化失败:', e);
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
         className="bg-background text-foreground relative container mx-auto min-h-screen justify-center font-sans"
-        suppressHydrationWarning={true}
+        suppressHydrationWarning
       >
         <Header />
         <TRPCReactProvider>{children}</TRPCReactProvider>

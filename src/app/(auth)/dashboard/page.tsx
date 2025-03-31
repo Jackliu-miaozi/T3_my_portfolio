@@ -24,6 +24,8 @@ import {
   DialogFooter,
 } from "@/app/_components/ui/dialog";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+
 
 // 定义用户类型
 type User = {
@@ -38,16 +40,34 @@ export default function DashboardPage() {
   // 状态管理
   const [activeTab, setActiveTab] = useState<"articles" | "users">("articles");
   const [showAddArticleDialog, setShowAddArticleDialog] = useState(false);
+  const [showEditArticleDialog, setShowEditArticleDialog] = useState(false);
   const [showUserDetailsDialog, setShowUserDetailsDialog] = useState(false);
   const [showDeleteArticleDialog, setShowDeleteArticleDialog] = useState(false);
   const [showDeleteUserDialog, setShowDeleteUserDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedArticleId, setSelectedArticleId] = useState<number>();
   const [selectedUserId, setSelectedUserId] = useState<string>("");
+  const [selectedArticle, setSelectedArticle] = useState<Article>();
+
+  // 定义文章类型
+  type Article = {
+    id: number;
+    title: string;
+    category: string;
+    summary: string;
+    content: string;
+    image: string | null;
+    createdAt: Date;
+  };
 
   const utils = api.useUtils();
   const { data: articles, status: isLoading } = api.artical.getAll.useQuery();
   const createArticle = api.artical.create.useMutation({
+    onSuccess: async () => {
+      await utils.artical.invalidate();
+    },
+  });
+  const updateArticle = api.artical.update.useMutation({
     onSuccess: async () => {
       await utils.artical.invalidate();
     },
@@ -58,7 +78,7 @@ export default function DashboardPage() {
     },
   });
 
-  const { data: users, status: isLoaded } = api.user.getAll.useQuery();
+  const { data: users } = api.user.getAll.useQuery();
 
   // 处理添加文章
   const handleAddArticle = (e: React.FormEvent<HTMLFormElement>) => {
@@ -115,6 +135,34 @@ export default function DashboardPage() {
     // 这里添加删除用户逻辑
     toast.success("用户已删除！");
     setShowDeleteUserDialog(false);
+  };
+
+  // 处理打开编辑文章对话框
+  const handleEditArticle = (article: Article) => {
+    setSelectedArticle(article);
+    setShowEditArticleDialog(true);
+  };
+
+  // 处理提交编辑文章
+  const handleEditArticleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // 创建FormData实例获取表单数据
+    const formData = new FormData(e.currentTarget);
+    // 提交文章数据
+    try {
+      updateArticle.mutate({
+        id: selectedArticle!.id,
+        title: formData.get("title") as string,
+        category: formData.get("category") as string,
+        summary: formData.get("summary") as string,
+        content: formData.get("content") as string,
+      });
+    } catch (error) {
+      toast.error("文章更新失败！");
+      return;
+    }
+    toast.success("文章更新成功！");
+    setShowEditArticleDialog(false);
   };
 
   return (
@@ -183,12 +231,22 @@ export default function DashboardPage() {
                 {articles?.map((article) => (
                   <Card key={article.id} className="overflow-hidden">
                     <div className="relative h-48">
-                      <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700">
-                        {/* 文章图片占位符 */}
-                        <div className="flex h-full w-full items-center justify-center text-gray-500 dark:text-gray-400">
-                          文章封面图
+                      {article.image ? (
+                        // 使用 Next.js Image 组件显示图片
+                        <Image
+                          src={article.image}
+                          alt={article.title ?? "文章封面"}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        // 如果没有图片，显示占位符
+                        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700">
+                          <div className="flex h-full w-full items-center justify-center text-gray-500 dark:text-gray-400">
+                            文章封面图
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     <CardHeader>
                       <div className="flex items-start justify-between">
@@ -215,7 +273,21 @@ export default function DashboardPage() {
                       </p>
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          handleEditArticle({
+                            id: article.id,
+                            title: article.title ?? "",
+                            category: article.category ?? "",
+                            summary: article.summary ?? "",
+                            content: article.content ?? "",
+                            image: article.image,
+                            createdAt: article.createdAt,
+                          })
+                        }
+                      >
                         编辑
                       </Button>
                       <Button
@@ -456,6 +528,67 @@ export default function DashboardPage() {
               确认删除
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* 编辑文章对话框 */}
+      <Dialog
+        open={showEditArticleDialog}
+        onOpenChange={setShowEditArticleDialog}
+      >
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>编辑文章</DialogTitle>
+          </DialogHeader>
+          {selectedArticle && (
+            <form onSubmit={handleEditArticleSubmit}>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="title">文章标题</Label>
+                  <Input
+                    id="title"
+                    name="title"
+                    placeholder="输入文章标题"
+                    defaultValue={selectedArticle.title}
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="category">分类</Label>
+                  <Input
+                    id="category"
+                    name="category"
+                    placeholder="输入文章分类"
+                    defaultValue={selectedArticle.category}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="summary">摘要</Label>
+                  <Input
+                    id="summary"
+                    name="summary"
+                    placeholder="输入文章摘要"
+                    defaultValue={selectedArticle.summary}
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="content">内容</Label>
+                  <textarea
+                    id="content"
+                    name="content"
+                    className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[120px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="输入文章内容"
+                    defaultValue={selectedArticle.content}
+                    required
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">保存修改</Button>
+              </DialogFooter>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
     </div>

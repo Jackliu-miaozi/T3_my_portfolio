@@ -1,3 +1,18 @@
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "使用条款 | Jack's 主页",
+  description: "了解使用Jack's主页网站的条款和条件，包括用户责任、知识产权和免责声明等内容。",
+  keywords: ["使用条款", "服务条款", "用户协议", "法律条款"],
+  openGraph: {
+    title: "使用条款 | Jack's 主页",
+    description: "了解使用Jack's主页网站的条款和条件，包括用户责任、知识产权和免责声明等内容。",
+    url: "https://jackliu.com/terms",
+    locale: "zh_CN",
+    type: "website",
+  },
+};
+
 export default function TermsOfServicePage() {
   return (
     <div className="container mx-auto max-w-4xl px-4 py-12">

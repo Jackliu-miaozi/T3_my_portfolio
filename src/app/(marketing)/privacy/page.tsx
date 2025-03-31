@@ -1,3 +1,19 @@
+// 在文件顶部添加
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "隐私政策 | Jack's 主页",
+  description: "了解Jack's主页如何收集、使用和保护您的个人信息。",
+  keywords: ["隐私政策", "个人信息保护", "数据安全"],
+  openGraph: {
+    title: "隐私政策 | Jack's 主页",
+    description: "了解Jack's主页如何收集、使用和保护您的个人信息。",
+    url: "https://jackliu.com/privacy",
+    locale: "zh_CN",
+    type: "website",
+  },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="container mx-auto max-w-4xl px-4 py-12">
