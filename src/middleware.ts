@@ -3,16 +3,16 @@ import type { NextRequest } from "next/server"
 import { getToken } from "next-auth/jwt"
 
 export async function middleware(request: NextRequest) {
+  // Get the current request path
   const path = request.nextUrl.pathname
 
-  // 修改 getToken 配置
+  // Get user session token using environment variables
   const session = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
-    secureCookie: process.env.VERCEL_URL ? true : false,
-    cookieName: process.env.VERCEL_URL ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
   })
-
+  console.log(session)
+  // Check if user is authenticated
   const isAuthenticated = !!session
 
   // Handle dashboard access requests
@@ -41,15 +41,14 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next()
 }
 
-// 添加 runtime 配置
+// Configure middleware matching rules
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    "/sign-up/:path*",
-    "/sign-in/:path*",
-    "/api/:path*",
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    "/dashboard/:path*", // Match all dashboard paths
+    "/sign-up/:path*", // Match all registration paths
+    "/sign-in/:path*", // Match all login paths
+    "/api/:path*", // Match all API paths
+    "/((?!_next/static|_next/image|favicon.ico).*)", // Match all paths except static resources
   ],
-  runtime: 'experimental-edge',
 }
 
