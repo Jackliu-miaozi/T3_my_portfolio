@@ -1,19 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
-import arcjet, { createMiddleware, detectBot, } from "@arcjet/next";
 
-// 配置 Arcjet
-const aj = arcjet({
-  key: process.env.ARCJET_KEY!, // 从 https://app.arcjet.com 获取密钥
-  rules: [
-    // Bot 检测规则
-    detectBot({
-      mode: "LIVE",
-      allow: ["CATEGORY:SEARCH_ENGINE"],
-    }),
-  ],
-});
+
 
 // 创建中间件处理函数
 const handleAuth = async (request: NextRequest) => {
@@ -46,10 +35,8 @@ const handleAuth = async (request: NextRequest) => {
   return NextResponse.next();
 };
 
-// 组合 Arcjet 和认证中间件
-// 修改中间件导出方式
 // 导出中间件
-export const middleware = createMiddleware(aj, handleAuth);
+export const middleware = handleAuth;
 
 // 更新 matcher 配置以包含需要保护的路径
 export const config = {
