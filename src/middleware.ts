@@ -7,10 +7,11 @@ import { getToken } from "next-auth/jwt";
 // 创建中间件处理函数
 const handleAuth = async (request: NextRequest) => {
   const path = request.nextUrl.pathname;
-  
+
+  // 修改 getToken 配置
   const session = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
   });
   
   const isAuthenticated = !!session;

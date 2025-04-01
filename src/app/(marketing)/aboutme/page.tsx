@@ -15,14 +15,6 @@ export const metadata: Metadata = {
     title: "关于我 | Jack's 主页",
     description: "了解更多关于Jack的信息，包括技能、经历和兴趣爱好。",
     url: "https://jackliu.com/aboutme",
-    images: [
-      {
-        url: "/个人头像.jpg",
-        width: 450,
-        height: 450,
-        alt: "Jack的照片",
-      },
-    ],
     locale: "zh_CN",
     type: "profile",
   },
@@ -105,7 +97,7 @@ export default async function AboutMe() {
                   className="mx-auto aspect-square overflow-hidden rounded-xl object-cover object-center"
                   height={450}
                   width={450}
-                  src="/个人头像.jpg"
+                  src="/avatar.png"
                   priority
                 />
               </div>
