@@ -16,21 +16,17 @@ export const posts = createTable(
   "post",
   (d) => ({
     id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
+    context: d.text({ length: 256 }),
+    image: d.text({ length: 256 }),
     name: d.text({ length: 256 }),
-    createdById: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => users.id),
+    createdBy: d.text({ length: 256 }),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
     updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
   }),
-  (t) => [
-    index("created_by_idx").on(t.createdById),
-    index("name_idx").on(t.name),
-  ],
+  (t) => [index("id_idx").on(t.id)],
 );
 
 export const users = createTable("user", (d) => ({
@@ -43,6 +39,9 @@ export const users = createTable("user", (d) => ({
   email: d.text({ length: 255 }).notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
+  passwordHash: d.text({ length: 255 }),
+  // createdAt: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
+  // updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -104,4 +103,23 @@ export const verificationTokens = createTable(
     expires: d.integer({ mode: "timestamp" }).notNull(),
   }),
   (t) => [primaryKey({ columns: [t.identifier, t.token] })],
+);
+
+export const myartical = createTable(
+  "myartical",
+  (d) => ({
+    id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
+    content: d.text({ length: 256 }),
+    title: d.text({ length: 256 }),
+    summary: d.text({ length: 256 }),
+    category: d.text({ length: 256 }),
+    image: d.text({ length: 256 }),
+    name: d.text({ length: 256 }),
+    createdBy: d.text({ length: 256 }),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(datetime('now'))`)
+      .notNull(),
+  }),
+  (t) => [index("myartical_id_idx").on(t.id)],
 );

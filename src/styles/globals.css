@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -10,71 +11,88 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.2 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.2 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --popover-foreground: oklch(0.2 0 0);
+  
+  /* 杨红色作为主色调 */
+  --primary: oklch(0.6 0.25 0);
+  --primary-foreground: oklch(1 0 0);
+  
+  /* 绿色作为次要色调 */
+  --secondary: oklch(0.8 0.2 140);
+  --secondary-foreground: oklch(1 0 0);
+  
+  /* 浅色背景 */
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  
+  /* 强调色使用绿色的变体 */
+  --accent: oklch(0.9 0.1 140);
+  --accent-foreground: oklch(0.2 0 0);
+  
+  --destructive: oklch(0.7 0.3 25);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0.7 0.2 0);
+  
+  /* 图表颜色 */
+  --chart-1: oklch(0.7 0.25 0);    /* 杨红色 */
+  --chart-2: oklch(0.8 0.2 140);   /* 绿色 */
+  --chart-3: oklch(0.6 0.2 200);   /* 蓝色 */
+  --chart-4: oklch(0.8 0.2 60);    /* 黄色 */
+  --chart-5: oklch(0.7 0.2 270);   /* 紫色 */
+  
+  /* 侧边栏颜色 */
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.2 0 0);
+  --sidebar-primary: oklch(0.7 0.25 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.9 0.1 140);
+  --sidebar-accent-foreground: oklch(0.2 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.7 0.2 0);
+  --font-fallback: -apple-system, BlinkMacSystemFont, 
+  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", 
+  sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", 
+  "Noto Color Emoji";
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.1 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.15 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.15 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.7 0.2 140);
+  --primary-foreground: oklch(0.95 0 0);
+  --secondary: oklch(0.3 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.8 0.15 140);
+  --accent-foreground: oklch(0.15 0 0);
+  --destructive: oklch(0.65 0.25 0);
+  --border: oklch(0.3 0 0);
+  --input: oklch(0.3 0 0);
+  --ring: oklch(0.7 0.2 140);
+  --chart-1: oklch(0.7 0.2 140);
+  --chart-2: oklch(0.6 0.15 140);
+  --chart-3: oklch(0.5 0.1 140);
+  --chart-4: oklch(0.4 0.05 140);
+  --chart-5: oklch(0.3 0 0);
+  --sidebar: oklch(0.15 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.7 0.2 140);
+  --sidebar-primary-foreground: oklch(0.95 0 0);
+  --sidebar-accent: oklch(0.25 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.3 0 0);
+  --sidebar-ring: oklch(0.7 0.2 140);
 }
 
 @theme inline {
@@ -121,5 +139,21 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-noto-sans-sc), var(--font-geist-sans), var(--font-fallback);
+  }
+  
+  /* 无衬线中文字体 */
+  .font-noto-sans {
+    font-family: var(--font-noto-sans-sc), system-ui, sans-serif;
+  }
+  
+  /* 衬线中文字体 */
+  .font-noto-serif {
+    font-family: var(--font-noto-serif-sc), serif;
+  }
+  
+  /* Geist 字体 */
+  .font-geist {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
   }
 }
