@@ -10,11 +10,11 @@ import { Footer } from "../_components/footer";
 
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
-  description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
+  description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
   keywords: ["个人网站", "开发者", "技术博客", "项目展示"],
   openGraph: {
     title: "Jack's 主页 | 个人网站",
-    description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
+    description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
     url: "https://t3-my-portfolio.vercel.app/",
     siteName: "Jack's 主页",
     locale: "zh_CN",
