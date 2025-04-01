@@ -110,9 +110,9 @@ export default async function AboutMe() {
               </div>
             </AnimatedSection>
           </div>
-          <div className="mt-16 space-y-6">
+          <div className="mt-8 space-y-6">
             <AnimatedSection delay={400}>
-              <h2 className="text-2xl font-bold">技能与专长</h2>
+              <h2 className="text-2xl font-bold mb-6">技能与专长</h2>
 
 
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -149,7 +149,7 @@ export default async function AboutMe() {
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">区块链技术</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    熟悉大多数区块链项目，了解区块链发展趋势
+                    熟悉polkadot区块链项目，了解其技术发展趋势
                   </p>
                 </div>
 
@@ -159,7 +159,14 @@ export default async function AboutMe() {
                     了解股票、贵金属、数字货币等投资品种，认可奥地利学派经济学
                   </p>
                 </div>
-
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-semibold">咖啡茶饮</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    可以烘焙咖啡豆，给你做一杯热咖啡
+                    <br/>
+                    热爱茶饮，红茶绿茶都爱喝
+                  </p>
+                </div>
               </div>
             </AnimatedSection>
           </div>
