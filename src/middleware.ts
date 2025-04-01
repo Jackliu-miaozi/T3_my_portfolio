@@ -11,7 +11,6 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
   })
-  console.log(session)
   // Check if user is authenticated
   const isAuthenticated = !!session
 
