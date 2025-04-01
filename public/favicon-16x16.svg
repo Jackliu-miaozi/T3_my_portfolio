@@ -1,0 +1,21 @@
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="96" cy="96" r="96" fill="#FFFFFF"/>
+  
+  <!-- 主要形状 - 字母J的现代化设计 -->
+  <path d="M120 45C120 41.134 116.866 38 113 38H79C75.134 38 72 41.134 72 45V52.5C72 56.366 75.134 59.5 79 59.5H98V120C98 132.426 87.9264 142.5 75.5 142.5H71.5C67.634 142.5 64.5 145.634 64.5 149.5V154C64.5 157.866 67.634 161 71.5 161H79C98.33 161 114 145.33 114 126V45Z" fill="#D94E4E"/>
+  
+  <!-- 装饰元素 - 绿色点缀 -->
+  <circle cx="131.25" cy="67.5" r="11.25" fill="#4CAF50" opacity="0.8"/>
+  <circle cx="142.5" cy="90" r="7.5" fill="#4CAF50" opacity="0.6"/>
+  <circle cx="146.25" cy="108.75" r="5.625" fill="#4CAF50" opacity="0.4"/>
+  
+  <!-- 深色模式适配 -->
+  <style>
+    @media (prefers-color-scheme: dark) {
+      circle:first-child { fill: #121212; }
+      path { fill: #4CAF50; }
+      circle:not(:first-child) { fill: #D94E4E; }
+    }
+  </style>
+</svg>
