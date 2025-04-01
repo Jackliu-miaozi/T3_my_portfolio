@@ -18,11 +18,11 @@ export async function middleware(request: NextRequest) {
   // Handle dashboard access requests
   if (path.startsWith("/dashboard")) {
     // Redirect unauthenticated users to login page
-    if (!isAuthenticated) {
-      const redirectUrl = new URL("/sign-in", request.url)
-      redirectUrl.searchParams.set("callbackUrl", path)
-      return NextResponse.redirect(redirectUrl)
-    }
+    // if (!isAuthenticated) {
+    //   const redirectUrl = new URL("/sign-in", request.url)
+    //   redirectUrl.searchParams.set("callbackUrl", path)
+    //   return NextResponse.redirect(redirectUrl)
+    // }
 
     // Check if user email is admin email
     const userEmail = session?.email
