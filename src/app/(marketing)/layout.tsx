@@ -21,14 +21,11 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: '/icon-512.svg',
-        width: 1200,
-        height: 630,
-        alt: "Jack's Website",
+        url: '/avatar.png',
       }
     ],
   },
-  
+
 
   // 这是Twitter卡片的元数据配置
   // card: 定义Twitter卡片的显示样式，summary_large_image表示大图预览
