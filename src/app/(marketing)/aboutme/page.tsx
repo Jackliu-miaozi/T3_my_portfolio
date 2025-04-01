@@ -124,40 +124,35 @@ export default async function AboutMe() {
                     Prisma, NextAuth, tRPC, OpenAI, Drizzle
                   </p>
                 </div>
-              </AnimatedSection>
-              <AnimatedSection delay={500}>
+
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">开发运维</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Git, GitHub Actions, Vercel, AWS
                   </p>
                 </div>
-              </AnimatedSection>
-              <AnimatedSection delay={500}>
+
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">给排水设计</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     天正CAD, SWMM暴雨径流模拟
                   </p>
                 </div>
-              </AnimatedSection>
-              <AnimatedSection delay={500}>
+
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">人工智能</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     熟悉各种人工智能工具，能够完成音频音色数字人等产品的制作
                   </p>
                 </div>
-              </AnimatedSection>
-              <AnimatedSection delay={500}>
+
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">区块链技术</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     熟悉大多数区块链项目，了解区块链发展趋势
                   </p>
                 </div>
-              </AnimatedSection>
-              <AnimatedSection delay={500}>
+
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">投资理财</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">

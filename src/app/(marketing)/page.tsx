@@ -10,14 +10,6 @@ export const metadata: Metadata = {
     description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
     url: "https://jackliu.com",
     siteName: "Jack's 主页",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Jack's 主页",
-      },
-    ],
     locale: "zh_CN",
     type: "website",
   },
@@ -31,7 +23,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Jack's 主页 | 个人网站",
     description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
-    images: ["/og-image.jpg"],
+    images: ["/public/favicon.ico"],
   },
 };
 
