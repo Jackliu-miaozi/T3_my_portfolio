@@ -113,54 +113,55 @@ export default async function AboutMe() {
           <div className="mt-16 space-y-6">
             <AnimatedSection delay={400}>
               <h2 className="text-2xl font-bold">技能与专长</h2>
+
+
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-semibold">全栈开发</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    React, Next.js, TypeScript, Tailwind CSS, PostgreSQL,
+                    Prisma, NextAuth, tRPC, OpenAI, Drizzle
+                  </p>
+                </div>
+
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-semibold">开发运维</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Git, GitHub Actions, Vercel, AWS
+                  </p>
+                </div>
+
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-semibold">给排水设计</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    天正CAD, SWMM暴雨径流模拟
+                  </p>
+                </div>
+
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-semibold">人工智能</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    熟悉各种人工智能工具，能够完成音频音色数字人等产品的制作
+                  </p>
+                </div>
+
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-semibold">区块链技术</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    熟悉大多数区块链项目，了解区块链发展趋势
+                  </p>
+                </div>
+
+                <div className="rounded-lg border p-4">
+                  <h3 className="font-semibold">投资理财</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    了解股票、贵金属、数字货币等投资品种，认可奥地利学派经济学
+                  </p>
+                </div>
+
+              </div>
             </AnimatedSection>
-
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-
-              <div className="rounded-lg border p-4">
-                <h3 className="font-semibold">全栈开发</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  React, Next.js, TypeScript, Tailwind CSS, PostgreSQL,
-                  Prisma, NextAuth, tRPC, OpenAI, Drizzle
-                </p>
-              </div>
-
-              <div className="rounded-lg border p-4">
-                <h3 className="font-semibold">开发运维</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Git, GitHub Actions, Vercel, AWS
-                </p>
-              </div>
-
-              <div className="rounded-lg border p-4">
-                <h3 className="font-semibold">给排水设计</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  天正CAD, SWMM暴雨径流模拟
-                </p>
-              </div>
-
-              <div className="rounded-lg border p-4">
-                <h3 className="font-semibold">人工智能</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  熟悉各种人工智能工具，能够完成音频音色数字人等产品的制作
-                </p>
-              </div>
-
-              <div className="rounded-lg border p-4">
-                <h3 className="font-semibold">区块链技术</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  熟悉大多数区块链项目，了解区块链发展趋势
-                </p>
-              </div>
-
-              <div className="rounded-lg border p-4">
-                <h3 className="font-semibold">投资理财</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  了解股票、贵金属、数字货币等投资品种，认可奥地利学派经济学
-                </p>
-              </div>
-
-            </div>
           </div>
         </div>
       </div>
