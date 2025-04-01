@@ -16,21 +16,21 @@ export async function middleware(request: NextRequest) {
   const isAuthenticated = !!session
 
   // Handle dashboard access requests
-  if (path.startsWith("/dashboard")) {
-    // Redirect unauthenticated users to login page
-    // if (!isAuthenticated) {
-    //   const redirectUrl = new URL("/sign-in", request.url)
-    //   redirectUrl.searchParams.set("callbackUrl", path)
-    //   return NextResponse.redirect(redirectUrl)
-    // }
+  // if (path.startsWith("/dashboard")) {
+  //   // Redirect unauthenticated users to login page
+  //   // if (!isAuthenticated) {
+  //   //   const redirectUrl = new URL("/sign-in", request.url)
+  //   //   redirectUrl.searchParams.set("callbackUrl", path)
+  //   //   return NextResponse.redirect(redirectUrl)
+  //   // }
 
-    // Check if user email is admin email
-    const userEmail = session?.email
-    // Redirect non-admin users to homepage
-    if (userEmail !== "lzyujn@gmail.com") {
-      return NextResponse.redirect(new URL("/", request.url))
-    }
-  }
+  //   // Check if user email is admin email
+  //   // const userEmail = session?.email
+  //   // Redirect non-admin users to homepage
+  //   // if (userEmail !== "lzyujn@gmail.com") {
+  //   //   return NextResponse.redirect(new URL("/", request.url))
+  //   // }
+  // }
 
   // Redirect authenticated users away from sign-up page
   if (path.startsWith("/sign-up") && isAuthenticated) {
