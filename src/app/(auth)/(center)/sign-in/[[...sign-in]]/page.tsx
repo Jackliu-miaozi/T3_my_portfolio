@@ -23,17 +23,20 @@ export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 使用 FormData 处理表单提交
-  const handleCredentialsSignIn = async (formData: FormData) => {
+  // 修改表单提交处理函数
+  const handleCredentialsSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // 阻止表单默认提交行为
     setIsLoading(true);
     setError("");
 
     try {
+      const formData = new FormData(e.currentTarget);
       const email = formData.get("email") as string;
       const password = formData.get("password") as string;
 
       if (!email || !password) {
         setError("请输入邮箱和密码");
+        setIsLoading(false);
         return;
       }
 
@@ -45,23 +48,31 @@ export default function SignInPage() {
 
       if (result?.error) {
         setError("邮箱或密码错误");
+        setIsLoading(false);
+        toast.warning("登录失败", {
+          description: "请重新登录",
+        });
+        return;
       }
-    } catch (e) {
-      setError("登录过程中发生错误");
-    } finally {
-      toast("登录成功", {
+
+      // 只有登录成功才显示成功提示并跳转
+      toast.success("登录成功", {
         description: "马上跳转到主页",
         action: {
           label: "立即前往",
           onClick: () => router.push("/"),
         },
       });
-      // 延迟1.5秒后跳转到登录页面，让用户有时间看到提示
-      setIsLoading(false);
+
+      // 延迟1.5秒后跳转到主页，让用户有时间看到提示
       setTimeout(() => {
         router.push("/");
         router.refresh();
+        setIsLoading(false); // 移到这里，在跳转完成后才重置状态
       }, 1500);
+    } catch (e) {
+      setError("登录过程中发生错误");
+      setIsLoading(false);
     }
   };
 
@@ -75,7 +86,7 @@ export default function SignInPage() {
 
   return (
     <div className="container mx-auto flex h-screen w-screen flex-col items-center justify-center">
-      <Card className="w-full max-w-md">
+      <Card className={`w-full max-w-md ${isLoading ? "opacity-60 pointer-events-none" : ""}`}>
         <CardHeader className="space-y-1">
           <CardTitle className="text-center text-2xl">
             登录刘正源的网站
@@ -85,7 +96,7 @@ export default function SignInPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={handleCredentialsSignIn} className="grid gap-4">
+          <form onSubmit={handleCredentialsSignIn} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">邮箱</Label>
               <Input
@@ -111,6 +122,7 @@ export default function SignInPage() {
               className="hover:bg-primary/90 active:bg-primary/70 w-full transition-colors"
               type="submit"
               disabled={isLoading}
+              onClick={() => toast('正在登录')}
             >
               {isLoading ? "登录中..." : "登录"}
             </Button>
