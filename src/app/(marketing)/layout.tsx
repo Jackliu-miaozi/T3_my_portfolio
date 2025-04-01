@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
     images: [
       {
-        url: '/icon-512.svg',
+        url: '/avatar.png',
         width: 1200,
         height: 630,
         alt: "Jack's Website",
