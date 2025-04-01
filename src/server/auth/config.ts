@@ -49,6 +49,8 @@ export const authConfig = {
       clientSecret: process.env.AUTH_GITHUB_SECRET,
     }),
   ],
+  trustHost: true,
+  // 或者明确指定允许的域名
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

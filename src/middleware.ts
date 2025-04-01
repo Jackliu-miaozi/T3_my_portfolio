@@ -6,24 +6,27 @@ import { getToken } from "next-auth/jwt";
 
 // 创建中间件处理函数
 const handleAuth = async (request: NextRequest) => {
-  // 获取当前路径
   const path = request.nextUrl.pathname;
-
-  // 获取用户会话信息
+  
   const session = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-
-  // 是否已登录
+  
   const isAuthenticated = !!session;
-
-  // 1. 保护 dashboard 路由 - 只允许特定邮箱访问
+  
+  // 修改这部分代码以安全处理 session
   if (path.startsWith("/dashboard")) {
-    if (!isAuthenticated || session.email !== "lzyujn@gmail.com") {
+    if (!isAuthenticated) {
       const redirectUrl = new URL("/sign-in", request.url);
       redirectUrl.searchParams.set("callbackUrl", path);
       return NextResponse.redirect(redirectUrl);
+    }
+    
+    // 安全地检查 email
+    const userEmail = session?.email;
+    if (userEmail !== "lzyujn@gmail.com") {
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
