@@ -98,7 +98,8 @@ export default async function AboutMe() {
                   height={450}
                   width={450}
                   src="/avatar.png"
-                  priority
+                  priority // 添加优先加载
+                  loading="eager" // 立即加载
                 />
               </div>
             </AnimatedSection>
