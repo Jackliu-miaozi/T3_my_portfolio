@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
-import arcjet, { createMiddleware, detectBot, shield } from "@arcjet/next";
+import arcjet, { createMiddleware, detectBot, } from "@arcjet/next";
 
 // 配置 Arcjet
 const aj = arcjet({
@@ -11,10 +11,6 @@ const aj = arcjet({
     detectBot({
       mode: "LIVE",
       allow: ["CATEGORY:SEARCH_ENGINE"],
-    }),
-    // Shield WAF 保护规则
-    shield({
-      mode: "LIVE", // 使用 "DRY_RUN" 进行测试
     }),
   ],
 });
