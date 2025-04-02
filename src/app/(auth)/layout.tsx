@@ -5,6 +5,8 @@ import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { Toaster } from "@/app/_components/ui/sonner";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/server/auth";
 
 export const metadata: Metadata = {
   title: "Jack's 主页",
@@ -17,14 +19,17 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth();
   return (
     <html lang="en" className={`${geist.variable} `}>
       <body className="mx-auto" suppressHydrationWarning={true}>
+        <SessionProvider session={session}>
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Toaster richColors />
+        </SessionProvider>
       </body>
     </html>
   );

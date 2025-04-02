@@ -25,6 +25,7 @@ import {
 } from "@/app/_components/ui/dialog";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 // 定义用户类型
 type User = {
@@ -37,17 +38,21 @@ type User = {
 
 export default function DashboardPage() {
   // 状态管理
-  const [activeTab, setActiveTab] = useState<"articles" | "users">("articles");
+  const [activeTab, setActiveTab] = useState<"articles" | "users" | "messages">("articles");
   const [showAddArticleDialog, setShowAddArticleDialog] = useState(false);
   const [showEditArticleDialog, setShowEditArticleDialog] = useState(false);
   const [showUserDetailsDialog, setShowUserDetailsDialog] = useState(false);
   const [showDeleteArticleDialog, setShowDeleteArticleDialog] = useState(false);
   const [showDeleteUserDialog, setShowDeleteUserDialog] = useState(false);
+  const [showDeleteMessageDialog, setShowDeleteMessageDialog] = useState(false);
+  const [showReplyMessageDialog, setShowReplyMessageDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedArticleId, setSelectedArticleId] = useState<number>();
   const [selectedUserId, setSelectedUserId] = useState<string>("");
   const [selectedArticle, setSelectedArticle] = useState<Article>();
-
+  const [selectedMessageId, setSelectedMessageId] = useState<number>();
+  const [replyContent, setReplyContent] = useState<string>("");
+  const { data: session } = useSession();
   // 定义文章类型
   type Article = {
     id: number;
@@ -73,11 +78,35 @@ export default function DashboardPage() {
   });
   const deleteArticle = api.artical.delete.useMutation({
     onSuccess: async () => {
+      toast.success("文章已删除！");
       await utils.artical.invalidate();
     },
   });
 
   const { data: users } = api.user.getAll.useQuery();
+  const deleteUser = api.user.deleteUser.useMutation({
+    onSuccess: async () => {
+      toast.success("用户已删除！");
+      await utils.user.invalidate();
+    }
+  });
+
+  // 获取留言列表
+  const { data: messages } = api.post.getAll.useQuery();
+  // 删除留言
+  const deleteMessage = api.post.delete.useMutation({
+    onSuccess: async () => {
+      toast.success("留言已删除！");
+      await utils.post.invalidate();
+    },
+  });
+  // 回复留言
+  const replyMessage = api.post.reply.useMutation({
+    onSuccess: async () => {
+      toast.success("回复已发送！");
+      await utils.post.invalidate();
+    },
+  });
 
   // 处理添加文章
   const handleAddArticle = (e: React.FormEvent<HTMLFormElement>) => {
@@ -119,7 +148,6 @@ export default function DashboardPage() {
     deleteArticle.mutate({
       id: articleId!,
     });
-    toast.success("文章已删除！");
     setShowDeleteArticleDialog(false);
   };
 
@@ -131,9 +159,21 @@ export default function DashboardPage() {
 
   // 处理删除用户
   const handleDeleteUser = () => {
-    // 这里添加删除用户逻辑
-    toast.success("用户已删除！");
-    setShowDeleteUserDialog(false);
+    // 使用保存的用户ID进行删除操作
+    if (selectedUserId && selectedUserId !== "9f0b03bb-4f35-479d-a04e-6a307b9d4074") {
+      // 调用删除用户的 API
+      try{
+        deleteUser.mutate({
+          userId: selectedUserId,
+        });
+      } catch (error) {
+        toast.error("用户删除失败！");
+        return;
+      }
+      setShowDeleteUserDialog(false);
+    } else {
+      toast.error("未找到要删除的用户！");
+    }
   };
 
   // 处理打开编辑文章对话框
@@ -164,6 +204,40 @@ export default function DashboardPage() {
     setShowEditArticleDialog(false);
   };
 
+  // 处理删除留言确认
+  const handleDeleteMessageConfirm = (id: number) => {
+    setSelectedMessageId(id);
+    setShowDeleteMessageDialog(true);
+  };
+
+  // 处理删除留言
+  const handleDeleteMessage = () => {
+    if (selectedMessageId) {
+      deleteMessage.mutate({
+        id: selectedMessageId,
+      });
+      setShowDeleteMessageDialog(false);
+    }
+  };
+
+  // 处理回复留言对话框
+  const handleReplyMessage = (id: number) => {
+    setSelectedMessageId(id);
+    setReplyContent("");
+    setShowReplyMessageDialog(true);
+  };
+
+  // 处理提交回复
+  const handleSubmitReply = () => {
+    if (selectedMessageId && replyContent.trim()) {
+      replyMessage.mutate({
+        postId: selectedMessageId,
+        replyContent: replyContent,
+      });
+      setShowReplyMessageDialog(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen w-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
       {/* 侧边导航栏 */}
@@ -191,6 +265,14 @@ export default function DashboardPage() {
           >
             <span className="font-medium text-gray-800 dark:text-white">
               用户管理
+            </span>
+          </div>
+          <div
+            className={`cursor-pointer px-6 py-3 ${activeTab === "messages" ? "border-l-4 border-blue-500 bg-gray-100 dark:bg-gray-700" : ""}`}
+            onClick={() => setActiveTab("messages")}
+          >
+            <span className="font-medium text-gray-800 dark:text-white">
+              留言管理
             </span>
           </div>
           <div className="cursor-pointer px-6 py-3">
@@ -228,7 +310,14 @@ export default function DashboardPage() {
                 )}
               >
                 {articles?.map((article) => (
-                  <Card key={article.id} className="overflow-hidden">
+                  <Card 
+                    key={article.id} 
+                    className={cn(
+                      "overflow-hidden",
+                      // 如果文章正在删除中，添加灰色半透明效果
+                      deleteArticle.isPending && selectedArticleId === article.id && "opacity-50 pointer-events-none"
+                    )}
+                  >
                     <div className="relative h-48">
                       {article.image ? (
                         // 使用 Next.js Image 组件显示图片
@@ -350,6 +439,7 @@ export default function DashboardPage() {
                               variant="destructive"
                               size="sm"
                               onClick={() => handleDeleteUserConfirm(user.id)}
+                              className={cn()}
                             >
                               删除
                             </Button>
@@ -359,6 +449,85 @@ export default function DashboardPage() {
                     ))}
                   </tbody>
                 </table>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* 留言管理 */}
+        {activeTab === "messages" && (
+          <div>
+            <h1 className="mb-6 text-2xl font-bold text-gray-800 dark:text-white">
+              留言管理
+            </h1>
+            <Card>
+              <CardContent className="p-0">
+                {messages && messages.length > 0 ? (
+                  <div className="space-y-4 p-4">
+                    {messages.map((message) => (
+                      <div key={message.id} className="rounded-lg border p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center space-x-3">
+                            {message.image ? (
+                              <Image
+                                src={message.image}
+                                alt={message.createdBy ?? "用户"}
+                                className="h-10 w-10 rounded-full"
+                                width={40}
+                                height={40}
+                              />
+                            ) : (
+                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
+                                <span className="text-gray-500 dark:text-gray-400">
+                                  {message.createdBy?.charAt(0) ?? "?"}
+                                </span>
+                              </div>
+                            )}
+                            <div>
+                              <p className="font-medium">{message.createdBy ?? "匿名用户"}</p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                {new Date(message.createdAt).toLocaleDateString(
+                                  "zh-CN",
+                                  {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  },
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleReplyMessage(message.id)}
+                            >
+                              回复
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDeleteMessageConfirm(message.id)}
+                              disabled={deleteMessage.isPending && selectedMessageId === message.id}
+                            >
+                              {deleteMessage.isPending && selectedMessageId === message.id
+                                ? "删除中..."
+                                : "删除"}
+                            </Button>
+                          </div>
+                        </div>
+                        <p className="mt-3 text-gray-800 dark:text-gray-200">
+                          {message.context}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                    暂无留言
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -492,11 +661,16 @@ export default function DashboardPage() {
             <Button
               variant="outline"
               onClick={() => setShowDeleteArticleDialog(false)}
+              disabled={deleteArticle.isPending}
             >
               取消
             </Button>
-            <Button variant="destructive" onClick={handleDeleteArticle}>
-              确认删除
+            <Button 
+              variant="destructive" 
+              onClick={handleDeleteArticle}
+              disabled={deleteArticle.isPending}
+            >
+              {deleteArticle.isPending ? "删除中..." : "确认删除"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -584,10 +758,82 @@ export default function DashboardPage() {
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">保存修改</Button>
+                <Button type="submit">保存更改</Button>
               </DialogFooter>
             </form>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* 删除留言确认对话框 */}
+      <Dialog
+        open={showDeleteMessageDialog}
+        onOpenChange={setShowDeleteMessageDialog}
+      >
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>确认删除</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-center text-gray-600 dark:text-gray-400">
+              您确定要删除这条留言吗？此操作无法撤销。
+            </p>
+          </div>
+          <DialogFooter className="flex justify-between">
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteMessageDialog(false)}
+              disabled={deleteMessage.isPending}
+            >
+              取消
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDeleteMessage}
+              disabled={deleteMessage.isPending}
+            >
+              {deleteMessage.isPending ? "删除中..." : "确认删除"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* 回复留言对话框 */}
+      <Dialog
+        open={showReplyMessageDialog}
+        onOpenChange={setShowReplyMessageDialog}
+      >
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>回复留言</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="reply">回复内容</Label>
+              <textarea
+                id="reply"
+                value={replyContent}
+                onChange={(e) => setReplyContent(e.target.value)}
+                className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[120px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="输入回复内容"
+                required
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowReplyMessageDialog(false)}
+            >
+              取消
+            </Button>
+            <Button 
+              onClick={handleSubmitReply}
+              disabled={!replyContent.trim()}
+            >
+              发送回复
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

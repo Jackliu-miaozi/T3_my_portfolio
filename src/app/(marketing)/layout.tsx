@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
+import { MessageHandler } from "@/app/_components/message-handler";
 
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
@@ -87,9 +88,10 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="bg-background text-foreground relative container mx-auto min-h-screen justify-center font-sans"
+        className="mx-auto"
         suppressHydrationWarning
       >
+        <MessageHandler />
         <Header />
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Footer />

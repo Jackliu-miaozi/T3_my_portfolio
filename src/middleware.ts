@@ -14,26 +14,27 @@ export async function middleware(request: NextRequest) {
   // Check if user is authenticated
   const isAuthenticated = !!session
 
-  // Handle dashboard access requests
-  // if (path.startsWith("/dashboard")) {
-  //   // Redirect unauthenticated users to login page
-  //   // if (!isAuthenticated) {
-  //   //   const redirectUrl = new URL("/sign-in", request.url)
-  //   //   redirectUrl.searchParams.set("callbackUrl", path)
-  //   //   return NextResponse.redirect(redirectUrl)
-  //   // }
+  if (path.startsWith("/dashboard")) {
+    // Redirect unauthenticated users to login page
+    if (!isAuthenticated) {
+      const redirectUrl = new URL("/sign-in", request.url)
+      redirectUrl.searchParams.set("callbackUrl", path)
+      return NextResponse.redirect(redirectUrl)
+    }
 
-  //   // Check if user email is admin email
-  //   // const userEmail = session?.email
-  //   // Redirect non-admin users to homepage
-  //   // if (userEmail !== "lzyujn@gmail.com") {
-  //   //   return NextResponse.redirect(new URL("/", request.url))
-  //   // }
-  // }
+    // Check if user email is admin email
+    const userEmail = session?.email
+    // Redirect non-admin users to homepage
+    if (userEmail !== "lzyujn@gmail.com") {
+      return NextResponse.redirect(new URL("/", request.url))
+    }
+  }
 
   // Redirect authenticated users away from sign-up page
   if (path.startsWith("/sign-up") && isAuthenticated) {
-    return NextResponse.redirect(new URL("/", request.url))
+    const redirectUrl = new URL("/", request.url)
+    redirectUrl.searchParams.set("message", "您已经登录，不能注册新账号")
+    return NextResponse.redirect(redirectUrl)
   }
 
   // Allow request to continue if no special handling is needed

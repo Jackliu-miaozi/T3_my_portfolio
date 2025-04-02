@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-
+import { users } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 export const userRouter = createTRPCRouter({
   checkUserExists: protectedProcedure
     .input(z.object({ userId: z.string() }))
@@ -16,4 +17,9 @@ export const userRouter = createTRPCRouter({
     const users = await ctx.db.query.users.findMany();
     return users;
   }),
+  deleteUser: protectedProcedure
+   .input(z.object({ userId: z.string() }))
+   .mutation(async ({ ctx, input }) => {
+      await ctx.db.delete(users).where(eq(users.id, input.userId));
+    }),
 });
