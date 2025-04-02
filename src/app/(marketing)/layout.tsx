@@ -7,12 +7,12 @@ import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
-import { MessageHandler } from "@/app/_components/message-handler";
 
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
   description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
   keywords: ["个人网站", "开发者", "技术博客", "项目展示"],
+  metadataBase: new URL('https://t3-my-portfolio-git-test-jackliumiaozis-projects.vercel.app/'),
   openGraph: {
     title: "Jack's 主页 | 个人网站",
     description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
@@ -91,7 +91,6 @@ export default function RootLayout({
         className="mx-auto"
         suppressHydrationWarning
       >
-        <MessageHandler />
         <Header />
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Footer />
