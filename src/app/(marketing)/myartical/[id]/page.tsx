@@ -1,11 +1,15 @@
-import React from 'react'
+"use client";
 
-export default function page() {
+import { Suspense } from "react";
+
+export default function Page() {
   return (
-    <div>
-      hello
-    </div>
-  )
+    <Suspense fallback={<div>Loading...</div>}>
+      <div>
+        hello
+      </div>
+    </Suspense>
+  );
 }
 
 // import Link from "next/link";
