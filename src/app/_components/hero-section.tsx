@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-15 md:py-28">
+    <section className="relative overflow-hidden py-15 md:py-28 flex items-center justify-center">
       {/* 背景装饰元素 */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="bg-primary/5 absolute -top-[40%] -right-[60%] h-[800px] w-[800px] rounded-full blur-3xl" />
