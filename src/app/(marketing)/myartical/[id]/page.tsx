@@ -5,9 +5,7 @@ import { Suspense } from "react";
 export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <div>
-        hello
-      </div>
+      <div>hello</div>
     </Suspense>
   );
 }
@@ -65,7 +63,7 @@ export default function Page() {
 //     const article = await api.artical.getById({ id: params.id });
 //     // 删除这行，因为我们不需要它
 //     // const resolvedSearchParams = await searchParams;
-    
+
 //     if (!article) {
 //       return notFound();
 //     }

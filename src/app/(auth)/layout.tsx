@@ -27,8 +27,8 @@ export default async function RootLayout({
     <html lang="en" className={`${geist.variable} `}>
       <body className="mx-auto" suppressHydrationWarning={true}>
         <SessionProvider session={session}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-        <Toaster richColors />
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <Toaster richColors />
         </SessionProvider>
       </body>
     </html>

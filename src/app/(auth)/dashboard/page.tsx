@@ -38,7 +38,9 @@ type User = {
 
 export default function DashboardPage() {
   // 状态管理
-  const [activeTab, setActiveTab] = useState<"articles" | "users" | "messages">("articles");
+  const [activeTab, setActiveTab] = useState<"articles" | "users" | "messages">(
+    "articles",
+  );
   const [showAddArticleDialog, setShowAddArticleDialog] = useState(false);
   const [showEditArticleDialog, setShowEditArticleDialog] = useState(false);
   const [showUserDetailsDialog, setShowUserDetailsDialog] = useState(false);
@@ -88,7 +90,7 @@ export default function DashboardPage() {
     onSuccess: async () => {
       toast.success("用户已删除！");
       await utils.user.invalidate();
-    }
+    },
   });
 
   // 获取留言列表
@@ -160,9 +162,12 @@ export default function DashboardPage() {
   // 处理删除用户
   const handleDeleteUser = () => {
     // 使用保存的用户ID进行删除操作
-    if (selectedUserId && selectedUserId !== "9f0b03bb-4f35-479d-a04e-6a307b9d4074") {
+    if (
+      selectedUserId &&
+      selectedUserId !== "9f0b03bb-4f35-479d-a04e-6a307b9d4074"
+    ) {
       // 调用删除用户的 API
-      try{
+      try {
         deleteUser.mutate({
           userId: selectedUserId,
         });
@@ -310,12 +315,14 @@ export default function DashboardPage() {
                 )}
               >
                 {articles?.map((article) => (
-                  <Card 
-                    key={article.id} 
+                  <Card
+                    key={article.id}
                     className={cn(
                       "overflow-hidden",
                       // 如果文章正在删除中，添加灰色半透明效果
-                      deleteArticle.isPending && selectedArticleId === article.id && "opacity-50 pointer-events-none"
+                      deleteArticle.isPending &&
+                      selectedArticleId === article.id &&
+                      "pointer-events-none opacity-50",
                     )}
                   >
                     <div className="relative h-48">
@@ -484,7 +491,9 @@ export default function DashboardPage() {
                               </div>
                             )}
                             <div>
-                              <p className="font-medium">{message.createdBy ?? "匿名用户"}</p>
+                              <p className="font-medium">
+                                {message.createdBy ?? "匿名用户"}
+                              </p>
                               <p className="text-sm text-gray-500 dark:text-gray-400">
                                 {new Date(message.createdAt).toLocaleDateString(
                                   "zh-CN",
@@ -508,18 +517,25 @@ export default function DashboardPage() {
                             <Button
                               variant="destructive"
                               size="sm"
-                              onClick={() => handleDeleteMessageConfirm(message.id)}
-                              disabled={deleteMessage.isPending && selectedMessageId === message.id}
+                              onClick={() =>
+                                handleDeleteMessageConfirm(message.id)
+                              }
+                              disabled={
+                                deleteMessage.isPending &&
+                                selectedMessageId === message.id
+                              }
                             >
-                              {deleteMessage.isPending && selectedMessageId === message.id
+                              {deleteMessage.isPending &&
+                                selectedMessageId === message.id
                                 ? "删除中..."
                                 : "删除"}
                             </Button>
                           </div>
                         </div>
-                        <p className="mt-3 text-gray-800 dark:text-gray-200">
-                          {message.context}
-                        </p>
+                        <div
+                          className="mt-3 text-gray-800 dark:text-gray-200 prose dark:prose-invert"
+                          dangerouslySetInnerHTML={{ __html: message.context ?? '' }}
+                        />
                       </div>
                     ))}
                   </div>
@@ -665,8 +681,8 @@ export default function DashboardPage() {
             >
               取消
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={handleDeleteArticle}
               disabled={deleteArticle.isPending}
             >
@@ -787,8 +803,8 @@ export default function DashboardPage() {
             >
               取消
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={handleDeleteMessage}
               disabled={deleteMessage.isPending}
             >
@@ -827,10 +843,7 @@ export default function DashboardPage() {
             >
               取消
             </Button>
-            <Button 
-              onClick={handleSubmitReply}
-              disabled={!replyContent.trim()}
-            >
+            <Button onClick={handleSubmitReply} disabled={!replyContent.trim()}>
               发送回复
             </Button>
           </DialogFooter>

@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 export default function post() {
-  return (
-    <div>
-      hello post
-    </div>
-  )
+  return <div>hello post</div>;
 }
 
 // // "use client" 声明这是一个客户端组件

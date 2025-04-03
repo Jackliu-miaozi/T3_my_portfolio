@@ -7,12 +7,15 @@ import { TRPCReactProvider } from "@/trpc/react";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
   description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
   keywords: ["个人网站", "开发者", "技术博客", "项目展示"],
-  metadataBase: new URL('https://t3-my-portfolio-git-test-jackliumiaozis-projects.vercel.app/'),
+  metadataBase: new URL(
+    "https://t3-my-portfolio-git-test-jackliumiaozis-projects.vercel.app/",
+  ),
   openGraph: {
     title: "Jack's 主页 | 个人网站",
     description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
@@ -22,11 +25,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: '/avatar.png',
-      }
+        url: "/avatar.png",
+      },
     ],
   },
-
 
   // 这是Twitter卡片的元数据配置
   // card: 定义Twitter卡片的显示样式，summary_large_image表示大图预览
@@ -39,17 +41,17 @@ export const metadata: Metadata = {
     description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
     images: [
       {
-        url: '/avatar.png',
+        url: "/avatar.png",
         width: 1200,
         height: 630,
         alt: "Jack's Website",
-      }
+      },
     ],
   },
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon-16x16.svg',
-    apple: '/apple-touch-icon.svg',
+    icon: "/favicon.svg",
+    shortcut: "/favicon-16x16.svg",
+    apple: "/apple-touch-icon.svg",
   },
 };
 
@@ -87,13 +89,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className="mx-auto"
-        suppressHydrationWarning
-      >
+      <body className="mx-auto" suppressHydrationWarning>
         <Header />
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Footer />
+        <Toaster richColors />
       </body>
     </html>
   );

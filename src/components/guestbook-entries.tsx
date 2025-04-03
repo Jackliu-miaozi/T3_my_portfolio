@@ -109,14 +109,10 @@ export function GuestbookEntries() {
               </Button>
             )}
           </div>
-          <p className="mt-3 text-gray-800 dark:text-gray-200">
-            {entry.context!.split('\n').map((line, i) => (
-              <span key={i}>
-                {line}
-                <br />
-              </span>
-            ))}
-          </p>
+          <div
+            className="prose dark:prose-invert mt-3 text-gray-800 dark:text-gray-200"
+            dangerouslySetInnerHTML={{ __html: entry.context ?? "" }}
+          />
         </div>
       ))}
       {/* 删除确认对话框 */}
@@ -129,7 +125,10 @@ export function GuestbookEntries() {
             <p>确定要删除这条留言吗？此操作无法撤销。</p>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteDialog(false)}
+            >
               取消
             </Button>
             <Button variant="destructive" onClick={handleDelete}>

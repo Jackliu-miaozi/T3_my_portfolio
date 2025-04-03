@@ -1,5 +1,7 @@
 export default {
   plugins: {
-    "@tailwindcss/postcss": {},
+    "postcss-import": {},
+    "@tailwindcss/postcss": {},  // 对于 Tailwind CSS v4，使用这个包名
+    autoprefixer: {},
   },
 };
