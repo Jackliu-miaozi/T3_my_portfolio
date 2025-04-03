@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/app/_components/ui/dialog";
+import { toast } from "sonner";
 
 export function GuestbookEntries() {
   const { data: entries, isLoading } = api.post.getAll.useQuery();
@@ -22,8 +23,12 @@ export function GuestbookEntries() {
 
   // 删除留言的mutation
   const deletePost = api.post.delete.useMutation({
+    onError: () => {
+      alert("删除失败，请稍后再试");
+    },
     onSuccess: async () => {
       await utils.post.invalidate();
+      toast.success("删除成功");
     },
   });
 
@@ -104,8 +109,11 @@ export function GuestbookEntries() {
                 size="sm"
                 className="text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/20"
                 onClick={() => handleDeleteConfirm(entry.id)}
+                disabled={deletePost.isPending && selectedPostId === entry.id}
               >
-                删除
+                {deletePost.isPending && selectedPostId === entry.id
+                  ? "删除中..."
+                  : "删除"}
               </Button>
             )}
           </div>

@@ -321,8 +321,8 @@ export default function DashboardPage() {
                       "overflow-hidden",
                       // 如果文章正在删除中，添加灰色半透明效果
                       deleteArticle.isPending &&
-                      selectedArticleId === article.id &&
-                      "pointer-events-none opacity-50",
+                        selectedArticleId === article.id &&
+                        "pointer-events-none opacity-50",
                     )}
                   >
                     <div className="relative h-48">
@@ -526,15 +526,17 @@ export default function DashboardPage() {
                               }
                             >
                               {deleteMessage.isPending &&
-                                selectedMessageId === message.id
+                              selectedMessageId === message.id
                                 ? "删除中..."
                                 : "删除"}
                             </Button>
                           </div>
                         </div>
                         <div
-                          className="mt-3 text-gray-800 dark:text-gray-200 prose dark:prose-invert"
-                          dangerouslySetInnerHTML={{ __html: message.context ?? '' }}
+                          className="prose dark:prose-invert mt-3 text-gray-800 dark:text-gray-200"
+                          dangerouslySetInnerHTML={{
+                            __html: message.context ?? "",
+                          }}
                         />
                       </div>
                     ))}

@@ -28,8 +28,8 @@ export default async function RootLayout({
       <body className="mx-auto" suppressHydrationWarning={true}>
         <SessionProvider session={session}>
           <TRPCReactProvider>{children}</TRPCReactProvider>
-          <Toaster richColors />
         </SessionProvider>
+        <Toaster richColors theme="system" />
       </body>
     </html>
   );
