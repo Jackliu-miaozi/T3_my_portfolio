@@ -139,10 +139,10 @@ export default async function ArticlePage({
                     {format(new Date(article.createdAt), "yyyy年MM月dd日", {})}
                   </time>
                 </div>
-                 {article.category && ( // Only show if category exists
-                    <div className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium">
+                {article.category && ( // Only show if category exists
+                  <div className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium">
                     {article.category}
-                    </div>
+                  </div>
                 )}
               </div>
             </AnimatedSection>
@@ -155,15 +155,15 @@ export default async function ArticlePage({
         <div className="container mx-auto max-w-4xl px-4">
           {/* The main content card */}
           <main className="bg-background shadow-xl rounded-lg overflow-hidden border border-border/10"> {/* Use theme background, add shadow/border */}
-             {/* Optional: Article Summary inside the card */}
+            {/* Optional: Article Summary inside the card */}
             {article.summary && (
-                <AnimatedSection delay={400}>
-                    <div className="border-b border-border/10 bg-muted/30 p-6 md:p-8 rounded-lg shadow-sm hover:shadow-lg transition-shadow"> {/* Subtle background, padding, border bottom */}
-                        <p className="text-base md:text-lg font-medium text-muted-foreground italic leading-relaxed">
-                         {/* Optional: Add quote icon or style as blockquote */}
-                        &ldquo;{article.summary}&rdquo;
-                        </p>
-                    </div>
+              <AnimatedSection delay={400}>
+                <div className="border-b border-border/10 bg-muted/30 p-6 md:p-8 rounded-lg shadow-sm hover:shadow-lg transition-shadow"> {/* Subtle background, padding, border bottom */}
+                  <p className="text-base md:text-lg font-medium text-muted-foreground italic leading-relaxed">
+                    {/* Optional: Add quote icon or style as blockquote */}
+                    &ldquo;{article.summary}&rdquo;
+                  </p>
+                </div>
               </AnimatedSection>
             )}
 
@@ -190,7 +190,7 @@ export default async function ArticlePage({
                   "prose-blockquote:border-l-4 prose-blockquote:border-primary/50 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-muted-foreground",
                   // Images within content
                   "prose-img:rounded-md prose-img:shadow-sm",
-                   // Lists
+                  // Lists
                   "prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6",
                   "prose-li:my-1" // Adjust list item spacing
                 )}
@@ -217,8 +217,25 @@ export default async function ArticlePage({
       </div>
 
       {/* Add some space at the bottom */}
-      <div className="h-20 md:h-32" />
-      <Footer/>
+      {/* === Footer Message & Quote === */}
+      <footer className="py-16 md:py-24 text-center container mx-auto max-w-3xl px-4"> {/* Centered container */}
+        <p className="text-base md:text-lg text-muted-foreground mb-8">
+          Thank you for taking the time to read this article.
+        </p>
+        <blockquote className="relative max-w-2xl mx-auto">
+          {/* Optional decorative quotes */}
+          <span className="absolute -top-2 -left-4 text-6xl text-muted/20 font-serif opacity-50" aria-hidden="true">&ldquo;</span>
+          <p className="text-lg md:text-xl italic text-foreground/80 leading-relaxed mb-3">
+            Hope is like a path in the countryside: originally there was no path, but once people begin to pass, a way appears.
+            {/* 希望本是无所谓有，无所谓无的。这正如地上的路；其实地上本没有路，走的人多了，也便成了路。 */}
+          </p>
+          <span className="absolute -bottom-6 -right-4 text-6xl text-muted/20 font-serif opacity-50" aria-hidden="true">&rdquo;</span>
+          <cite className="block text-sm text-muted-foreground not-italic mt-4">
+            — Lu Xun (鲁迅)
+          </cite>
+        </blockquote>
+      </footer>
+      <Footer />
     </div>
   );
 }
