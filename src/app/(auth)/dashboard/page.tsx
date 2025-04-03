@@ -15,7 +15,7 @@ export default function DashboardPage() {
   const { data: session } = useSession();
 
   // 检查用户是否有权限访问仪表盘
-  if (!session || session.user.email !== 'lzyujn@gmail.com') {
+  if (!session || session.user.email !== "lzyujn@gmail.com") {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">

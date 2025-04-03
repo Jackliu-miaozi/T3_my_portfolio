@@ -26,9 +26,10 @@ import {
   CardFooter,
 } from "@/app/_components/ui/card";
 import { AnimatedSection } from "@/app/_components/animated-section";
+import { Header } from "@/app/_components/header";
+import { Footer } from "@/app/_components/footer";
 
 export default async function ArticlesPage() {
-  // 模拟文章数据
   void api.artical.getAll.prefetch();
   const articles = await api.artical.getAll();
 
@@ -49,7 +50,9 @@ export default async function ArticlesPage() {
 
   return (
     <HydrateClient>
-      <div className="container mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
+      <Header />
+
+      <div className="mx-auto max-w-5xl px-4 py-8 md:px-6 md:py-12">
         <div className="flex flex-col items-center space-y-4 text-center">
           <AnimatedSection>
             <div className="space-y-2">
@@ -66,8 +69,11 @@ export default async function ArticlesPage() {
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {articles?.map((article, index) => (
               <AnimatedSection key={article.id} delay={(index + 1) * 100}>
-                <Card key={article.id} className="flex h-full flex-col">
-                  <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+                <Card
+                  key={article.id}
+                  className="flex flex-col overflow-hidden pt-0 pb-6"
+                >
+                  <div className="relative h-48 w-full overflow-hidden">
                     <Image
                       src={article.image!}
                       alt={article.title!}
@@ -109,6 +115,7 @@ export default async function ArticlesPage() {
           </div>
         </AnimatedSection>
       </div>
+      <Footer />
     </HydrateClient>
   );
 }

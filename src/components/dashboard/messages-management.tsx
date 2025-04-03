@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { api } from "@/trpc/react";
 import { Button } from "@/app/_components/ui/button";
-import {
-  Card,
-  CardContent,
-} from "@/app/_components/ui/card";
+import { Card, CardContent } from "@/app/_components/ui/card";
 import { toast } from "sonner";
 import Image from "next/image";
 import { DeleteMessageDialog, ReplyMessageDialog } from "./message-dialogs";
@@ -124,9 +121,7 @@ export function MessagesManagement() {
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() =>
-                          handleDeleteMessageConfirm(message.id)
-                        }
+                        onClick={() => handleDeleteMessageConfirm(message.id)}
                         disabled={
                           deleteMessage.isPending &&
                           selectedMessageId === message.id

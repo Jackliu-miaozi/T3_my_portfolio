@@ -44,10 +44,7 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           </span>
         </div>
         <div className="cursor-pointer px-6 py-3">
-          <Link
-            href="/"
-            className="font-medium text-gray-800 dark:text-white"
-          >
+          <Link href="/" className="font-medium text-gray-800 dark:text-white">
             返回首页
           </Link>
         </div>

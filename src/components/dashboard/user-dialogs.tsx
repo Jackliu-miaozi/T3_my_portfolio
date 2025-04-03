@@ -44,9 +44,7 @@ export function UserDetailsDialog({
             </div>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-500 dark:text-gray-400">
-                  邮箱:
-                </span>
+                <span className="text-gray-500 dark:text-gray-400">邮箱:</span>
                 <span>{user.email}</span>
               </div>
               <div className="flex justify-between">
@@ -65,10 +63,7 @@ export function UserDetailsDialog({
           </div>
         )}
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
             关闭
           </Button>
         </DialogFooter>

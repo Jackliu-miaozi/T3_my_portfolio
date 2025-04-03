@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { api } from "@/trpc/react";
 import { Button } from "@/app/_components/ui/button";
-import {
-  Card,
-  CardContent,
-} from "@/app/_components/ui/card";
+import { Card, CardContent } from "@/app/_components/ui/card";
 import { toast } from "sonner";
 import { UserDetailsDialog, DeleteUserDialog } from "./user-dialogs";
 

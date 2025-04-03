@@ -21,7 +21,6 @@ export async function middleware(request: NextRequest) {
     //   redirectUrl.searchParams.set("callbackUrl", path);
     //   return NextResponse.redirect(redirectUrl);
     // }
-
     // Check if user email is admin email
     // const userEmail = session?.email;
     // // Redirect non-admin users to homepage

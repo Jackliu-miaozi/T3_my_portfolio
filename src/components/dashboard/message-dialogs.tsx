@@ -91,10 +91,7 @@ export function ReplyMessageDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
             取消
           </Button>
           <Button onClick={onSubmit} disabled={!replyContent.trim()}>
