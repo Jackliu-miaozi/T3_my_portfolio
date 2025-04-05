@@ -121,14 +121,12 @@ export function ArticlesManagement() {
 
   // 处理添加文章的表单提交
   // 声明一个处理表单提交的函数，参数e的类型是React的表单提交事件
-  const handleAddArticle = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddArticle = (formData: FormData) => {
   // 阻止表单的默认提交行为，防止页面刷新
-  e.preventDefault();
+
   
   // 从当前表单元素创建FormData对象，可以方便地获取表单中的数据
   // e.currentTarget 指向触发事件的表单元素
-  const formData = new FormData(e.currentTarget);
-  
   try {
     // 调用创建文章的mutation方法
     createArticle.mutate({
@@ -173,9 +171,7 @@ export function ArticlesManagement() {
   };
 
   // 处理编辑文章的表单提交
-  const handleEditArticleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+  const handleEditArticleSubmit = (formData: FormData) => {
     if (selectedArticle) {
       try {
         updateArticle.mutate({
@@ -303,18 +299,31 @@ export function ArticlesManagement() {
 
       {/* 添加文章对话框组件 */}
       <ArticleDialog
+        // 控制对话框的显示状态
         open={showAddArticleDialog}
+        
+        // 当对话框开关状态改变时的回调函数
         onOpenChange={(open) => {
-          setShowAddArticleDialog(open);
-          if (!open) {
-            setImagePreview(null);
-          }
+        // 更新对话框的显示状态
+        setShowAddArticleDialog(open);
+        // 如果对话框关闭，清空图片预览
+        if (!open) {
+          setImagePreview(null);
+        }
         }}
+        
+        // 对话框标题
         title="添加新文章"
+        
+        // 表单提交处理函数
         onSubmit={handleAddArticle}
+        
+        // 提交按钮的文本
         submitButtonText="提交"
+        
+        // 当图片改变时的回调函数，用于更新预览图片
         onImageChange={(base64String) => setImagePreview(base64String)}
-      />
+        />
 
       {/* 编辑文章对话框组件 */}
       <ArticleDialog

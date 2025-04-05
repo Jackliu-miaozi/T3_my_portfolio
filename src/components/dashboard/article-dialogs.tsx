@@ -12,7 +12,7 @@ import Placeholder from "@tiptap/extension-placeholder"; // 提供占位符功�
 import Link from "@tiptap/extension-link"; // 链接功能
 import Blockquote from "@tiptap/extension-blockquote"; // 引用块功能
 import CodeBlock from "@tiptap/extension-code-block"; // 代码块功能
-import History from "@tiptap/extension-history"; // 提供撤销/重做功能
+// import History from "@tiptap/extension-history"; // 提供撤销/重做功能
 
 // 导入UI组件
 import { Button } from "@/app/_components/ui/button"; // 按钮组件
@@ -44,7 +44,7 @@ import {
   Undo, // 撤销图标
   Redo // 重做图标
 } from 'lucide-react';
-import Image from "next/image";
+// import Image from "next/image";
 
 // 定义文章类型接口
 type Article = {
@@ -270,9 +270,10 @@ export function ArticleDialog({
       }),
       Blockquote, // 引用块扩展
       CodeBlock, // 代码块扩展
-      History, // 历史记录扩展（撤销/重做）
+      // History, // 历史记录扩展（撤销/重做）
     ],
     content: editorContent, // 初始内容
+    immediatelyRender: false,  // 添加这一行解决 SSR 问题
     editable: true, // 可编辑
     // 内容更新时的回调
     onUpdate: ({ editor }) => {
@@ -416,7 +417,7 @@ export function ArticleDialog({
                 />
                 {/* Optional: Preview image */}
                 {base64Image && (
-                  <Image src={base64Image} alt="封面预览" className="mt-2 max-h-40 rounded border" />
+                  <img src={base64Image} alt="封面预览" className="mt-2 max-h-40 rounded border" />
                 )}
               </div>
             )}
