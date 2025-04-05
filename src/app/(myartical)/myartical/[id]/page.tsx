@@ -75,9 +75,10 @@ export default async function ArticlePage({
     ALLOWED_TAGS: [
       "h1", "h2", "h3", "h4", "h5", "h6", "p", "br", "strong", "em",
       "ul", "ol", "li", "code", "pre", "blockquote", "a", "img", "div", "span",
+      "figure", "table" ,"mark"
       // Add any other tags you absolutely need, e.g., 'figure', 'figcaption'
     ],
-    ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "target", "rel", "style"], // Be cautious with 'style'
+    ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "target", "rel", "style", "width", "height", "colspan"], // Be cautious with 'style'
     FORBID_TAGS: ["script", "style", "iframe", "form", "object", "embed"], // Keep forbidding dangerous tags
     ADD_ATTR: ['target="_blank"', 'rel="noopener noreferrer"'], // Good for external links
     // Consider USE_PROFILES: { html: true } for a standard set of safe HTML

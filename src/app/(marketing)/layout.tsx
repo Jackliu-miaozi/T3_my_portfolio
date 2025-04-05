@@ -9,6 +9,7 @@ import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
 import { Toaster } from "sonner";
 
+
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
   description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
@@ -63,6 +64,7 @@ const geist = Geist({
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+
   return (
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
       <head>

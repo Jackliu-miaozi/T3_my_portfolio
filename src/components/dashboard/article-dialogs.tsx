@@ -351,83 +351,85 @@ export function ArticleDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      {/* Increased width for editor */}
-      <DialogContent className="sm:max-w-[750px] md:max-w-[850px] lg:max-w-[950px]">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-        </DialogHeader>
-        {/* Use the modified onSubmit handler */}
-        <form onSubmit={handleFormSubmit}>
-          <div className="grid gap-4 py-4">
-            {/* --- Other fields remain the same --- */}
-            <div className="grid gap-2">
-              <Label htmlFor="title">文章标题</Label>
-              <Input
-                id="title"
-                name="title"
-                placeholder="输入文章标题"
-                defaultValue={article?.title}
-                required
-                disabled={isSubmitting}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="category">分类</Label>
-              <Input
-                id="category"
-                name="category"
-                placeholder="输入文章分类"
-                defaultValue={article?.category}
-                disabled={isSubmitting}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="summary">摘要</Label>
-              <Input
-                id="summary"
-                name="summary"
-                placeholder="输入文章摘要"
-                defaultValue={article?.summary}
-                required
-                disabled={isSubmitting}
-              />
-            </div>
+      {/* 修改 DialogContent 的样式 */}
+      <DialogContent className="sm:max-w-[750px] md:max-w-[850px] lg:max-w-[950px] max-h-[85vh] overflow-y-auto px-7">
 
-            {/* --- Tiptap Editor for Content --- */}
-            <div className="grid gap-2">
-              <Label htmlFor="content">内容</Label>
-              {/* Toolbar */}
-              <Toolbar editor={editor} />
-              {/* Editor Content Area */}
-              <EditorContent id="content" editor={editor} />
-              {/* We use state for content, no hidden input needed in this approach */}
-            </div>
-
-            {/* --- Cover Image Upload (Only for new articles) --- */}
-            {!article && (
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleFormSubmit}>
+            {/* 添加 py-4 到这个 div */}
+            <div className="grid gap-4 py-4 overflow-y-auto px-1">
+              {/* --- Other fields remain the same --- */}
               <div className="grid gap-2">
-                <Label htmlFor="image">封面图片</Label>
+                <Label htmlFor="title">文章标题</Label>
                 <Input
-                  id="image"
-                  name="image" // Name is less important now as we handle via state
-                  type="file"
-                  accept="image/jpeg,image/png,image/gif"
-                  onChange={handleCoverImageChange}
+                  id="title"
+                  name="title"
+                  placeholder="输入文章标题"
+                  defaultValue={article?.title}
+                  required
                   disabled={isSubmitting}
                 />
-                {/* Optional: Preview image */}
-                {base64Image && (
-                  <img src={base64Image} alt="封面预览" className="mt-2 max-h-40 rounded border" />
-                )}
               </div>
-            )}
-          </div>
-          <DialogFooter>
-            <Button type="submit" disabled={isSubmitting || !editor}>
-              {isSubmitting ? "提交中..." : submitButtonText}
-            </Button>
-          </DialogFooter>
-        </form>
+              <div className="grid gap-2">
+                <Label htmlFor="category">分类</Label>
+                <Input
+                  id="category"
+                  name="category"
+                  placeholder="输入文章分类"
+                  defaultValue={article?.category}
+                  disabled={isSubmitting}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="summary">摘要</Label>
+                <Input
+                  id="summary"
+                  name="summary"
+                  placeholder="输入文章摘要"
+                  defaultValue={article?.summary}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              {/* --- Tiptap Editor for Content --- */}
+              <div className="grid gap-2">
+                <Label htmlFor="content">内容</Label>
+                {/* Toolbar */}
+                <Toolbar editor={editor} />
+                {/* Editor Content Area */}
+                <EditorContent id="content" editor={editor} />
+                {/* We use state for content, no hidden input needed in this approach */}
+              </div>
+
+              {/* --- Cover Image Upload (Only for new articles) --- */}
+              {!article && (
+                <div className="grid gap-2">
+                  <Label htmlFor="image">封面图片</Label>
+                  <Input
+                    id="image"
+                    name="image" // Name is less important now as we handle via state
+                    type="file"
+                    accept="image/jpeg,image/png,image/gif"
+                    onChange={handleCoverImageChange}
+                    disabled={isSubmitting}
+                  />
+                  {/* Optional: Preview image */}
+                  {base64Image && (
+                    <img src={base64Image} alt="封面预览" className="mt-2 max-h-40 rounded border" />
+                  )}
+                </div>
+              )}
+            </div>
+            {/* 固定在底部的提交按钮 */}
+            <DialogFooter className="py-4 mt-4 ">
+              <Button className="cursor-pointer" type="submit" disabled={isSubmitting || !editor}>
+                {isSubmitting ? "提交中..." : submitButtonText}
+              </Button>
+            </DialogFooter>
+          </form>
       </DialogContent>
     </Dialog>
   );
