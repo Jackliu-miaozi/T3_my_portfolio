@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 // 导入Tiptap编辑器相关组件和类型
-import { useEditor, EditorContent, Editor } from "@tiptap/react";
+import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 // 导入Tiptap扩展包
 import StarterKit from "@tiptap/starter-kit"; // 包含常用扩展如粗体、斜体、标题、列表等
 import Placeholder from "@tiptap/extension-placeholder"; // 提供占位符功能
@@ -44,6 +44,7 @@ import {
   Undo, // 撤销图标
   Redo // 重做图标
 } from 'lucide-react';
+import Image from "next/image";
 
 // 定义文章类型接口
 type Article = {
@@ -75,16 +76,17 @@ type ToolbarProps = {
 
 // 工具栏组件实现
 const Toolbar = ({ editor }: ToolbarProps) => {
-  // 如果编辑器实例不存在，不渲染工具栏
-  if (!editor) {
-    return null;
-  }
-
-  // 链接处理函数
+  // 将 useCallback 移到最顶层
   const setLink = useCallback(() => {
-    // 获取当前选中文本的链接地址（如果存在）
-    const previousUrl = editor.getAttributes('link').href;
-    // 弹出输入框让用户输入链接地址
+    //如果编辑器未实例化或不存在，直接返回
+    if (!editor) return;
+
+    //设置超链接的URL
+    // 获取当前选中文本的链接属性，并提取href值，如果不存在则返回空字符串
+    //更安全地获取链接地址
+    // const previousUrl = editor.getAttributes('link')?.href ?? '';
+
+    const previousUrl = editor.getAttributes('link').href as string ?? '';
     const url = window.prompt('URL', previousUrl);
 
     // 用户取消输入
@@ -107,17 +109,17 @@ const Toolbar = ({ editor }: ToolbarProps) => {
     // 工具栏容器，使用Tailwind CSS样式设置边框、背景和布局
     <div className="border border-input bg-transparent rounded-md p-1 flex flex-wrap items-center gap-1 mb-2">
       {/* 历史操作按钮组 */}
-      <Toggle 
-        size="sm" 
-        onPressedChange={() => editor.chain().focus().undo().run()} 
-        disabled={!editor.can().undo()} // 当无法撤销时禁用
+      <Toggle
+        size="sm"
+        onPressedChange={() => editor?.chain().focus().undo().run()}
+        disabled={!editor?.can().undo()} // 当无法撤销时禁用
       >
         <Undo className="h-4 w-4" />
       </Toggle>
-      <Toggle 
-        size="sm" 
-        onPressedChange={() => editor.chain().focus().redo().run()} 
-        disabled={!editor.can().redo()} // 当无法重做时禁用
+      <Toggle
+        size="sm"
+        onPressedChange={() => editor?.chain().focus().redo().run()}
+        disabled={!editor?.can().redo()} // 当无法重做时禁用
       >
         <Redo className="h-4 w-4" />
       </Toggle>
@@ -127,22 +129,22 @@ const Toolbar = ({ editor }: ToolbarProps) => {
       {/* 基本文本格式化按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor.isActive('bold')} // 当前文本是否加粗
-        onPressedChange={() => editor.chain().focus().toggleBold().run()}
+        pressed={editor?.isActive('bold')} // 当前文本是否加粗
+        onPressedChange={() => editor?.chain().focus().toggleBold().run()}
       >
         <Bold className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor.isActive('italic')} // 当前文本是否斜体
-        onPressedChange={() => editor.chain().focus().toggleItalic().run()}
+        pressed={editor?.isActive('italic')} // 当前文本是否斜体
+        onPressedChange={() => editor?.chain().focus().toggleItalic().run()}
       >
         <Italic className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor.isActive('strike')} // 当前文本是否有删除线
-        onPressedChange={() => editor.chain().focus().toggleStrike().run()}
+        pressed={editor?.isActive('strike')} // 当前文本是否有删除线
+        onPressedChange={() => editor?.chain().focus().toggleStrike().run()}
       >
         <Strikethrough className="h-4 w-4" />
       </Toggle>
@@ -152,22 +154,22 @@ const Toolbar = ({ editor }: ToolbarProps) => {
       {/* 标题按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor.isActive('heading', { level: 1 })} // 当前是否为一级标题
-        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+        pressed={editor?.isActive('heading', { level: 1 })} // 当前是否为一级标题
+        onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
       >
         <Heading1 className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor.isActive('heading', { level: 2 })} // 当前是否为二级标题
-        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+        pressed={editor?.isActive('heading', { level: 2 })} // 当前是否为二级标题
+        onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
       >
         <Heading2 className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor.isActive('heading', { level: 3 })} // 当前是否为三级标题
-        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+        pressed={editor?.isActive('heading', { level: 3 })} // 当前是否为三级标题
+        onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
       >
         <Heading3 className="h-4 w-4" />
       </Toggle>
@@ -177,15 +179,15 @@ const Toolbar = ({ editor }: ToolbarProps) => {
       {/* 列表按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor.isActive('bulletList')} // 当前是否为无序列表
-        onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
+        pressed={editor?.isActive('bulletList')} // 当前是否为无序列表
+        onPressedChange={() => editor?.chain().focus().toggleBulletList().run()}
       >
         <List className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor.isActive('orderedList')} // 当前是否为有序列表
-        onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
+        pressed={editor?.isActive('orderedList')} // 当前是否为有序列表
+        onPressedChange={() => editor?.chain().focus().toggleOrderedList().run()}
       >
         <ListOrdered className="h-4 w-4" />
       </Toggle>
@@ -195,22 +197,22 @@ const Toolbar = ({ editor }: ToolbarProps) => {
       {/* 块级元素按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor.isActive('blockquote')} // 当前是否为引用块
-        onPressedChange={() => editor.chain().focus().toggleBlockquote().run()}
+        pressed={editor?.isActive('blockquote')} // 当前是否为引用块
+        onPressedChange={() => editor?.chain().focus().toggleBlockquote().run()}
       >
         <Quote className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor.isActive('codeBlock')} // 当前是否为代码块
-        onPressedChange={() => editor.chain().focus().toggleCodeBlock().run()}
+        pressed={editor?.isActive('codeBlock')} // 当前是否为代码块
+        onPressedChange={() => editor?.chain().focus().toggleCodeBlock().run()}
       >
         <Code className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
         onPressedChange={setLink} // 使用自定义的链接处理函数
-        pressed={editor.isActive('link')} // 当前是否为链接
+        pressed={editor?.isActive('link')} // 当前是否为链接
       >
         <LinkIcon className="h-4 w-4" />
       </Toggle>
@@ -218,15 +220,15 @@ const Toolbar = ({ editor }: ToolbarProps) => {
       <Separator orientation="vertical" className="h-6 mx-1" />
 
       {/* 换行和分隔线按钮组 */}
-      <Toggle 
-        size="sm" 
-        onPressedChange={() => editor.chain().focus().setHardBreak().run()} // 插入硬换行
+      <Toggle
+        size="sm"
+        onPressedChange={() => editor?.chain().focus().setHardBreak().run()} // 插入硬换行
       >
         <WrapText className="h-4 w-4" />
       </Toggle>
-      <Toggle 
-        size="sm" 
-        onPressedChange={() => editor.chain().focus().setHorizontalRule().run()} // 插入水平分隔线
+      <Toggle
+        size="sm"
+        onPressedChange={() => editor?.chain().focus().setHorizontalRule().run()} // 插入水平分隔线
       >
         — {/* 使用破折号作为分隔线图标 */}
       </Toggle>
@@ -412,9 +414,9 @@ export function ArticleDialog({
                   onChange={handleCoverImageChange}
                   disabled={isSubmitting}
                 />
-                 {/* Optional: Preview image */}
+                {/* Optional: Preview image */}
                 {base64Image && (
-                    <img src={base64Image} alt="封面预览" className="mt-2 max-h-40 rounded border" />
+                  <Image src={base64Image} alt="封面预览" className="mt-2 max-h-40 rounded border" />
                 )}
               </div>
             )}
@@ -446,7 +448,7 @@ export function DeleteArticleDialog({
   isDeleting,
 }: DeleteArticleDialogProps) {
   // ... (Delete dialog code remains unchanged)
-    return (
+  return (
     // 删除确认对话框
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[400px]">
