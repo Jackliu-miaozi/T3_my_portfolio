@@ -8,7 +8,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
 import { Toaster } from "sonner";
-
+import { ThemeScript } from "../_components/theme-script";
 
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
@@ -64,9 +64,8 @@ const geist = Geist({
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-
   return (
-    <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* 其他head内容 */}
         <script
@@ -91,7 +90,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="mx-auto" suppressHydrationWarning>
+      <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
+        <ThemeScript />
         <Header />
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Footer />

@@ -70,22 +70,77 @@ export default async function ArticlePage({
     notFound();
   }
 
-  // --- Sanitization (No changes needed, ensure your config is correct) ---
+  // --- Sanitization with enhanced configuration ---
   const sanitizedContent = DOMPurify.sanitize(article.content!, {
     ALLOWED_TAGS: [
-      "h1", "h2", "h3", "h4", "h5", "h6", "p", "br", "strong", "em",
-      "ul", "ol", "li", "code", "pre", "blockquote", "a", "img", "div", "span",
-      "figure", "table" ,"mark"
-      // Add any other tags you absolutely need, e.g., 'figure', 'figcaption'
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "p",
+      "br",
+      "strong",
+      "em",
+      "b",
+      "i",
+      "ul",
+      "ol",
+      "li",
+      "code",
+      "pre",
+      "blockquote",
+      "a",
+      "img",
+      "div",
+      "span",
+      "figure",
+      "figcaption",
+      "table",
+      "tr",
+      "td",
+      "th",
+      "thead",
+      "tbody",
+      "mark",
+      "hr",
+      "sup",
+      "sub",
+      "dl",
+      "dt",
+      "dd",
     ],
-    ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "target", "rel", "style", "width", "height", "colspan"], // Be cautious with 'style'
-    FORBID_TAGS: ["script", "style", "iframe", "form", "object", "embed"], // Keep forbidding dangerous tags
-    ADD_ATTR: ['target="_blank"', 'rel="noopener noreferrer"'], // Good for external links
-    // Consider USE_PROFILES: { html: true } for a standard set of safe HTML
+    ALLOWED_ATTR: [
+      "href",
+      "src",
+      "alt",
+      "title",
+      "class",
+      "target",
+      "rel",
+      "style",
+      "width",
+      "height",
+      "colspan",
+      "rowspan",
+      "id",
+      "name",
+      "align",
+      "valign",
+      "border",
+      "cellpadding",
+      "cellspacing",
+    ],
+    FORBID_TAGS: ["script", "iframe", "form", "object", "embed"], // Allow style for custom formatting
+    ADD_ATTR: ['target="_blank"', 'rel="noopener noreferrer"'],
+    USE_PROFILES: { html: true }, // Use standard HTML profile for better compatibility
   });
 
   return (
-    <div className="relative min-h-screen bg-gray-50 dark:bg-gray-950"> {/* Added base background */}
+    <div className="relative min-h-screen bg-gray-50 dark:bg-gray-950">
+      {" "}
+      {/* Added base background */}
       {/* === Hero Section (Largely Unchanged) === */}
       <header className="relative h-[60vh] w-full overflow-hidden">
         {article.image && (
@@ -108,7 +163,7 @@ export default async function ArticlePage({
           <div className="container mx-auto max-w-4xl px-4 pb-12 md:pb-16">
             {/* Back Button */}
             <AnimatedSection delay={100}>
-              <Link href="/myartical" className="inline-block mb-4">
+              <Link href="/myartical" className="mb-4 inline-block">
                 <Button
                   variant="outline"
                   size="sm" // Slightly smaller button might look cleaner
@@ -122,7 +177,7 @@ export default async function ArticlePage({
 
             {/* Title */}
             <AnimatedSection delay={200}>
-              <h1 className="mb-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+              <h1 className="mb-3 text-3xl leading-tight font-extrabold text-white sm:text-4xl md:text-5xl lg:text-6xl">
                 {article.title}
               </h1>
             </AnimatedSection>
@@ -150,24 +205,28 @@ export default async function ArticlePage({
           </div>
         </div>
       </header>
-
       {/* === Main Content Area (Refactored Design) === */}
-      <div className="relative z-10 -mt-10 md:-mt-16"> {/* Adjust overlap amount */}
+      <div className="relative z-10 -mt-10 md:-mt-16">
+        {" "}
+        {/* Adjust overlap amount */}
         <div className="container mx-auto max-w-4xl px-4">
           {/* The main content card */}
-          <main className="bg-background shadow-xl rounded-lg overflow-hidden border border-border/10"> {/* Use theme background, add shadow/border */}
+          <main className="bg-background border-border/10 overflow-hidden rounded-lg border shadow-xl">
+            {" "}
+            {/* Use theme background, add shadow/border */}
             {/* Optional: Article Summary inside the card */}
             {article.summary && (
               <AnimatedSection delay={400}>
-                <div className="border-b border-border/10 bg-muted/30 p-6 md:p-8 rounded-lg shadow-sm hover:shadow-lg transition-shadow"> {/* Subtle background, padding, border bottom */}
-                  <p className="text-base md:text-lg font-medium text-muted-foreground italic leading-relaxed">
+                <div className="border-border/10 bg-muted/30 rounded-lg border-b p-6 shadow-sm transition-shadow hover:shadow-lg md:p-8">
+                  {" "}
+                  {/* Subtle background, padding, border bottom */}
+                  <p className="text-muted-foreground text-base leading-relaxed font-medium italic md:text-lg">
                     {/* Optional: Add quote icon or style as blockquote */}
                     &ldquo;{article.summary}&rdquo;
                   </p>
                 </div>
               </AnimatedSection>
             )}
-
             {/* Article Body */}
             <AnimatedSection delay={500}>
               <article
@@ -186,24 +245,32 @@ export default async function ArticlePage({
                   "prose-strong:text-foreground prose-em:text-foreground/90",
                   // Code blocks
                   "prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded",
-                  "prose-pre:bg-muted/70 prose-pre:text-foreground/90 prose-pre:p-4 prose-pre:rounded-md prose-pre:overflow-x-auto", // Ensure code blocks are scrollable
+                  "prose-pre:bg-muted/70 prose-pre:text-foreground/90 prose-pre:p-4 prose-pre:rounded-md prose-pre:overflow-x-auto prose-pre:whitespace-pre-wrap", // Ensure code blocks are scrollable and wrap properly
                   // Blockquotes
                   "prose-blockquote:border-l-4 prose-blockquote:border-primary/50 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-muted-foreground",
                   // Images within content
-                  "prose-img:rounded-md prose-img:shadow-sm",
+                  "prose-img:rounded-md prose-img:shadow-sm prose-img:mx-auto", // Center images and add styling
                   // Lists
                   "prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6",
-                  "prose-li:my-1" // Adjust list item spacing
+                  "prose-li:my-1", // Adjust list item spacing
+                  // Tables
+                  "prose-table:border-collapse prose-table:w-full",
+                  "prose-th:border prose-th:border-border/50 prose-th:p-2 prose-th:bg-muted/30",
+                  "prose-td:border prose-td:border-border/50 prose-td:p-2",
+                  // Additional styling for better content display
+                  "prose-hr:border-border/30 prose-hr:my-8",
                 )}
                 // IMPORTANT: Ensure sanitizedContent is genuinely safe before using dangerouslySetInnerHTML
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
+              {/* 移除这段注释掉的代码，因为我们已经使用了article元素和dangerouslySetInnerHTML来渲染内容 */}
             </AnimatedSection>
-
             {/* Share Section */}
             <AnimatedSection delay={600}>
-              <aside className="border-t border-border/10 px-6 py-8 md:px-8 lg:px-10"> {/* Use aside, add padding, border top */}
-                <h2 className="mb-4 text-xl font-semibold text-foreground">
+              <aside className="border-border/10 border-t px-6 py-8 md:px-8 lg:px-10">
+                {" "}
+                {/* Use aside, add padding, border top */}
+                <h2 className="text-foreground mb-4 text-xl font-semibold">
                   分享这篇文章
                 </h2>
                 <div className="flex items-center gap-3">
@@ -216,22 +283,34 @@ export default async function ArticlePage({
           </main>
         </div>
       </div>
-
       {/* Add some space at the bottom */}
       {/* === Footer Message & Quote === */}
-      <footer className="py-16 md:py-24 text-center container mx-auto max-w-3xl px-4"> {/* Centered container */}
-        <p className="text-base md:text-lg text-muted-foreground mb-8">
+      <footer className="container mx-auto max-w-3xl px-4 py-16 text-center md:py-24">
+        {" "}
+        {/* Centered container */}
+        <p className="text-muted-foreground mb-8 text-base md:text-lg">
           Thank you for taking the time to read this article.
         </p>
-        <blockquote className="relative max-w-2xl mx-auto">
+        <blockquote className="relative mx-auto max-w-2xl">
           {/* Optional decorative quotes */}
-          <span className="absolute -top-2 -left-4 text-6xl text-muted/20 font-serif opacity-50" aria-hidden="true">&ldquo;</span>
-          <p className="text-lg md:text-xl italic text-foreground/80 leading-relaxed mb-3">
-            Hope is like a path in the countryside: originally there was no path, but once people begin to pass, a way appears.
+          <span
+            className="text-muted/20 absolute -top-2 -left-4 font-serif text-6xl opacity-50"
+            aria-hidden="true"
+          >
+            &ldquo;
+          </span>
+          <p className="text-foreground/80 mb-3 text-lg leading-relaxed italic md:text-xl">
+            Hope is like a path in the countryside: originally there was no
+            path, but once people begin to pass, a way appears.
             {/* 希望本是无所谓有，无所谓无的。这正如地上的路；其实地上本没有路，走的人多了，也便成了路。 */}
           </p>
-          <span className="absolute -bottom-6 -right-4 text-6xl text-muted/20 font-serif opacity-50" aria-hidden="true">&rdquo;</span>
-          <cite className="block text-sm text-muted-foreground not-italic mt-4">
+          <span
+            className="text-muted/20 absolute -right-4 -bottom-6 font-serif text-6xl opacity-50"
+            aria-hidden="true"
+          >
+            &rdquo;
+          </span>
+          <cite className="text-muted-foreground mt-4 block text-sm not-italic">
             — Lu Xun (鲁迅)
           </cite>
         </blockquote>

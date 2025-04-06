@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { Toaster } from "@/app/_components/ui/sonner";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/server/auth";
+import { ThemeScript } from "../_components/theme-script";
 
 export const metadata: Metadata = {
   title: "Jack's 主页",
@@ -24,12 +25,10 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await auth();
   return (
-    <html lang="en" className={`${geist.variable} `}>
-      <body className="mx-auto" suppressHydrationWarning={true}>
-        <SessionProvider session={session}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </SessionProvider>
-        <Toaster richColors theme="system" />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
+        <ThemeScript />
+        <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>
   );

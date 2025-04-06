@@ -30,9 +30,7 @@ import { Header } from "@/app/_components/header";
 import { Footer } from "@/app/_components/footer";
 
 export default async function ArticlesPage() {
-  void api.artical.getAll.prefetch();
   const articles = await api.artical.getAll();
-
   // 按日期降序排序文章
   articles.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
@@ -49,9 +47,8 @@ export default async function ArticlesPage() {
   };
 
   return (
-    <HydrateClient>
+    <div>
       <Header />
-
       <div className="mx-auto max-w-5xl px-4 py-8 md:px-6 md:py-12">
         <div className="flex flex-col items-center space-y-4 text-center">
           <AnimatedSection>
@@ -115,7 +112,8 @@ export default async function ArticlesPage() {
           </div>
         </AnimatedSection>
       </div>
+
       <Footer />
-    </HydrateClient>
+    </div>
   );
 }

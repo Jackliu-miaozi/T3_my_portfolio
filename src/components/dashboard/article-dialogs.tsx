@@ -33,7 +33,9 @@ import {
   Bold, // 粗体图标
   Italic, // 斜体图标
   Strikethrough, // 删除线图标
-  Heading1, Heading2, Heading3, // 标题图标
+  Heading1,
+  Heading2,
+  Heading3, // 标题图标
   List, // 无序列表图标
   ListOrdered, // 有序列表图标
   Quote, // 引用图标
@@ -42,8 +44,8 @@ import {
   Pilcrow, // 段落图标
   WrapText, // 文本换行图标
   Undo, // 撤销图标
-  Redo // 重做图标
-} from 'lucide-react';
+  Redo, // 重做图标
+} from "lucide-react";
 // import Image from "next/image";
 
 // 定义文章类型接口
@@ -86,8 +88,8 @@ const Toolbar = ({ editor }: ToolbarProps) => {
     //更安全地获取链接地址
     // const previousUrl = editor.getAttributes('link')?.href ?? '';
 
-    const previousUrl = editor.getAttributes('link').href as string ?? '';
-    const url = window.prompt('URL', previousUrl);
+    const previousUrl = (editor.getAttributes("link").href as string) ?? "";
+    const url = window.prompt("URL", previousUrl);
 
     // 用户取消输入
     if (url === null) {
@@ -95,19 +97,18 @@ const Toolbar = ({ editor }: ToolbarProps) => {
     }
 
     // 用户输入空链接，移除链接
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run();
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
       return;
     }
 
     // 更新或添加链接
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   }, [editor]); // 依赖于editor实例
-
 
   return (
     // 工具栏容器，使用Tailwind CSS样式设置边框、背景和布局
-    <div className="border border-input bg-transparent rounded-md p-1 flex flex-wrap items-center gap-1 mb-2">
+    <div className="border-input mb-2 flex flex-wrap items-center gap-1 rounded-md border bg-transparent p-1">
       {/* 历史操作按钮组 */}
       <Toggle
         size="sm"
@@ -124,87 +125,95 @@ const Toolbar = ({ editor }: ToolbarProps) => {
         <Redo className="h-4 w-4" />
       </Toggle>
 
-      <Separator orientation="vertical" className="h-6 mx-1" />
+      <Separator orientation="vertical" className="mx-1 h-6" />
 
       {/* 基本文本格式化按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor?.isActive('bold')} // 当前文本是否加粗
+        pressed={editor?.isActive("bold")} // 当前文本是否加粗
         onPressedChange={() => editor?.chain().focus().toggleBold().run()}
       >
         <Bold className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor?.isActive('italic')} // 当前文本是否斜体
+        pressed={editor?.isActive("italic")} // 当前文本是否斜体
         onPressedChange={() => editor?.chain().focus().toggleItalic().run()}
       >
         <Italic className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor?.isActive('strike')} // 当前文本是否有删除线
+        pressed={editor?.isActive("strike")} // 当前文本是否有删除线
         onPressedChange={() => editor?.chain().focus().toggleStrike().run()}
       >
         <Strikethrough className="h-4 w-4" />
       </Toggle>
 
-      <Separator orientation="vertical" className="h-6 mx-1" />
+      <Separator orientation="vertical" className="mx-1 h-6" />
 
       {/* 标题按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor?.isActive('heading', { level: 1 })} // 当前是否为一级标题
-        onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
+        pressed={editor?.isActive("heading", { level: 1 })} // 当前是否为一级标题
+        onPressedChange={() =>
+          editor?.chain().focus().toggleHeading({ level: 1 }).run()
+        }
       >
         <Heading1 className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor?.isActive('heading', { level: 2 })} // 当前是否为二级标题
-        onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
+        pressed={editor?.isActive("heading", { level: 2 })} // 当前是否为二级标题
+        onPressedChange={() =>
+          editor?.chain().focus().toggleHeading({ level: 2 }).run()
+        }
       >
         <Heading2 className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor?.isActive('heading', { level: 3 })} // 当前是否为三级标题
-        onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
+        pressed={editor?.isActive("heading", { level: 3 })} // 当前是否为三级标题
+        onPressedChange={() =>
+          editor?.chain().focus().toggleHeading({ level: 3 }).run()
+        }
       >
         <Heading3 className="h-4 w-4" />
       </Toggle>
 
-      <Separator orientation="vertical" className="h-6 mx-1" />
+      <Separator orientation="vertical" className="mx-1 h-6" />
 
       {/* 列表按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor?.isActive('bulletList')} // 当前是否为无序列表
+        pressed={editor?.isActive("bulletList")} // 当前是否为无序列表
         onPressedChange={() => editor?.chain().focus().toggleBulletList().run()}
       >
         <List className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor?.isActive('orderedList')} // 当前是否为有序列表
-        onPressedChange={() => editor?.chain().focus().toggleOrderedList().run()}
+        pressed={editor?.isActive("orderedList")} // 当前是否为有序列表
+        onPressedChange={() =>
+          editor?.chain().focus().toggleOrderedList().run()
+        }
       >
         <ListOrdered className="h-4 w-4" />
       </Toggle>
 
-      <Separator orientation="vertical" className="h-6 mx-1" />
+      <Separator orientation="vertical" className="mx-1 h-6" />
 
       {/* 块级元素按钮组 */}
       <Toggle
         size="sm"
-        pressed={editor?.isActive('blockquote')} // 当前是否为引用块
+        pressed={editor?.isActive("blockquote")} // 当前是否为引用块
         onPressedChange={() => editor?.chain().focus().toggleBlockquote().run()}
       >
         <Quote className="h-4 w-4" />
       </Toggle>
       <Toggle
         size="sm"
-        pressed={editor?.isActive('codeBlock')} // 当前是否为代码块
+        pressed={editor?.isActive("codeBlock")} // 当前是否为代码块
         onPressedChange={() => editor?.chain().focus().toggleCodeBlock().run()}
       >
         <Code className="h-4 w-4" />
@@ -212,12 +221,12 @@ const Toolbar = ({ editor }: ToolbarProps) => {
       <Toggle
         size="sm"
         onPressedChange={setLink} // 使用自定义的链接处理函数
-        pressed={editor?.isActive('link')} // 当前是否为链接
+        pressed={editor?.isActive("link")} // 当前是否为链接
       >
         <LinkIcon className="h-4 w-4" />
       </Toggle>
 
-      <Separator orientation="vertical" className="h-6 mx-1" />
+      <Separator orientation="vertical" className="mx-1 h-6" />
 
       {/* 换行和分隔线按钮组 */}
       <Toggle
@@ -228,14 +237,15 @@ const Toolbar = ({ editor }: ToolbarProps) => {
       </Toggle>
       <Toggle
         size="sm"
-        onPressedChange={() => editor?.chain().focus().setHorizontalRule().run()} // 插入水平分隔线
+        onPressedChange={() =>
+          editor?.chain().focus().setHorizontalRule().run()
+        } // 插入水平分隔线
       >
         — {/* 使用破折号作为分隔线图标 */}
       </Toggle>
     </div>
   );
 };
-
 
 // 文章对话框组件
 export function ArticleDialog({
@@ -251,7 +261,9 @@ export function ArticleDialog({
   // 存储Base64格式的图片字符串
   const [base64Image, setBase64Image] = useState<string | null>(null);
   // 存储当前编辑器的内容（HTML格式）
-  const [editorContent, setEditorContent] = useState<string>(article?.content ?? "");
+  const [editorContent, setEditorContent] = useState<string>(
+    article?.content ?? "",
+  );
 
   // 初始化Tiptap编辑器实例
   const editor = useEditor({
@@ -260,6 +272,9 @@ export function ArticleDialog({
         heading: {
           levels: [1, 2, 3], // 配置可用的标题级别
         },
+        // 明确禁用StarterKit中已包含但我们要单独配置的扩展
+        blockquote: false,
+        codeBlock: false
       }),
       Placeholder.configure({
         placeholder: "输入文章内容...", // 编辑器占位文本
@@ -273,7 +288,7 @@ export function ArticleDialog({
       // History, // 历史记录扩展（撤销/重做）
     ],
     content: editorContent, // 初始内容
-    immediatelyRender: false,  // 添加这一行解决 SSR 问题
+    immediatelyRender: false, // 添加这一行解决 SSR 问题
     editable: true, // 可编辑
     // 内容更新时的回调
     onUpdate: ({ editor }) => {
@@ -282,7 +297,8 @@ export function ArticleDialog({
     // 编辑器样式配置
     editorProps: {
       attributes: {
-        class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl focus:outline-none min-h-[150px] border border-input rounded-md px-3 py-2',
+        class:
+          "prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl focus:outline-none min-h-[150px] border border-input rounded-md px-3 py-2",
       },
     },
   });
@@ -334,17 +350,17 @@ export function ArticleDialog({
     const formData = new FormData(e.currentTarget);
 
     // 将编辑器内容添加到表单数据
-    formData.set('content', editorContent);
+    formData.set("content", editorContent);
 
     // 处理图片数据
     if (base64Image) {
-      formData.set('base64Image', base64Image);
+      formData.set("base64Image", base64Image);
     } else {
-      formData.set('base64Image', ''); // 确保base64Image字段存在
+      formData.set("base64Image", ""); // 确保base64Image字段存在
     }
 
     // 移除原始文件输入字段
-    formData.delete('image');
+    formData.delete("image");
 
     onSubmit(formData); // 提交表单数据到父组件
   };
@@ -352,89 +368,95 @@ export function ArticleDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {/* 修改 DialogContent 的样式 */}
-      <DialogContent className="sm:max-w-[750px] md:max-w-[850px] lg:max-w-[950px] max-h-[85vh] overflow-y-auto px-7">
-
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleFormSubmit}>
-            {/* 添加 py-4 到这个 div */}
-            <div className="grid gap-4 py-4 overflow-y-auto px-1">
-              {/* --- Other fields remain the same --- */}
-              <div className="grid gap-2">
-                <Label htmlFor="title">文章标题</Label>
-                <Input
-                  id="title"
-                  name="title"
-                  placeholder="输入文章标题"
-                  defaultValue={article?.title}
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="category">分类</Label>
-                <Input
-                  id="category"
-                  name="category"
-                  placeholder="输入文章分类"
-                  defaultValue={article?.category}
-                  disabled={isSubmitting}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="summary">摘要</Label>
-                <Input
-                  id="summary"
-                  name="summary"
-                  placeholder="输入文章摘要"
-                  defaultValue={article?.summary}
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              {/* --- Tiptap Editor for Content --- */}
-              <div className="grid gap-2">
-                <Label htmlFor="content">内容</Label>
-                {/* Toolbar */}
-                <Toolbar editor={editor} />
-                {/* Editor Content Area */}
-                <EditorContent id="content" editor={editor} />
-                {/* We use state for content, no hidden input needed in this approach */}
-              </div>
-
-              {/* --- Cover Image Upload (Only for new articles) --- */}
-              {!article && (
-                <div className="grid gap-2">
-                  <Label htmlFor="image">封面图片</Label>
-                  <Input
-                    id="image"
-                    name="image" // Name is less important now as we handle via state
-                    type="file"
-                    accept="image/jpeg,image/png,image/gif"
-                    onChange={handleCoverImageChange}
-                    disabled={isSubmitting}
-                  />
-                  {/* Optional: Preview image */}
-                  {base64Image && (
-                    <img src={base64Image} alt="封面预览" className="mt-2 max-h-40 rounded border" />
-                  )}
-                </div>
-              )}
+      <DialogContent className="max-h-[85vh] overflow-y-auto px-7 sm:max-w-[750px] md:max-w-[850px] lg:max-w-[950px]">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleFormSubmit}>
+          {/* 添加 py-4 到这个 div */}
+          <div className="grid gap-4 overflow-y-auto px-1 py-4">
+            {/* --- Other fields remain the same --- */}
+            <div className="grid gap-2">
+              <Label htmlFor="title">文章标题</Label>
+              <Input
+                id="title"
+                name="title"
+                placeholder="输入文章标题"
+                defaultValue={article?.title}
+                required
+                disabled={isSubmitting}
+              />
             </div>
-            {/* 固定在底部的提交按钮 */}
-            <DialogFooter className="py-4 mt-4 ">
-              <Button className="cursor-pointer" type="submit" disabled={isSubmitting || !editor}>
-                {isSubmitting ? "提交中..." : submitButtonText}
-              </Button>
-            </DialogFooter>
-          </form>
+            <div className="grid gap-2">
+              <Label htmlFor="category">分类</Label>
+              <Input
+                id="category"
+                name="category"
+                placeholder="输入文章分类"
+                defaultValue={article?.category}
+                disabled={isSubmitting}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="summary">摘要</Label>
+              <Input
+                id="summary"
+                name="summary"
+                placeholder="输入文章摘要"
+                defaultValue={article?.summary}
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            {/* --- Tiptap Editor for Content --- */}
+            <div className="grid gap-2">
+              <Label htmlFor="content">内容</Label>
+              {/* Toolbar */}
+              <Toolbar editor={editor} />
+              {/* Editor Content Area */}
+              <EditorContent id="content" editor={editor} />
+              {/* We use state for content, no hidden input needed in this approach */}
+            </div>
+
+            {/* --- Cover Image Upload (Only for new articles) --- */}
+            {!article && (
+              <div className="grid gap-2">
+                <Label htmlFor="image">封面图片</Label>
+                <Input
+                  id="image"
+                  name="image" // Name is less important now as we handle via state
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif"
+                  onChange={handleCoverImageChange}
+                  disabled={isSubmitting}
+                />
+                {/* Optional: Preview image */}
+                {base64Image && (
+                  <img
+                    src={base64Image}
+                    alt="封面预览"
+                    className="mt-2 max-h-40 rounded border"
+                  />
+                )}
+              </div>
+            )}
+          </div>
+          {/* 固定在底部的提交按钮 */}
+          <DialogFooter className="mt-4 py-4">
+            <Button
+              className="cursor-pointer"
+              type="submit"
+              disabled={isSubmitting || !editor}
+            >
+              {isSubmitting ? "提交中..." : submitButtonText}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
 }
-
 
 // --- DeleteArticleDialog remains the same ---
 type DeleteArticleDialogProps = {

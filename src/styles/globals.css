@@ -7,7 +7,11 @@
  * 基础导入
  */
 @import "tailwindcss";
-@import "tw-animate-css";
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+@plugin "@tailwindcss/typography";
 
 /**
  * 暗色模式变体配置
@@ -187,7 +191,6 @@
     @apply bg-background text-foreground;
     font-family: var(--font-noto-sans-sc), var(--font-geist-sans), var(--font-fallback);
   }
-}
 
 /**
  * Tiptap 编辑器样式
@@ -323,5 +326,7 @@
     }
   }
 }
+}
+
 
 

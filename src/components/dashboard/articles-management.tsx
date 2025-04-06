@@ -36,25 +36,25 @@ import { ArticleDialog, DeleteArticleDialog } from "./article-dialogs";
 
 // 定义文章数据结构的TypeScript接口
 type Article = {
-  id: number;         // 文章ID，用于唯一标识
-  title: string;      // 文章标题
-  category: string;   // 文章分类
-  summary: string;    // 文章摘要
-  content: string;    // 文章正文内容
+  id: number; // 文章ID，用于唯一标识
+  title: string; // 文章标题
+  category: string; // 文章分类
+  summary: string; // 文章摘要
+  content: string; // 文章正文内容
   image: string | null; // 文章封面图片的base64 格式图片，可以为空
-  createdAt: Date;    // 文章创建时间
+  createdAt: Date; // 文章创建时间
 };
 
 // 文章管理组件，实现文章的增删改查功能
 export function ArticlesManagement() {
   // 使用useState管理各种UI状态
-  const [showAddArticleDialog, setShowAddArticleDialog] = useState(false);       // 控制添加文章对话框显示
-  const [showEditArticleDialog, setShowEditArticleDialog] = useState(false);     // 控制编辑文章对话框显示
+  const [showAddArticleDialog, setShowAddArticleDialog] = useState(false); // 控制添加文章对话框显示
+  const [showEditArticleDialog, setShowEditArticleDialog] = useState(false); // 控制编辑文章对话框显示
   const [showDeleteArticleDialog, setShowDeleteArticleDialog] = useState(false); // 控制删除确认对话框显示
-  const [selectedArticleId, setSelectedArticleId] = useState<number>();          // 当前选中的文章ID
-  const [selectedArticle, setSelectedArticle] = useState<Article>();             // 当前选中的文章完整信息
-  const [imagePreview, setImagePreview] = useState<string | null>(null);         // 图片预览数据
-                    // 文件输入框的引用
+  const [selectedArticleId, setSelectedArticleId] = useState<number>(); // 当前选中的文章ID
+  const [selectedArticle, setSelectedArticle] = useState<Article>(); // 当前选中的文章完整信息
+  const [imagePreview, setImagePreview] = useState<string | null>(null); // 图片预览数据
+  // 文件输入框的引用
 
   // 获取tRPC工具函数和文章数据
   const utils = api.useUtils();
@@ -63,27 +63,27 @@ export function ArticlesManagement() {
   // 创建文章的mutation操作
   const createArticle = api.artical.create.useMutation({
     onSuccess: async () => {
-      await utils.artical.invalidate();    // 刷新文章列表
-      toast.success("文章添加成功！");      // 显示成功提示
-      setShowAddArticleDialog(false);      // 关闭对话框
+      await utils.artical.invalidate(); // 刷新文章列表
+      toast.success("文章添加成功！"); // 显示成功提示
+      setShowAddArticleDialog(false); // 关闭对话框
     },
   });
 
   // 更新文章的mutation操作
   const updateArticle = api.artical.update.useMutation({
     onSuccess: async () => {
-      await utils.artical.invalidate();    // 刷新文章列表
-      toast.success("文章更新成功！");      // 显示成功提示
-      setShowEditArticleDialog(false);     // 关闭对话框
+      await utils.artical.invalidate(); // 刷新文章列表
+      toast.success("文章更新成功！"); // 显示成功提示
+      setShowEditArticleDialog(false); // 关闭对话框
     },
   });
 
   // 删除文章的mutation操作
   const deleteArticle = api.artical.delete.useMutation({
     onSuccess: async () => {
-      toast.success("文章已删除！");        // 显示成功提示
-      await utils.artical.invalidate();    // 刷新文章列表
-      setShowDeleteArticleDialog(false);   // 关闭对话框
+      toast.success("文章已删除！"); // 显示成功提示
+      await utils.artical.invalidate(); // 刷新文章列表
+      setShowDeleteArticleDialog(false); // 关闭对话框
     },
   });
 
@@ -122,33 +122,31 @@ export function ArticlesManagement() {
   // 处理添加文章的表单提交
   // 声明一个处理表单提交的函数，参数e的类型是React的表单提交事件
   const handleAddArticle = (formData: FormData) => {
-  // 阻止表单的默认提交行为，防止页面刷新
+    // 阻止表单的默认提交行为，防止页面刷新
 
-  
-  // 从当前表单元素创建FormData对象，可以方便地获取表单中的数据
-  // e.currentTarget 指向触发事件的表单元素
-  try {
-    // 调用创建文章的mutation方法
-    createArticle.mutate({
-      // 从表单数据中获取各个字段的值
-      // formData.get() 获取表单中对应name属性的值
-      // as string 类型断言确保返回字符串类型
-      title: formData.get("title") as string,      // 获取文章标题
-      category: formData.get("category") as string, // 获取文章分类
-      summary: formData.get("summary") as string,   // 获取文章摘要
-      content: formData.get("content") as string,   // 获取文章内容
-      image: imagePreview ?? "",                    // 使用预览图片或空字符串
-    });
+    // 从当前表单元素创建FormData对象，可以方便地获取表单中的数据
+    // e.currentTarget 指向触发事件的表单元素
+    try {
+      // 调用创建文章的mutation方法
+      createArticle.mutate({
+        // 从表单数据中获取各个字段的值
+        // formData.get() 获取表单中对应name属性的值
+        // as string 类型断言确保返回字符串类型
+        title: formData.get("title") as string, // 获取文章标题
+        category: formData.get("category") as string, // 获取文章分类
+        summary: formData.get("summary") as string, // 获取文章摘要
+        content: formData.get("content") as string, // 获取文章内容
+        image: imagePreview ?? "", // 使用预览图片或空字符串
+      });
 
-    // 提交成功后重置表单状态
-    setImagePreview(null);  // 清空图片预览
-    // 如果文件输入框存在，清空其值
-    
-  } catch (error) {
-    // 如果提交过程中出现错误，显示错误提示
-    toast.error("文章添加失败！");
-  }
-};
+      // 提交成功后重置表单状态
+      setImagePreview(null); // 清空图片预览
+      // 如果文件输入框存在，清空其值
+    } catch (error) {
+      // 如果提交过程中出现错误，显示错误提示
+      toast.error("文章添加失败！");
+    }
+  };
 
   // 处理删除文章的确认操作
   const handleDeleteArticleConfirm = (id: number) => {
@@ -208,7 +206,7 @@ export function ArticlesManagement() {
           className={cn(
             "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3",
             // 修改为更简洁的条件判断
-            { "hidden": !isLoading }
+            { hidden: !isLoading },
           )}
         >
           {/* 遍历渲染文章卡片 */}
@@ -301,29 +299,24 @@ export function ArticlesManagement() {
       <ArticleDialog
         // 控制对话框的显示状态
         open={showAddArticleDialog}
-        
         // 当对话框开关状态改变时的回调函数
         onOpenChange={(open) => {
-        // 更新对话框的显示状态
-        setShowAddArticleDialog(open);
-        // 如果对话框关闭，清空图片预览
-        if (!open) {
-          setImagePreview(null);
-        }
+          // 更新对话框的显示状态
+          setShowAddArticleDialog(open);
+          // 如果对话框关闭，清空图片预览
+          if (!open) {
+            setImagePreview(null);
+          }
         }}
-        
         // 对话框标题
         title="添加新文章"
-        
         // 表单提交处理函数
         onSubmit={handleAddArticle}
-        
         // 提交按钮的文本
         submitButtonText="提交"
-        
         // 当图片改变时的回调函数，用于更新预览图片
         onImageChange={(base64String) => setImagePreview(base64String)}
-        />
+      />
 
       {/* 编辑文章对话框组件 */}
       <ArticleDialog
