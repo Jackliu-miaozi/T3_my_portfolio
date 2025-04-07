@@ -1,54 +1,60 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-type SidebarProps = {
-  activeTab: "articles" | "users" | "messages";
-  setActiveTab: (tab: "articles" | "users" | "messages") => void;
-};
 
-export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
+
+export function Sidebar() {
+  const pathname = usePathname();
+  
+  // 根据当前路径确定活动标签
+  const isActive = (path: string) => pathname === path;
+
   return (
-    <div className="w-64 bg-white shadow-md dark:bg-gray-800">
-      <div className="p-6">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-          管理仪表盘
-        </h2>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          欢迎回来，管理员
-        </p>
+    <aside className="w-64 bg-white shadow-md dark:bg-gray-800">
+      <div className="flex h-20 items-center justify-center border-b">
+        <h1 className="text-xl font-bold text-gray-800 dark:text-white">管理仪表盘</h1>
       </div>
-      <nav className="mt-6">
-        <div
-          className={`cursor-pointer px-6 py-3 ${activeTab === "articles" ? "border-l-4 border-blue-500 bg-gray-100 dark:bg-gray-700" : ""}`}
-          onClick={() => setActiveTab("articles")}
-        >
-          <span className="font-medium text-gray-800 dark:text-white">
-            文章管理
-          </span>
-        </div>
-        <div
-          className={`cursor-pointer px-6 py-3 ${activeTab === "users" ? "border-l-4 border-blue-500 bg-gray-100 dark:bg-gray-700" : ""}`}
-          onClick={() => setActiveTab("users")}
-        >
-          <span className="font-medium text-gray-800 dark:text-white">
-            用户管理
-          </span>
-        </div>
-        <div
-          className={`cursor-pointer px-6 py-3 ${activeTab === "messages" ? "border-l-4 border-blue-500 bg-gray-100 dark:bg-gray-700" : ""}`}
-          onClick={() => setActiveTab("messages")}
-        >
-          <span className="font-medium text-gray-800 dark:text-white">
-            留言管理
-          </span>
-        </div>
-        <div className="cursor-pointer px-6 py-3">
-          <Link href="/" className="font-medium text-gray-800 dark:text-white">
-            返回首页
-          </Link>
-        </div>
+      
+      <nav className="mt-6 px-4">
+        <ul className="space-y-2">
+          <li>
+            <Link 
+              href="/dashboard/articles"
+              className={cn(
+                "flex items-center rounded-lg px-4 py-2 text-gray-700 dark:text-gray-200",
+                isActive("/dashboard/articles") && "bg-gray-100 dark:bg-gray-700"
+              )}
+            >
+              文章管理
+            </Link>
+          </li>
+          <li>
+            <Link 
+              href="/dashboard/users"
+              className={cn(
+                "flex items-center rounded-lg px-4 py-2 text-gray-700 dark:text-gray-200",
+                isActive("/dashboard/users") && "bg-gray-100 dark:bg-gray-700"
+              )}
+            >
+              用户管理
+            </Link>
+          </li>
+          <li>
+            <Link 
+              href="/dashboard/messages"
+              className={cn(
+                "flex items-center rounded-lg px-4 py-2 text-gray-700 dark:text-gray-200",
+                isActive("/dashboard/messages") && "bg-gray-100 dark:bg-gray-700"
+              )}
+            >
+              消息管理
+            </Link>
+          </li>
+        </ul>
       </nav>
-    </div>
+    </aside>
   );
 }

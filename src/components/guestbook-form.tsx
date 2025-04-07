@@ -10,6 +10,15 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { toast } from "sonner";
+import { Smile, Bold as BoldIcon, Italic as ItalicIcon } from "lucide-react"; // 导入图标组件
+import { Toggle } from "@/app/_components/ui/toggle"; // 导入切换按钮组件
+import StarterKit from "@tiptap/starter-kit";
+import Bold from "@tiptap/extension-bold";
+import Italic from "@tiptap/extension-italic";
+// 添加导入
+import EmojiPicker from 'emoji-picker-react';
+
+import { Popover, PopoverContent, PopoverTrigger } from "@/app/_components/ui/popover";
 
 type GuestbookFormProps = {
   user: {
@@ -63,6 +72,7 @@ export function GuestbookForm({ user }: GuestbookFormProps) {
   });
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,20 +96,30 @@ export function GuestbookForm({ user }: GuestbookFormProps) {
   };
 
   const editor = useEditor({
-    extensions: [Document, Paragraph, Text],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      Bold,
+      Italic,
+      StarterKit.configure({
+        bold: false,
+        italic: false,
+      }),
+    ],
     content: message,
     onUpdate: ({ editor }) => {
       setMessage(editor.getHTML());
     },
     editable: !isSubmitting,
-    immediatelyRender: false, // 添加这行来解决 SSR 问题
+    immediatelyRender: false,
   });
 
   // 添加纯文本长度状态，使用 useMemo 优化性能
   const textLength = typeof document !== "undefined" ? stripHtml(message) : 0;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border p-6">
+    <form onSubmit={handleSubmit} className="space-y-3 rounded-lg border p-4">
       <div className="flex items-center space-x-3">
         {user.image && (
           <Image
@@ -118,15 +138,66 @@ export function GuestbookForm({ user }: GuestbookFormProps) {
         </div>
       </div>
 
-      <div className="rounded-md border p-4">
+      <div className="rounded-md border">
         <EditorContent
           editor={editor}
-          className="prose dark:prose-invert min-h-[100px] max-w-none focus:outline-none [&_.ProseMirror]:min-h-[100px] [&_.ProseMirror]:outline-none"
+          className="prose dark:prose-invert h-auto mx-2 my-[-15] max-w-none focus:outline-none  [&_.ProseMirror]:outline-none"
         />
+      </div>
+      <div className="flex justify-between">
+
+      
+      {/* 新增编辑工具栏 */}
+      <div className="flex items-center gap-1 ">
+        <Toggle
+          size="sm"
+          pressed={editor?.isActive("bold")}
+          onPressedChange={() => editor?.chain().focus().toggleBold().run()}
+          disabled={!editor?.isEditable}
+        >
+          <BoldIcon className="h-4 w-4" />
+        </Toggle>
+        <Toggle
+          size="sm"
+          pressed={editor?.isActive("italic")}
+          onPressedChange={() => editor?.chain().focus().toggleItalic().run()}
+          disabled={!editor?.isEditable}
+        >
+          <ItalicIcon className="h-4 w-4" />
+        </Toggle>
+        {/* // 替换原来的 emoji Toggle 组件 */}
+        <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
+          <PopoverTrigger asChild>
+            <Toggle
+              size="sm"
+              pressed={isEmojiPickerOpen}
+              disabled={!editor?.isEditable}
+            >
+              <Smile className="h-4 w-4" />
+            </Toggle>
+          </PopoverTrigger>
+          <PopoverContent 
+            className="w-[352px] p-0" 
+            align="start" 
+            side="right" 
+            sideOffset={5}
+          >
+            <EmojiPicker
+              onEmojiClick={(emojiData) => {
+                editor?.chain().focus().insertContent(emojiData.emoji).run();
+                setIsEmojiPickerOpen(false);
+              }}
+              lazyLoadEmojis={true}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
       <p className="mt-1 text-right text-sm text-gray-500 dark:text-gray-400">
         {textLength}/500
       </p>
+      </div>
+
+      
 
       <button
         type="submit"

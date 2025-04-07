@@ -1,5 +1,13 @@
 // 在文件顶部添加
 import { type Metadata } from "next";
+import { api } from "@/trpc/server";
+import { Header } from "@/app/_components/header";
+import { Footer } from "@/app/_components/footer";
+import { cache, Suspense } from "react";
+
+// 添加导入
+import { ArticlesSkeleton } from "../../../components/articles-skeleton";
+import { ArticleHeader, ArticleCards } from "@/components/article-list";
 
 export const metadata: Metadata = {
   title: "我的文章 | Jack's 主页",
@@ -14,28 +22,27 @@ export const metadata: Metadata = {
   },
 };
 
-import Link from "next/link";
-import Image from "next/image";
-import { api, HydrateClient } from "@/trpc/server";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/app/_components/ui/card";
-import { AnimatedSection } from "@/app/_components/animated-section";
-import { Header } from "@/app/_components/header";
-import { Footer } from "@/app/_components/footer";
+// 添加预缓存配置
+export const revalidate = 3600; // 1小时后重新验证缓存
 
-export default async function ArticlesPage() {
+// 将数据获取逻辑封装到一个缓存函数中
+// 修改数据获取函数，使用 cache 包装以提高性能
+const getArticles = cache(async () => {
   const articles = await api.artical.getAll();
-  // 按日期降序排序文章
-  articles.sort(
+  return articles.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
+});
 
+// 创建一个异步组件来处理文章加载
+async function ArticleCardsWrapper({ formatDate }: { formatDate: (dateString: string) => string }) {
+  // 这里的 await 会自动触发 Suspense
+  const articles = await getArticles();
+  
+  return <ArticleCards articles={articles} formatDate={formatDate} />;
+}
+
+export default async function ArticlesPage() {
   // 格式化日期函数
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -50,69 +57,11 @@ export default async function ArticlesPage() {
     <div>
       <Header />
       <div className="mx-auto max-w-5xl px-4 py-8 md:px-6 md:py-12">
-        <div className="flex flex-col items-center space-y-4 text-center">
-          <AnimatedSection>
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                我的文章
-              </h1>
-              <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                分享我的技术心得、学习笔记和行业见解
-              </p>
-            </div>
-          </AnimatedSection>
-        </div>
-        <AnimatedSection delay={200}>
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {articles?.map((article, index) => (
-              <AnimatedSection key={article.id} delay={(index + 1) * 100}>
-                <Card
-                  key={article.id}
-                  className="flex flex-col overflow-hidden pt-0 pb-6"
-                >
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <Image
-                      src={article.image!}
-                      alt={article.title!}
-                      fill={true}
-                      className="object-cover transition-transform duration-300 hover:scale-105"
-                    />
-                  </div>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="text-muted-foreground text-sm">
-                        {formatDate(article.createdAt.toString())}
-                      </div>
-                      {article.category && (
-                        <div className="bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-xs font-medium">
-                          {article.category}
-                        </div>
-                      )}
-                    </div>
-                    <CardTitle className="mt-2 text-xl">
-                      {article.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="line-clamp-3">
-                      {article.summary}
-                    </CardDescription>
-                  </CardContent>
-                  <CardFooter className="mt-auto">
-                    <Link
-                      href={`/myartical/${article.id}`}
-                      className="text-primary text-sm font-medium hover:underline"
-                    >
-                      阅读更多 →
-                    </Link>
-                  </CardFooter>
-                </Card>
-              </AnimatedSection>
-            ))}
-          </div>
-        </AnimatedSection>
+        <ArticleHeader />
+        <Suspense fallback={<ArticlesSkeleton />}>
+          <ArticleCardsWrapper formatDate={formatDate} />
+        </Suspense>
       </div>
-
       <Footer />
     </div>
   );

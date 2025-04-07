@@ -1,4 +1,5 @@
 // src/app/myartical/[id]/page.tsx
+'use cache'
 
 import type { Metadata } from "next";
 import Image from "next/image";

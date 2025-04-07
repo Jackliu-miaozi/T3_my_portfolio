@@ -24,6 +24,9 @@ const config = {
     }
     return config;
   },
+  experimental: {
+    useCache: true,
+  },
 };
 
 export default config;

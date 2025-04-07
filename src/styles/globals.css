@@ -294,38 +294,38 @@
 /**
  * ProseMirror 编辑器样式
  */
-.ProseMirror {
-  @apply caret-black dark:caret-white outline-0 pr-8 pl-20 py-16 z-0 lg:pl-8 lg:pr-8 mx-auto max-w-2xl;
+/* .ProseMirror { */
+  /* @apply caret-black dark:caret-white outline-0 pr-8 pl-20 py-16 z-0 lg:pl-8 lg:pr-8 mx-auto max-w-2xl; */
 
   /* 选择样式 */
-  .selection {
-    @apply inline;
-  }
+  /* .selection { */
+    /* @apply inline; */
+  /* } */
 
-  .selection,
-  *::selection {
+  /* .selection, */
+  /* *::selection {
     @apply bg-black/10 dark:bg-white/20 inline;
-  }
+  } */
 
   /* 渲染器样式 */
-  & > .react-renderer {
+  /* & > .react-renderer {
     @apply my-12 first:mt-0 last:mb-0;
-  }
+  } */
 
   /* 调整大小光标 */
-  &.resize-cursor {
+  /* &.resize-cursor {
     @apply cursor-col-resize;
-  }
+  } */
 
   /* 光标间隙样式 */
-  .ProseMirror-gapcursor {
+  /* .ProseMirror-gapcursor {
     @apply relative w-full max-w-2xl mx-auto;
 
     &:after {
       @apply border-t-black/40 dark:border-t-white/40 w-full -top-[1.5em] max-w-2xl mx-auto left-0 right-0;
     }
-  }
-}
+  } */
+/* } */
 }
 
 
