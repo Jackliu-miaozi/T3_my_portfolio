@@ -3,19 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-
-
+import { Home } from "lucide-react"; // 添加 Home 图标
 
 export function Sidebar() {
   const pathname = usePathname();
   
-  // 根据当前路径确定活动标签
   const isActive = (path: string) => pathname === path;
 
   return (
     <aside className="w-64 bg-white shadow-md dark:bg-gray-800">
-      <div className="flex h-20 items-center justify-center border-b">
+      {/* 修改标题区域，添加返回主页按钮 */}
+      <div className="flex h-20 flex-col items-center justify-center border-b relative">
         <h1 className="text-xl font-bold text-gray-800 dark:text-white">管理仪表盘</h1>
+        <Link
+          href="/"
+          className="absolute bottom-2 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 flex items-center gap-1 transition-colors"
+        >
+          <Home className="h-4 w-4" />
+          <span>返回主页</span>
+        </Link>
       </div>
       
       <nav className="mt-6 px-4">
