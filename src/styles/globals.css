@@ -1,15 +1,36 @@
+/**
+ * 全局样式文件
+ * 包含Tailwind CSS配置、主题变量、组件样式等
+ */
+
+/**
+ * 基础导入
+ */
 @import "tailwindcss";
-@import "tw-animate-css";
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+@plugin "@tailwindcss/typography";
 
-
+/**
+ * 暗色模式变体配置
+ */
 @custom-variant dark (&:is(.dark *));
 
+/**
+ * 基础字体配置
+ */
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+/**
+ * 浅色模式主题变量
+ */
 :root {
+  /* 基础UI变量 */
   --radius: 0.625rem;
   --background: oklch(0.98 0 0);
   --foreground: oklch(0.2 0 0);
@@ -18,22 +39,21 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2 0 0);
   
-  /* 杨红色作为主色调 */
+  /* 主色调 - 杨红色 */
   --primary: oklch(0.6 0.25 0);
   --primary-foreground: oklch(1 0 0);
   
-  /* 绿色作为次要色调 */
+  /* 次要色调 - 绿色 */
   --secondary: oklch(0.8 0.2 140);
   --secondary-foreground: oklch(1 0 0);
   
-  /* 浅色背景 */
+  /* 辅助色调 */
   --muted: oklch(0.95 0 0);
   --muted-foreground: oklch(0.5 0 0);
-  
-  /* 强调色使用绿色的变体 */
-  --accent: oklch(0.9 0.1 140);
+  --accent: oklch(0.9 0.1 140);  /* 绿色变体 */
   --accent-foreground: oklch(0.2 0 0);
   
+  /* 功能色 */
   --destructive: oklch(0.7 0.3 25);
   --border: oklch(0.9 0 0);
   --input: oklch(0.9 0 0);
@@ -55,36 +75,52 @@
   --sidebar-accent-foreground: oklch(0.2 0 0);
   --sidebar-border: oklch(0.9 0 0);
   --sidebar-ring: oklch(0.7 0.2 0);
+  
+  /* 字体回退 */
   --font-fallback: -apple-system, BlinkMacSystemFont, 
   "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", 
   sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", 
   "Noto Color Emoji";
 }
 
+/**
+ * 暗色模式主题变量
+ */
 .dark {
+  /* 基础UI变量 */
   --background: oklch(0.1 0 0);
   --foreground: oklch(0.95 0 0);
   --card: oklch(0.15 0 0);
   --card-foreground: oklch(0.95 0 0);
   --popover: oklch(0.15 0 0);
   --popover-foreground: oklch(0.95 0 0);
+  
+  /* 主色调和次要色调 */
   --primary: oklch(0.7 0.2 140);
   --primary-foreground: oklch(0.95 0 0);
   --secondary: oklch(0.3 0 0);
   --secondary-foreground: oklch(0.95 0 0);
+  
+  /* 辅助色调 */
   --muted: oklch(0.25 0 0);
   --muted-foreground: oklch(0.65 0 0);
   --accent: oklch(0.8 0.15 140);
   --accent-foreground: oklch(0.15 0 0);
+  
+  /* 功能色 */
   --destructive: oklch(0.65 0.25 0);
   --border: oklch(0.3 0 0);
   --input: oklch(0.3 0 0);
   --ring: oklch(0.7 0.2 140);
+  
+  /* 图表颜色 */
   --chart-1: oklch(0.7 0.2 140);
   --chart-2: oklch(0.6 0.15 140);
   --chart-3: oklch(0.5 0.1 140);
   --chart-4: oklch(0.4 0.05 140);
   --chart-5: oklch(0.3 0 0);
+  
+  /* 侧边栏颜色 */
   --sidebar: oklch(0.15 0 0);
   --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.7 0.2 140);
@@ -95,11 +131,18 @@
   --sidebar-ring: oklch(0.7 0.2 140);
 }
 
+/**
+ * 内联主题变量映射
+ * 将CSS变量映射到颜色系统中
+ */
 @theme inline {
+  /* 圆角变量 */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
+  /* 颜色变量映射 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -118,11 +161,15 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  
+  /* 图表颜色映射 */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  
+  /* 侧边栏颜色映射 */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -133,6 +180,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/**
+ * 基础样式层
+ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -141,19 +191,142 @@
     @apply bg-background text-foreground;
     font-family: var(--font-noto-sans-sc), var(--font-geist-sans), var(--font-fallback);
   }
-  
-  /* 无衬线中文字体 */
-  .font-noto-sans {
-    font-family: var(--font-noto-sans-sc), system-ui, sans-serif;
+
+/**
+ * Tiptap 编辑器样式
+ */
+.tiptap {
+  /* 基础间距 */
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  /* 列表样式 */
+  ul,
+  ol {
+    padding: 0 1rem;
+    list-style: revert;
   }
   
-  /* 衬线中文字体 */
-  .font-noto-serif {
-    font-family: var(--font-noto-serif-sc), serif;
+  ul { list-style-type: disc; }
+  ol { list-style-type: decimal; }
+
+  /* 标题样式 */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.1;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
   }
   
-  /* Geist 字体 */
-  .font-geist {
-    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  h1 { font-size: 1.875rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  /* 代码样式 */
+  code {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    padding: 0.25em 0.5em;
+    border-radius: 0.25rem;
+    box-decoration-break: clone;
+  }
+
+  pre {
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    font-family: 'JetBrainsMono', ui-monospace, monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    white-space: pre-wrap;
+
+    code {
+      color: inherit;
+      padding: 0;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
+
+  /* 引用样式 */
+  blockquote {
+    padding-left: 1rem;
+    border-left: 3px solid hsl(var(--border));
+    margin-left: 0;
+    margin-right: 0;
+    font-style: italic;
+  }
+
+  /* 图片样式 */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  /* 分隔线样式 */
+  hr {
+    border: none;
+    border-top: 1px solid hsl(var(--border));
+    margin: 2rem 0;
+  }
+
+  /* 链接样式 */
+  a {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* 空编辑器占位符 */
+  p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+    height: 0;
   }
 }
+
+/**
+ * ProseMirror 编辑器样式
+ */
+/* .ProseMirror { */
+  /* @apply caret-black dark:caret-white outline-0 pr-8 pl-20 py-16 z-0 lg:pl-8 lg:pr-8 mx-auto max-w-2xl; */
+
+  /* 选择样式 */
+  /* .selection { */
+    /* @apply inline; */
+  /* } */
+
+  /* .selection, */
+  /* *::selection {
+    @apply bg-black/10 dark:bg-white/20 inline;
+  } */
+
+  /* 渲染器样式 */
+  /* & > .react-renderer {
+    @apply my-12 first:mt-0 last:mb-0;
+  } */
+
+  /* 调整大小光标 */
+  /* &.resize-cursor {
+    @apply cursor-col-resize;
+  } */
+
+  /* 光标间隙样式 */
+  /* .ProseMirror-gapcursor {
+    @apply relative w-full max-w-2xl mx-auto;
+
+    &:after {
+      @apply border-t-black/40 dark:border-t-white/40 w-full -top-[1.5em] max-w-2xl mx-auto left-0 right-0;
+    }
+  } */
+/* } */
+}
+
+
+

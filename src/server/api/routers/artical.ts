@@ -16,6 +16,12 @@ export const articalRouter = createTRPCRouter({
         title: z.string().min(1),
         category: z.string().min(1),
         summary: z.string().min(1),
+        image: z
+          .string()
+          .regex(/^data:image\/(jpeg|jpg|png|gif);base64,/, {
+            message: "图片必须是有效的 Base64 编码",
+          })
+          .optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -24,7 +30,7 @@ export const articalRouter = createTRPCRouter({
         title: input.title,
         summary: input.summary,
         category: input.category,
-        image: ctx.session.user.image,
+        image: input.image, // 存储图片URL或Base64
         name: ctx.session.user.name,
         createdBy: ctx.session.user.name,
         createdAt: new Date(),
@@ -39,6 +45,12 @@ export const articalRouter = createTRPCRouter({
         title: z.string().min(1),
         category: z.string().min(1),
         summary: z.string().min(1),
+        image: z
+          .string()
+          .regex(/^data:image\/(jpeg|jpg|png|gif);base64,/, {
+            message: "图片必须是有效的 Base64 编码",
+          })
+          .optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -50,6 +62,7 @@ export const articalRouter = createTRPCRouter({
           summary: input.summary,
           category: input.category,
           // 保留原始创建信息，只更新内容
+          image: input.image,
         })
         .where(eq(myartical.id, input.id));
     }),

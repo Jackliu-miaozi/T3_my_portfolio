@@ -24,7 +24,9 @@ export default function SignInPage() {
   const [error, setError] = useState("");
 
   // 修改表单提交处理函数
-  const handleCredentialsSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCredentialsSignIn = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault(); // 阻止表单默认提交行为
     setIsLoading(true);
     setError("");
@@ -86,7 +88,9 @@ export default function SignInPage() {
 
   return (
     <div className="container mx-auto flex h-screen w-screen flex-col items-center justify-center">
-      <Card className={`w-full max-w-md ${isLoading ? "opacity-60 pointer-events-none" : ""}`}>
+      <Card
+        className={`w-full max-w-md ${isLoading ? "pointer-events-none opacity-60" : ""}`}
+      >
         <CardHeader className="space-y-1">
           <CardTitle className="text-center text-2xl">
             登录刘正源的网站
@@ -122,7 +126,7 @@ export default function SignInPage() {
               className="hover:bg-primary/90 active:bg-primary/70 w-full transition-colors"
               type="submit"
               disabled={isLoading}
-              onClick={() => toast('正在登录')}
+              onClick={() => toast("正在登录")}
             >
               {isLoading ? "登录中..." : "登录"}
             </Button>

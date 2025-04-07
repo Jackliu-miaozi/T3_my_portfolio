@@ -112,11 +112,9 @@ export default async function AboutMe() {
           </div>
           <div className="mt-8 space-y-6">
             <AnimatedSection delay={400}>
-              <h2 className="text-2xl font-bold mb-6">技能与专长</h2>
-
+              <h2 className="mb-6 text-2xl font-bold">技能与专长</h2>
 
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-
                 <div className="rounded-lg border p-4">
                   <h3 className="font-semibold">全栈开发</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -163,7 +161,7 @@ export default async function AboutMe() {
                   <h3 className="font-semibold">咖啡茶饮</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     可以烘焙咖啡豆，给你做一杯热咖啡
-                    <br/>
+                    <br />
                     热爱茶饮，红茶绿茶都爱喝
                   </p>
                 </div>

@@ -1,3 +1,4 @@
+
 // 在文件顶部添加
 import { type Metadata } from "next";
 
@@ -22,6 +23,7 @@ import { Button } from "@/app/_components/ui/button";
 import Link from "next/link";
 import { HydrateClient } from "@/trpc/server";
 import { AnimatedSection } from "@/app/_components/animated-section";
+import { SessionProvider } from "next-auth/react";
 
 export default async function GuestbookPage() {
   const session = await auth();
@@ -61,7 +63,9 @@ export default async function GuestbookPage() {
             )}
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">最近留言</h2>
-              <GuestbookEntries />
+              <SessionProvider session={session}>
+                <GuestbookEntries />
+              </SessionProvider>
             </div>
           </div>
         </AnimatedSection>
