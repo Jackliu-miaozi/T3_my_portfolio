@@ -15,19 +15,34 @@ import {
 import { toast } from "sonner";
 
 export function GuestbookEntries() {
-  const { data: entries, isLoading } = api.post.getAll.useQuery();
+  // 添加缓存配置
+  const { data: entries, isLoading } = api.post.getAll.useQuery(undefined, {
+    // 5分钟内不重新请求数据
+    staleTime: 5 * 60 * 1000,
+    // 页面重新获得焦点时重新获取数据
+    refetchOnWindowFocus: true,
+    // 组件重新挂载时使用缓存数据
+    refetchOnMount: false,
+  });
+
   const { data: session } = useSession();
   const utils = api.useUtils();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
-  // 删除留言的mutation
+  // 修改删除mutation，更新缓存
   const deletePost = api.post.delete.useMutation({
     onError: () => {
       alert("删除失败，请稍后再试");
     },
     onSuccess: async () => {
-      await utils.post.invalidate();
+      // 立即更新缓存
+      utils.post.getAll.setData(undefined, (oldData) => {
+        if (!oldData || !selectedPostId) return oldData;
+        return oldData.filter((post) => post.id !== selectedPostId);
+      });
+      // 在后台重新验证数据
+      await utils.post.getAll.invalidate();
       toast.success("删除成功");
     },
   });
