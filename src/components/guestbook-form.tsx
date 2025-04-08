@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { api } from "@/trpc/react";
@@ -16,9 +15,13 @@ import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 // 添加导入
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker from "emoji-picker-react";
 
-import { Popover, PopoverContent, PopoverTrigger } from "@/app/_components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/app/_components/ui/popover";
 
 type GuestbookFormProps = {
   user: {
@@ -54,7 +57,7 @@ export function GuestbookForm({ user }: GuestbookFormProps) {
     // 当mutation发生错误时执行
     onError: () => {
       setIsSubmitting(false);
-      alert("提交失败，请稍后再试");
+      toast.error("留言被拦截");
     },
     // 当mutation完成时执行（无论成功或失败）
     onSettled: () => {
@@ -141,63 +144,59 @@ export function GuestbookForm({ user }: GuestbookFormProps) {
       <div className="rounded-md border">
         <EditorContent
           editor={editor}
-          className="prose dark:prose-invert h-auto mx-2 my-[-15] max-w-none focus:outline-none  [&_.ProseMirror]:outline-none"
+          className="prose dark:prose-invert mx-2 my-[-15] h-auto max-w-none focus:outline-none [&_.ProseMirror]:outline-none"
         />
       </div>
       <div className="flex justify-between">
-
-      
-      {/* 新增编辑工具栏 */}
-      <div className="flex items-center gap-1 ">
-        <Toggle
-          size="sm"
-          pressed={editor?.isActive("bold")}
-          onPressedChange={() => editor?.chain().focus().toggleBold().run()}
-          disabled={!editor?.isEditable}
-        >
-          <BoldIcon className="h-4 w-4" />
-        </Toggle>
-        <Toggle
-          size="sm"
-          pressed={editor?.isActive("italic")}
-          onPressedChange={() => editor?.chain().focus().toggleItalic().run()}
-          disabled={!editor?.isEditable}
-        >
-          <ItalicIcon className="h-4 w-4" />
-        </Toggle>
-        {/* // 替换原来的 emoji Toggle 组件 */}
-        <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
-          <PopoverTrigger asChild>
-            <Toggle
-              size="sm"
-              pressed={isEmojiPickerOpen}
-              disabled={!editor?.isEditable}
-            >
-              <Smile className="h-4 w-4" />
-            </Toggle>
-          </PopoverTrigger>
-          <PopoverContent 
-            className="w-[352px] p-0" 
-            align="start" 
-            side="right" 
-            sideOffset={5}
+        {/* 新增编辑工具栏 */}
+        <div className="flex items-center gap-1">
+          <Toggle
+            size="sm"
+            pressed={editor?.isActive("bold")}
+            onPressedChange={() => editor?.chain().focus().toggleBold().run()}
+            disabled={!editor?.isEditable}
           >
-            <EmojiPicker
-              onEmojiClick={(emojiData) => {
-                editor?.chain().focus().insertContent(emojiData.emoji).run();
-                setIsEmojiPickerOpen(false);
-              }}
-              lazyLoadEmojis={true}
-            />
-          </PopoverContent>
-        </Popover>
+            <BoldIcon className="h-4 w-4" />
+          </Toggle>
+          <Toggle
+            size="sm"
+            pressed={editor?.isActive("italic")}
+            onPressedChange={() => editor?.chain().focus().toggleItalic().run()}
+            disabled={!editor?.isEditable}
+          >
+            <ItalicIcon className="h-4 w-4" />
+          </Toggle>
+          {/* // 替换原来的 emoji Toggle 组件 */}
+          <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
+            <PopoverTrigger asChild>
+              <Toggle
+                size="sm"
+                pressed={isEmojiPickerOpen}
+                disabled={!editor?.isEditable}
+              >
+                <Smile className="h-4 w-4" />
+              </Toggle>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-[352px] p-0"
+              align="start"
+              side="right"
+              sideOffset={5}
+            >
+              <EmojiPicker
+                onEmojiClick={(emojiData) => {
+                  editor?.chain().focus().insertContent(emojiData.emoji).run();
+                  setIsEmojiPickerOpen(false);
+                }}
+                lazyLoadEmojis={true}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+        <p className="mt-1 text-right text-sm text-gray-500 dark:text-gray-400">
+          {textLength}/500
+        </p>
       </div>
-      <p className="mt-1 text-right text-sm text-gray-500 dark:text-gray-400">
-        {textLength}/500
-      </p>
-      </div>
-
-      
 
       <button
         type="submit"

@@ -35,10 +35,14 @@ const getArticles = cache(async () => {
 });
 
 // 创建一个异步组件来处理文章加载
-async function ArticleCardsWrapper({ formatDate }: { formatDate: (dateString: string) => string }) {
+async function ArticleCardsWrapper({
+  formatDate,
+}: {
+  formatDate: (dateString: string) => string;
+}) {
   // 这里的 await 会自动触发 Suspense
   const articles = await getArticles();
-  
+
   return <ArticleCards articles={articles} formatDate={formatDate} />;
 }
 

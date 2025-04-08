@@ -1,4 +1,4 @@
-'use cache'
+"use cache";
 import { HydrateClient } from "@/trpc/server";
 import Image from "next/image";
 import { Button } from "@/app/_components/ui/button";

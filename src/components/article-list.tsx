@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -86,9 +85,7 @@ export function ArticleCards({ articles, formatDate }: ArticleListProps) {
                     </div>
                   )}
                 </div>
-                <CardTitle className="mt-2 text-xl">
-                  {article.title}
-                </CardTitle>
+                <CardTitle className="mt-2 text-xl">{article.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="line-clamp-3">

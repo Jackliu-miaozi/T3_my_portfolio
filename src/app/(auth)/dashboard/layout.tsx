@@ -20,16 +20,14 @@ export default async function DashboardLayout({
   if (!session || session.user.email !== "lzyujn@gmail.com") {
     redirect("/");
   }
-  
+
   return (
     <div className="flex min-h-screen w-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
       {/* 侧边导航栏 */}
       <Sidebar />
-      
+
       {/* 主内容区域 */}
-      <div className="flex-1 p-8">
-        {children}
-      </div>
+      <div className="flex-1 p-8">{children}</div>
     </div>
   );
 }

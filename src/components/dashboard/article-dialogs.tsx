@@ -274,7 +274,7 @@ export function ArticleDialog({
         },
         // 明确禁用StarterKit中已包含但我们要单独配置的扩展
         blockquote: false,
-        codeBlock: false
+        codeBlock: false,
       }),
       Placeholder.configure({
         placeholder: "输入文章内容...", // 编辑器占位文本

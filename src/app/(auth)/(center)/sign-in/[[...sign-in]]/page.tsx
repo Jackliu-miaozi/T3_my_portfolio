@@ -75,6 +75,9 @@ export default function SignInPage() {
     } catch (e) {
       setError("登录过程中发生错误");
       setIsLoading(false);
+      toast.error("登录过程中发生错误", {
+        description: "请1分钟后再试",
+      });
     }
   };
 
