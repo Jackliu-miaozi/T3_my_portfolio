@@ -233,7 +233,7 @@ export default async function ArticlePage({
               <article
                 className={cn(
                   // Base Prose styles
-                  "prose prose-lg prose-gray dark:prose-invert max-w-none",
+                  "prose prose-lg prose-gray dark:prose-invert max-w-none ",
                   // Add padding within the article container
                   "px-6 py-8 md:px-8 md:py-10 lg:px-10 lg:py-12",
                   // Headings
@@ -268,10 +268,11 @@ export default async function ArticlePage({
             </AnimatedSection>
             {/* Share Section */}
             <AnimatedSection delay={600}>
-              <aside className="border-border/10 border-t px-6 py-8 md:px-8 lg:px-10">
+              <aside className="border-border/10 border-t px-6 pb-8 md:px-8 lg:px-10">
                 {" "}
                 {/* Use aside, add padding, border top */}
-                <h2 className="text-foreground mb-4 text-xl font-semibold">
+                <div className="border-t"></div>
+                <h2 className="text-foreground my-4 text-xl font-semibold">
                   分享这篇文章
                 </h2>
                 <div className="flex items-center gap-3">
