@@ -15,8 +15,12 @@ import DOMPurify from "isomorphic-dompurify";
 import { Button } from "@/app/_components/ui/button";
 import { CopyLinkButton } from "@/app/_components/copy-link-button";
 import { AnimatedSection } from "@/app/_components/animated-section";
-import { cn } from "@/lib/utils";
+
 import { Footer } from "@/app/_components/footer";
+
+import '@wangeditor/editor/dist/css/style.css';
+import { ArticleContent } from "@/components/article-content";
+
 
 // --- Metadata Generation (No changes needed) ---
 export async function generateMetadata({
@@ -230,45 +234,11 @@ export default async function ArticlePage({
             )}
             {/* Article Body */}
             <AnimatedSection delay={500}>
-              <article
-                className={cn(
-                  // Base Prose styles
-                  "prose prose-lg prose-gray dark:prose-invert max-w-none ",
-                  // Add padding within the article container
-                  "px-6 py-8 md:px-8 md:py-10 lg:px-10 lg:py-12",
-                  // Headings
-                  "prose-headings:font-semibold prose-headings:text-foreground prose-headings:scroll-mt-20", // Adjusted scroll margin top if you have a sticky header
-                  // Paragraphs
-                  "prose-p:text-foreground/80 prose-p:leading-relaxed",
-                  // Links
-                  "prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline",
-                  // Strong / Emphasis
-                  "prose-strong:text-foreground prose-em:text-foreground/90",
-                  // Code blocks
-                  "prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded",
-                  "prose-pre:bg-muted/70 prose-pre:text-foreground/90 prose-pre:p-4 prose-pre:rounded-md prose-pre:overflow-x-auto prose-pre:whitespace-pre-wrap", // Ensure code blocks are scrollable and wrap properly
-                  // Blockquotes
-                  "prose-blockquote:border-l-4 prose-blockquote:border-primary/50 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-muted-foreground",
-                  // Images within content
-                  "prose-img:rounded-md prose-img:shadow-sm prose-img:mx-auto", // Center images and add styling
-                  // Lists
-                  "prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6",
-                  "prose-li:my-1", // Adjust list item spacing
-                  // Tables
-                  "prose-table:border-collapse prose-table:w-full",
-                  "prose-th:border prose-th:border-border/50 prose-th:p-2 prose-th:bg-muted/30",
-                  "prose-td:border prose-td:border-border/50 prose-td:p-2",
-                  // Additional styling for better content display
-                  "prose-hr:border-border/30 prose-hr:my-8",
-                )}
-                // IMPORTANT: Ensure sanitizedContent is genuinely safe before using dangerouslySetInnerHTML
-                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-              />
-              {/* 移除这段注释掉的代码，因为我们已经使用了article元素和dangerouslySetInnerHTML来渲染内容 */}
+              <ArticleContent content={sanitizedContent} />
             </AnimatedSection>
             {/* Share Section */}
             <AnimatedSection delay={600}>
-              <aside className="border-border/10 border-t px-6 pb-8 md:px-8 lg:px-10">
+              <aside className="border-border/10 border-t px-6 -mt-8 pb-8 md:px-8 lg:px-10">
                 {" "}
                 {/* Use aside, add padding, border top */}
                 <div className="border-t"></div>

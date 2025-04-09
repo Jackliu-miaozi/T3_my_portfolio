@@ -22,7 +22,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen w-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
+    <div className="flex min-h-screen w-screen overflow-hidden bg-white dark:bg-gray-900">
       {/* 侧边导航栏 */}
       <Sidebar />
 
