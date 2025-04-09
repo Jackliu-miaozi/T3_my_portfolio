@@ -5,6 +5,7 @@
 // useState用于管理组件的状态数据
 // useRef用于获取和操作DOM元素
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 // 导入tRPC API客户端，用于进行前后端数据交互
 import { api } from "@/trpc/react";
@@ -31,8 +32,8 @@ import Image from "next/image";
 // 导入toast通知组件，用于显示操作反馈信息
 import { toast } from "sonner";
 
-// 导入文章相关的对话框组件
-import { ArticleDialog, DeleteArticleDialog } from "./article-dialogs";
+// 导入删除文章对话框组件
+import { DeleteArticleDialog } from "./article-dialogs";
 
 // 定义文章数据结构的TypeScript接口
 type Article = {
@@ -48,35 +49,15 @@ type Article = {
 // 文章管理组件，实现文章的增删改查功能
 export function ArticlesManagement() {
   // 使用useState管理各种UI状态
-  const [showAddArticleDialog, setShowAddArticleDialog] = useState(false); // 控制添加文章对话框显示
-  const [showEditArticleDialog, setShowEditArticleDialog] = useState(false); // 控制编辑文章对话框显示
   const [showDeleteArticleDialog, setShowDeleteArticleDialog] = useState(false); // 控制删除确认对话框显示
   const [selectedArticleId, setSelectedArticleId] = useState<number>(); // 当前选中的文章ID
-  const [selectedArticle, setSelectedArticle] = useState<Article>(); // 当前选中的文章完整信息
-  const [imagePreview, setImagePreview] = useState<string | null>(null); // 图片预览数据
-  // 文件输入框的引用
+  const router = useRouter(); // 用于页面导航
 
   // 获取tRPC工具函数和文章数据
   const utils = api.useUtils();
   const { data: articles, status: isLoading } = api.artical.getAll.useQuery();
 
-  // 创建文章的mutation操作
-  const createArticle = api.artical.create.useMutation({
-    onSuccess: async () => {
-      await utils.artical.invalidate(); // 刷新文章列表
-      toast.success("文章添加成功！"); // 显示成功提示
-      setShowAddArticleDialog(false); // 关闭对话框
-    },
-  });
-
-  // 更新文章的mutation操作
-  const updateArticle = api.artical.update.useMutation({
-    onSuccess: async () => {
-      await utils.artical.invalidate(); // 刷新文章列表
-      toast.success("文章更新成功！"); // 显示成功提示
-      setShowEditArticleDialog(false); // 关闭对话框
-    },
-  });
+  // 删除文章的mutation操作已保留，其他mutation操作移至各自的页面中
 
   // 删除文章的mutation操作
   const deleteArticle = api.artical.delete.useMutation({
@@ -119,33 +100,9 @@ export function ArticlesManagement() {
   //   }
   // };
 
-  // 处理添加文章的表单提交
-  // 声明一个处理表单提交的函数，参数e的类型是React的表单提交事件
-  const handleAddArticle = (formData: FormData) => {
-    // 阻止表单的默认提交行为，防止页面刷新
-
-    // 从当前表单元素创建FormData对象，可以方便地获取表单中的数据
-    // e.currentTarget 指向触发事件的表单元素
-    try {
-      // 调用创建文章的mutation方法
-      createArticle.mutate({
-        // 从表单数据中获取各个字段的值
-        // formData.get() 获取表单中对应name属性的值
-        // as string 类型断言确保返回字符串类型
-        title: formData.get("title") as string, // 获取文章标题
-        category: formData.get("category") as string, // 获取文章分类
-        summary: formData.get("summary") as string, // 获取文章摘要
-        content: formData.get("content") as string, // 获取文章内容
-        image: imagePreview ?? "", // 使用预览图片或空字符串
-      });
-
-      // 提交成功后重置表单状态
-      setImagePreview(null); // 清空图片预览
-      // 如果文件输入框存在，清空其值
-    } catch (error) {
-      // 如果提交过程中出现错误，显示错误提示
-      toast.error("文章添加失败！");
-    }
+  // 导航到添加文章页面
+  const handleAddArticle = () => {
+    router.push("/dashboard/articles/new");
   };
 
   // 处理删除文章的确认操作
@@ -161,30 +118,9 @@ export function ArticlesManagement() {
     }
   };
 
-  // 处理编辑文章操作
+  // 导航到编辑文章页面
   const handleEditArticle = (article: Article) => {
-    setSelectedArticle(article);
-    setImagePreview(article.image);
-    setShowEditArticleDialog(true);
-  };
-
-  // 处理编辑文章的表单提交
-  const handleEditArticleSubmit = (formData: FormData) => {
-    if (selectedArticle) {
-      try {
-        updateArticle.mutate({
-          id: selectedArticle.id,
-          title: formData.get("title") as string,
-          category: formData.get("category") as string,
-          summary: formData.get("summary") as string,
-          content: formData.get("content") as string,
-          image: imagePreview ?? "",
-        });
-        setImagePreview(null);
-      } catch (error) {
-        toast.error("文章更新失败！");
-      }
-    }
+    router.push(`/dashboard/articles/edit/${article.id}`);
   };
 
   // 渲染组件UI
@@ -195,7 +131,7 @@ export function ArticlesManagement() {
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
           文章管理
         </h1>
-        <Button onClick={() => setShowAddArticleDialog(true)}>
+        <Button onClick={handleAddArticle}>
           添加新文章
         </Button>
       </div>
@@ -295,44 +231,7 @@ export function ArticlesManagement() {
         </div>
       </div>
 
-      {/* 添加文章对话框组件 */}
-      <ArticleDialog
-        // 控制对话框的显示状态
-        open={showAddArticleDialog}
-        // 当对话框开关状态改变时的回调函数
-        onOpenChange={(open) => {
-          // 更新对话框的显示状态
-          setShowAddArticleDialog(open);
-          // 如果对话框关闭，清空图片预览
-          if (!open) {
-            setImagePreview(null);
-          }
-        }}
-        // 对话框标题
-        title="添加新文章"
-        // 表单提交处理函数
-        onSubmit={handleAddArticle}
-        // 提交按钮的文本
-        submitButtonText="提交"
-        // 当图片改变时的回调函数，用于更新预览图片
-        onImageChange={(base64String) => setImagePreview(base64String)}
-      />
-
-      {/* 编辑文章对话框组件 */}
-      <ArticleDialog
-        open={showEditArticleDialog}
-        onOpenChange={(open) => {
-          setShowEditArticleDialog(open);
-          if (!open) {
-            setImagePreview(null);
-          }
-        }}
-        title="编辑文章"
-        onSubmit={handleEditArticleSubmit}
-        submitButtonText="保存更改"
-        article={selectedArticle}
-        onImageChange={(base64String) => setImagePreview(base64String)}
-      />
+      {/* 删除对话框组件保留，添加和编辑对话框已移至独立页面 */}
 
       {/* 删除确认对话框组件 */}
       <DeleteArticleDialog
