@@ -27,7 +27,14 @@
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+/* 添加在文件开头 */
+/* .no-flash {
+  transition: none !important;
+}
 
+html.no-flash * {
+  transition: none !important;
+} */
 /**
  * 浅色模式主题变量
  */
