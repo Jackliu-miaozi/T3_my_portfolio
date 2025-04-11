@@ -3,10 +3,12 @@
 import { GithubIcon, MailIcon } from "lucide-react";
 import { AnimatedSection } from "./animated-section";
 import Link from "next/link";
+// import { ThemeToggle } from "./theme-toggle";
+// import { ThemeToggleWithLabel } from "./theme-toggle-with-label";
 
 export function HeroSection() {
   return (
-    <section className="relative flex items-center justify-center overflow-hidden py-15 md:py-28 h-[80vh]">
+    <section className="relative flex items-center justify-center overflow-hidden py-15 md:py-28 h-[80vh] md:h-[90vh]">
       {/* 背景装饰元素 */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="bg-primary/5 absolute -top-[40%] -right-[60%] h-[800px] w-[800px] rounded-full blur-3xl" />
@@ -75,7 +77,13 @@ export function HeroSection() {
             >
               <MailIcon className="h-6 w-6" />
             </Link>
+
           </div>
+
+          {/* <div className="flex items-center md:hidden">
+            <ThemeToggleWithLabel />
+          </div> */}
+
         </AnimatedSection>
       </div>
     </section>
