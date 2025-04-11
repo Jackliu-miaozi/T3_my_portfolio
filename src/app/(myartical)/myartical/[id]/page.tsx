@@ -20,7 +20,8 @@ import { Footer } from "@/app/_components/footer";
 
 import '@wangeditor/editor/dist/css/style.css';
 import { ArticleContent } from "@/components/article-content";
-import LikeButton from "@/components/like-button"; // 新增导入
+import LikeButton from "@/components/like-button";
+import ViewCounter from "@/components/view-counter"; // 导入阅读量计数器组件
 
 
 // --- Metadata Generation (No changes needed) ---
@@ -201,6 +202,10 @@ export default async function ArticlePage({
                     {format(new Date(article.createdAt), "yyyy年MM月dd日", {})}
                   </time>
                 </div>
+                <div className="flex items-center gap-1.5">
+                  {/* 添加阅读量计数器 */}
+                  <ViewCounter articleId={resolvedParams.id} />
+                </div>
                 {article.category && ( // Only show if category exists
                   <div className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium">
                     {article.category}
@@ -242,12 +247,17 @@ export default async function ArticlePage({
               <aside className="border-border/10 border-t px-6 -mt-8 pb-8 md:px-8 lg:px-10">
                 {" "}
                 {/* Use aside, add padding, border top */}
-                <LikeButton articleId={resolvedParams.id} />
-                {/* <div className="border-t"></div> */}
+                <div className="flex items-center justify-between mt-4 mb-2">
+                  <LikeButton articleId={resolvedParams.id} />
+                  <div className="flex items-center gap-4">
+                    <ViewCounter articleId={resolvedParams.id} />
+                  </div>
+                </div>
+                {/* <div className="border-t my-4"></div> */}
                 <div>
-                  <h2 className="text-foreground my-4 text-xl font-semibold">
+                  {/* <h2 className="text-foreground my-4 text-xl font-semibold">
                     分享这篇文章
-                  </h2>
+                  </h2> */}
                   <div className="flex items-center gap-3">
                     <CopyLinkButton />
                     {/* Add more share buttons here if needed */}

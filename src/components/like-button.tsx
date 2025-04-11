@@ -99,8 +99,8 @@ export default memo(function LikeButton({ articleId }: { articleId: string }) {
                 <ThumbsUp className={`h-6 w-6 mr-2 ${displayState.hasLiked ? "fill-white" : ""}`} />
                 <span className="text-lg font-medium">
                     {displayState.hasLiked ? "已点赞" : "点赞"}
-                    <span className={`text-sm pl-2 ${displayState.hasLiked ? 'text-white' : 'text-muted-foreground'}`}>
-                        {displayState.likeCount} 👍
+                    <span className={`text-lg pl-2 ${displayState.hasLiked ? 'text-white' : 'text-muted-foreground'}`}>
+                        {displayState.likeCount}&nbsp;&nbsp;👍
                     </span>
                 </span>
             </Button>

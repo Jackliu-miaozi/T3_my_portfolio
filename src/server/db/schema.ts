@@ -156,3 +156,20 @@ export const articleLikes = createTable(
     index("article_id_idx").on(t.articleId)
   ]
 );
+
+// 添加文章阅读量统计表
+export const articleViews = createTable(
+  "article_views",
+  (d) => ({
+    id: d.text("id").primaryKey().notNull().$defaultFn(() => randomUUID()),
+    articleId: d.integer("article_id").notNull(),
+    ipAddress: d.text("ip_address").notNull(),
+    createdAt: d.integer("created_at", { mode: "timestamp" }).notNull().default(sql`CURRENT_TIMESTAMP`),
+  }),
+  (t) => [
+    // 创建复合索引，确保每个IP对一篇文章的访问只记录一次
+    index("article_view_ip_idx").on(t.articleId, t.ipAddress),
+    // 创建文章ID索引，用于快速查询文章的阅读量
+    index("article_view_id_idx").on(t.articleId)
+  ]
+);

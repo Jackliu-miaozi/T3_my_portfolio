@@ -9,6 +9,8 @@ import {
   CardFooter,
 } from "@/app/_components/ui/card";
 import { AnimatedSection } from "@/app/_components/animated-section";
+import { api } from "@/trpc/react";
+import { ArticleViewCount } from "./article-view-count";
 
 // 定义文章类型
 type Article = {
@@ -92,13 +94,14 @@ export function ArticleCards({ articles, formatDate }: ArticleListProps) {
                   {article.summary}
                 </CardDescription>
               </CardContent>
-              <CardFooter className="mt-auto">
+              <CardFooter className="mt-auto flex justify-between items-center">
                 <Link
                   href={`/myartical/${article.id}`}
                   className="text-primary text-sm font-medium hover:underline"
                 >
                   阅读更多 →
                 </Link>
+                <ArticleViewCount articleId={article.id} />
               </CardFooter>
             </Card>
           </AnimatedSection>
