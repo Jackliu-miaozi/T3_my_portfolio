@@ -2,9 +2,9 @@
 "use client";
 
 // 导入必要的React hooks和组件
-import { useState } from "react"; // 导入useState hook用于管理状态
+import { useState, useEffect, useRef } from "react"; // 导入React hooks
 import Link from "next/link"; // 导入Next.js的Link组件用于页面导航
-import { X } from "lucide-react"; // 导入X图标组件用于关闭按钮
+import { Home, Menu, X, User, BookOpen, MessageSquare } from "lucide-react"; // 导入图标组件
 
 // 定义MobileNav组件的props接口
 interface MobileNavProps {
@@ -15,6 +15,19 @@ interface MobileNavProps {
 export function MobileNav({ links }: MobileNavProps) {
   // 使用useState定义菜单开关状态
   const [isOpen, setIsOpen] = useState(false);
+  // 使用useState定义当前活动的导航项
+  const [activeTab, setActiveTab] = useState("/");
+  // 使用useRef创建一个引用，用于滑动手势
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  
+  // 设置活动标签的函数
+  useEffect(() => {
+    // 根据当前路径设置活动标签
+    if (typeof window !== "undefined") {
+      setActiveTab(window.location.pathname);
+    }
+  }, []);
 
   // 切换菜单状态的函数
   const toggleMenu = () => {
@@ -29,65 +42,137 @@ export function MobileNav({ links }: MobileNavProps) {
     document.body.style.overflow = "auto";
   };
 
+  // 处理触摸开始事件
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0]!.clientX;
+  };
+
+  // 处理触摸移动事件
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0]!.clientX;
+  };
+
+  // 处理触摸结束事件
+  const handleTouchEnd = () => {
+    // 向左滑动关闭菜单
+    if (touchStartX.current - touchEndX.current > 50 && isOpen) {
+      closeMenu();
+    }
+    // 向右滑动打开菜单
+    else if (touchEndX.current - touchStartX.current > 50 && !isOpen) {
+      toggleMenu();
+    }
+    // 重置触摸位置
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
+
+  // 获取图标函数
+  const getIcon = (label: string) => {
+    switch (label.toLowerCase()) {
+      case "首页":
+      case "主页":
+      case "home":
+        return <Home className="h-5 w-5" />;
+      case "关于":
+      case "about":
+      case "关于我":
+        return <User className="h-5 w-5" />;
+      case "文章":
+      case "博客":
+      case "blog":
+        return <BookOpen className="h-5 w-5" />;
+      case "留言":
+      case "留言板":
+      case "guestbook":
+        return <MessageSquare className="h-5 w-5" />;
+      default:
+        return <Menu className="h-5 w-5" />;
+    }
+  };
+
   return (
     <>
-      {/* 汉堡菜单按钮 */}
-      <button
-        className="hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 dark:hover:text-accent-foreground rounded-full p-2 md:hidden" // 样式类：中等屏幕隐藏，圆形按钮，悬停效果
-        aria-label="菜单"
-        onClick={toggleMenu}
+      {/* 移动端底部导航栏 */}
+      <div 
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm border-t border-border shadow-lg"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-5 w-5" // 设置SVG图标大小
-        >
-          {/* 绘制三条横线形成汉堡菜单图标 */}
-          <line x1="4" x2="20" y1="12" y2="12" />
-          <line x1="4" x2="20" y1="6" y2="6" />
-          <line x1="4" x2="20" y1="18" y2="18" />
-        </svg>
-      </button>
+        <div className="flex justify-around items-center h-16 px-2">
+          {links.slice(0, 4).map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`flex flex-col items-center justify-center w-full h-full rounded-lg transition-colors duration-200 ${activeTab === link.href ? 'text-primary dark:text-primary' : 'text-muted-foreground dark:text-white'}`}
+              onClick={() => setActiveTab(link.href)}
+            >
+              <div className="flex flex-col items-center justify-center space-y-1">
+                {getIcon(link.label)}
+                <span className="text-xs font-medium">{link.label}</span>
+              </div>
+            </Link>
+          ))}
+          {links.length > 4 && (
+            <button
+              className="flex flex-col items-center justify-center w-full h-full rounded-lg transition-colors duration-200 text-muted-foreground dark:text-white hover:text-primary dark:hover:text-primary"
+              onClick={toggleMenu}
+              aria-label="更多菜单"
+            >
+              <Menu className="h-5 w-5" />
+              <span className="text-xs font-medium">更多</span>
+            </button>
+          )}
+        </div>
+      </div>
 
-      {/* 移动端导航菜单 */}
+      {/* 更多菜单弹出层 */}
       {isOpen && (
-        <div className="bg-background/95 dark:bg-background/90 fixed inset-0 z-50 backdrop-blur-sm">
-          {" "}
-          {/* 固定定位，覆盖整个屏幕，半透明背景 */}
+        <div 
+          className="md:hidden fixed inset-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm animate-in slide-in-from-bottom-full duration-300"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="container flex h-full flex-col items-center justify-center">
-            {" "}
-            {/* 容器样式，居中显示内容 */}
             <button
               onClick={closeMenu}
-              className="hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 dark:hover:text-accent-foreground absolute top-4 right-4 rounded-full p-2" // 关闭按钮位置和样式
+              className="absolute top-4 right-4 p-3 rounded-full bg-accent/50 dark:bg-accent/30 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 dark:hover:text-accent-foreground transition-colors duration-200"
               aria-label="关闭菜单"
             >
-              <X className="h-6 w-6" /> {/* 使用X图标组件 */}
+              <X className="h-6 w-6" />
             </button>
-            <nav className="bg-accent dark:bg-accent/50 mt-56 flex w-full flex-col items-center gap-6 p-2 pb-3">
-              {" "}
-              {/* 导航菜单容器，垂直排列，间距为8 */}
-              {links.map(
-                (
-                  link, // 遍历links数组生成导航链接
-                ) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="hover:text-primary dark:hover:text-primary/90 w-full border-b-2 dark:border-b-gray-700 text-xl font-medium dark:text-gray-200" // 链接样式：大字体，中等粗细，悬停时改变颜色
-                    onClick={closeMenu}
-                  >
-                    {link.label}
-                  </Link>
-                ),
-              )}
+            <nav className="w-full max-w-md mx-auto flex flex-col items-center gap-4 p-4">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="w-full p-4 flex items-center justify-between bg-accent/30 dark:bg-accent/20 hover:bg-accent/50 dark:hover:bg-accent/30 rounded-lg text-xl font-medium transition-all duration-200 active:scale-95 dark:text-white"
+                  onClick={closeMenu}
+                >
+                  <div className="flex items-center gap-3">
+                    {getIcon(link.label)}
+                    <span>{link.label}</span>
+                  </div>
+                  <div className="text-primary dark:text-primary/90">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-5 w-5"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </div>
+                </Link>
+              ))}
             </nav>
           </div>
         </div>
