@@ -4,6 +4,7 @@ import { signupRouter } from "@/server/api/routers/signup";
 import { userRouter } from "@/server/api/routers/user";
 import { articalRouter } from "./routers/artical";
 import { uploadRouter } from "./routers/upload"; // 添加这一行
+import { likesRouter } from "./routers/likes";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   artical: articalRouter,
   upload: uploadRouter, // 添加这一行
+  likes: likesRouter,
 });
 
 // export type definition of API

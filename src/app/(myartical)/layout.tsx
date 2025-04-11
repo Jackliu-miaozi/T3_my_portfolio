@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/server/auth";
 import { ThemeScript } from "../_components/theme-script";
+import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
   title: "Jack's 主页",
@@ -25,7 +26,11 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
         <ThemeScript />
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <TRPCReactProvider>
+
+
+          <SessionProvider session={session}>{children}</SessionProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );

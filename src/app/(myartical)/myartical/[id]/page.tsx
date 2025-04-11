@@ -20,6 +20,7 @@ import { Footer } from "@/app/_components/footer";
 
 import '@wangeditor/editor/dist/css/style.css';
 import { ArticleContent } from "@/components/article-content";
+import LikeButton from "@/components/like-button"; // 新增导入
 
 
 // --- Metadata Generation (No changes needed) ---
@@ -241,14 +242,17 @@ export default async function ArticlePage({
               <aside className="border-border/10 border-t px-6 -mt-8 pb-8 md:px-8 lg:px-10">
                 {" "}
                 {/* Use aside, add padding, border top */}
-                <div className="border-t"></div>
-                <h2 className="text-foreground my-4 text-xl font-semibold">
-                  分享这篇文章
-                </h2>
-                <div className="flex items-center gap-3">
-                  <CopyLinkButton />
-                  {/* Add more share buttons here if needed */}
-                  {/* Example: <Button variant="outline">分享到 X</Button> */}
+                <LikeButton articleId={resolvedParams.id} />
+                {/* <div className="border-t"></div> */}
+                <div>
+                  <h2 className="text-foreground my-4 text-xl font-semibold">
+                    分享这篇文章
+                  </h2>
+                  <div className="flex items-center gap-3">
+                    <CopyLinkButton />
+                    {/* Add more share buttons here if needed */}
+                    {/* Example: <Button variant="outline">分享到 X</Button> */}
+                  </div>
                 </div>
               </aside>
             </AnimatedSection>

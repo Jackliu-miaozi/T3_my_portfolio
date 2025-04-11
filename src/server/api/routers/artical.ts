@@ -102,7 +102,6 @@ export const articalRouter = createTRPCRouter({
       const article = await ctx.db.query.myartical.findFirst({
         where: eq(myartical.id, parseInt(input.id)),
       });
-
       return article;
     }),
 });

@@ -16,10 +16,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "我的文章 | Jack's 主页",
     description: "浏览Jack的技术文章、学习笔记和行业见解。",
-    url: "https://jackliu.com/myartical",
+    url: "https://www.jackliu.asia",
     locale: "zh_CN",
     type: "website",
   },
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 // 添加预缓存配置

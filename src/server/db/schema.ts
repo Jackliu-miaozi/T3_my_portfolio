@@ -139,3 +139,20 @@ export const images = createTable(
   }),
   (t) => [index("images_uploaded_by_idx").on(t.uploadedBy)]
 );
+
+// 在现有schema.ts文件中添加以下代码
+export const articleLikes = createTable(
+  "article_likes",
+  (d) => ({
+    id: d.text("id").primaryKey().notNull().$defaultFn(() => randomUUID()),
+    articleId: d.integer("article_id").notNull(),
+    ipAddress: d.text("ip_address").notNull(),
+    createdAt: d.integer("created_at", { mode: "timestamp" }).notNull().default(sql`CURRENT_TIMESTAMP`),
+  }),
+  (t) => [
+    // 创建复合索引，确保每个IP只能对一篇文章点赞一次
+    index("article_ip_idx").on(t.articleId, t.ipAddress),
+    // 创建文章ID索引，用于快速查询文章的点赞数
+    index("article_id_idx").on(t.articleId)
+  ]
+);
