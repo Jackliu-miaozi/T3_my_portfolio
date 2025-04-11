@@ -1,6 +1,8 @@
 import { relations, sql } from "drizzle-orm";
 import { index, primaryKey, sqliteTableCreator } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
+import { randomUUID } from "crypto";
+
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -122,4 +124,18 @@ export const myartical = createTable(
       .notNull(),
   }),
   (t) => [index("myartical_id_idx").on(t.id)],
+);
+
+
+export const images = createTable(
+  "images",
+  (d) => ({
+    id: d.text("id").primaryKey().notNull().$defaultFn(() => randomUUID()),
+    fileName: d.text("file_name").notNull(),
+    fileType: d.text("file_type").notNull(),
+    data: d.text("data", { length: 2147483647 }).notNull(),
+    uploadedBy: d.text("uploaded_by").notNull().references(() => users.id),
+    createdAt: d.integer("created_at", { mode: "timestamp" }).notNull().default(sql`CURRENT_TIMESTAMP`),
+  }),
+  (t) => [index("images_uploaded_by_idx").on(t.uploadedBy)]
 );

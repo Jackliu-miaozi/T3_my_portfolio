@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeScript } from "./_components/theme-script";
 
-export const metadata: Metadata = {
+export const metadata:Metadata = {
   title: "页面丢失",
   description: "页面丢失",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
