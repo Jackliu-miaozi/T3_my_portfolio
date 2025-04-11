@@ -16,7 +16,7 @@ export async function Header() {
   return (
     <header className="border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 flex items-center justify-center border-b backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-1 sm:ml-0">
           <Link
             href="/"
             className="hover:text-primary pl-3 text-xl font-bold transition-colors"

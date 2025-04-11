@@ -247,7 +247,7 @@ export default async function ArticlePage({
               <aside className="border-border/10 border-t px-6 -mt-8 pb-8 md:px-8 lg:px-10">
                 {" "}
                 {/* Use aside, add padding, border top */}
-                <div className="flex items-center justify-between mt-4 mb-2">
+                <div className="flex items-center justify-between mt-10 mb-2">
                   <LikeButton articleId={resolvedParams.id} />
                   <div className="flex items-center gap-4">
                     <ViewCounter articleId={resolvedParams.id} />
