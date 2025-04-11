@@ -5,7 +5,6 @@
 import { useState } from "react"; // 导入useState hook用于管理状态
 import Link from "next/link"; // 导入Next.js的Link组件用于页面导航
 import { X } from "lucide-react"; // 导入X图标组件用于关闭按钮
-import { useSession } from "next-auth/react"; // 导入Next-Auth的useSession hook用于获取用户会话信息
 
 // 定义MobileNav组件的props接口
 interface MobileNavProps {
@@ -34,7 +33,7 @@ export function MobileNav({ links }: MobileNavProps) {
     <>
       {/* 汉堡菜单按钮 */}
       <button
-        className="hover:bg-accent hover:text-accent-foreground rounded-full p-2 md:hidden" // 样式类：中等屏幕隐藏，圆形按钮，悬停效果
+        className="hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 dark:hover:text-accent-foreground rounded-full p-2 md:hidden" // 样式类：中等屏幕隐藏，圆形按钮，悬停效果
         aria-label="菜单"
         onClick={toggleMenu}
       >
@@ -59,7 +58,7 @@ export function MobileNav({ links }: MobileNavProps) {
 
       {/* 移动端导航菜单 */}
       {isOpen && (
-        <div className="bg-background/95 fixed inset-0 z-50 backdrop-blur-sm">
+        <div className="bg-background/95 dark:bg-background/90 fixed inset-0 z-50 backdrop-blur-sm">
           {" "}
           {/* 固定定位，覆盖整个屏幕，半透明背景 */}
           <div className="container flex h-full flex-col items-center justify-center">
@@ -67,12 +66,12 @@ export function MobileNav({ links }: MobileNavProps) {
             {/* 容器样式，居中显示内容 */}
             <button
               onClick={closeMenu}
-              className="hover:bg-accent hover:text-accent-foreground absolute top-4 right-4 rounded-full p-2" // 关闭按钮位置和样式
+              className="hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 dark:hover:text-accent-foreground absolute top-4 right-4 rounded-full p-2" // 关闭按钮位置和样式
               aria-label="关闭菜单"
             >
               <X className="h-6 w-6" /> {/* 使用X图标组件 */}
             </button>
-            <nav className="bg-accent mt-56 flex w-full flex-col items-center gap-6 p-2 pb-3">
+            <nav className="bg-accent dark:bg-accent/50 mt-56 flex w-full flex-col items-center gap-6 p-2 pb-3">
               {" "}
               {/* 导航菜单容器，垂直排列，间距为8 */}
               {links.map(
@@ -82,7 +81,7 @@ export function MobileNav({ links }: MobileNavProps) {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="hover:text-primary w-full border-b-2 text-xl font-medium" // 链接样式：大字体，中等粗细，悬停时改变颜色
+                    className="hover:text-primary dark:hover:text-primary/90 w-full border-b-2 dark:border-b-gray-700 text-xl font-medium dark:text-gray-200" // 链接样式：大字体，中等粗细，悬停时改变颜色
                     onClick={closeMenu}
                   >
                     {link.label}
