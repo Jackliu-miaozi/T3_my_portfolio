@@ -1,0 +1,1 @@
+DROP TABLE `my_portfolio_2_images`;

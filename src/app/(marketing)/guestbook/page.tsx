@@ -54,7 +54,7 @@ export default async function GuestbookPage() {
               <p className="mb-4 text-center text-gray-500 dark:text-gray-400">
                 请登录后在留言板上留言。
               </p>
-              <Link href={"/sign-in"}>
+              <Link href={`/sign-in?callbackUrl=${encodeURIComponent("/guestbook")}`}>
                 <Button>登录</Button>
               </Link>
             </div>

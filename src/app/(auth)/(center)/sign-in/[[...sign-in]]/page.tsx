@@ -42,10 +42,14 @@ export default function SignInPage() {
         return;
       }
 
+      const searchParams = new URLSearchParams(window.location.search);
+      const callbackUrl = searchParams.get("callbackUrl") ?? "/";
+
       const result = await signIn("credentials", {
         email,
         password,
         redirect: false,
+        callbackUrl: callbackUrl,
       });
 
       if (result?.error) {
@@ -58,19 +62,20 @@ export default function SignInPage() {
       }
 
       // 只有登录成功才显示成功提示并跳转
+      
       toast.success("登录成功", {
-        description: "马上跳转到主页",
+        description: "即将跳转",
         action: {
           label: "立即前往",
-          onClick: () => router.push("/"),
+          onClick: () => router.push(callbackUrl),
         },
       });
 
-      // 延迟1.5秒后跳转到主页，让用户有时间看到提示
+      // 延迟1.5秒后跳转，让用户有时间看到提示
       setTimeout(() => {
-        router.push("/");
+        router.push(callbackUrl);
         router.refresh();
-        setIsLoading(false); // 移到这里，在跳转完成后才重置状态
+        setIsLoading(false);
       }, 1500);
     } catch (e) {
       setError("登录过程中发生错误");
@@ -83,9 +88,12 @@ export default function SignInPage() {
 
   // GitHub登录处理
   const handleGithubSignIn = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const callbackUrl = searchParams.get("callbackUrl") ?? "/";
+    
     void signIn("github", {
       redirect: false,
-      callbackUrl: "/",
+      callbackUrl: callbackUrl,
     });
   };
 

@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "aa0a5f22-25c1-4c9d-bb44-55e0b0ac8759",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "aaf4deb4-fb56-45e4-9ab2-0278c5846519",
+  "prevId": "82cd9257-875d-4e62-bd39-76b945a8f4dd",
   "tables": {
     "my_portfolio_2_account": {
       "name": "my_portfolio_2_account",
@@ -118,6 +118,82 @@
           "name": "my_portfolio_2_account_provider_providerAccountId_pk"
         }
       },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "my_portfolio_2_images": {
+      "name": "my_portfolio_2_images",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(uuid())"
+        },
+        "file_name": {
+          "name": "file_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "file_type": {
+          "name": "file_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "data": {
+          "name": "data",
+          "type": "text(2147483647)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "uploaded_by": {
+          "name": "uploaded_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "images_uploaded_by_idx": {
+          "name": "images_uploaded_by_idx",
+          "columns": [
+            "uploaded_by"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "my_portfolio_2_images_uploaded_by_my_portfolio_2_user_id_fk": {
+          "name": "my_portfolio_2_images_uploaded_by_my_portfolio_2_user_id_fk",
+          "tableFrom": "my_portfolio_2_images",
+          "tableTo": "my_portfolio_2_user",
+          "columnsFrom": [
+            "uploaded_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     },

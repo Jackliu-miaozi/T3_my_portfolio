@@ -7,11 +7,13 @@
  * 基础导入
  */
 @import "tailwindcss";
+@import "@wangeditor/editor/dist/css/style.css";
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
 @plugin "@tailwindcss/typography";
+
 
 /**
  * 暗色模式变体配置
@@ -25,7 +27,14 @@
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+/* 添加在文件开头 */
+/* .no-flash {
+  transition: none !important;
+}
 
+html.no-flash * {
+  transition: none !important;
+} */
 /**
  * 浅色模式主题变量
  */
@@ -195,101 +204,6 @@
 /**
  * Tiptap 编辑器样式
  */
-.tiptap {
-  /* 基础间距 */
-  > * + * {
-    margin-top: 0.75em;
-  }
-
-  /* 列表样式 */
-  ul,
-  ol {
-    padding: 0 1rem;
-    list-style: revert;
-  }
-  
-  ul { list-style-type: disc; }
-  ol { list-style-type: decimal; }
-
-  /* 标题样式 */
-  h1, h2, h3, h4, h5, h6 {
-    line-height: 1.1;
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
-  
-  h1 { font-size: 1.875rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
-
-  /* 代码样式 */
-  code {
-    background-color: hsl(var(--muted));
-    color: hsl(var(--muted-foreground));
-    padding: 0.25em 0.5em;
-    border-radius: 0.25rem;
-    box-decoration-break: clone;
-  }
-
-  pre {
-    background: hsl(var(--card));
-    color: hsl(var(--card-foreground));
-    font-family: 'JetBrainsMono', ui-monospace, monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    white-space: pre-wrap;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-    }
-  }
-
-  /* 引用样式 */
-  blockquote {
-    padding-left: 1rem;
-    border-left: 3px solid hsl(var(--border));
-    margin-left: 0;
-    margin-right: 0;
-    font-style: italic;
-  }
-
-  /* 图片样式 */
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 0.5rem;
-  }
-
-  /* 分隔线样式 */
-  hr {
-    border: none;
-    border-top: 1px solid hsl(var(--border));
-    margin: 2rem 0;
-  }
-
-  /* 链接样式 */
-  a {
-    color: hsl(var(--primary));
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-  /* 空编辑器占位符 */
-  p.is-editor-empty:first-child::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: hsl(var(--muted-foreground));
-    pointer-events: none;
-    height: 0;
-  }
-}
 
 /**
  * ProseMirror 编辑器样式
