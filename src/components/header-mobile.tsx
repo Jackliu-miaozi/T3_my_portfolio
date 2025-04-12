@@ -33,86 +33,35 @@ export function HeaderMobile() {
     }
   }, []);
   
-  // 添加滚动事件监听器
+  // 修改滚动事件监听器
   useEffect(() => {
     const handleScroll = () => {
-      // 获取当前滚动位置
       const currentScrollY = window.scrollY;
-      
-      // 判断滚动方向
-      if (currentScrollY > scrollY) {
-        // 向下滚动，隐藏导航栏
-        setVisible(false);
-      } else {
-        // 向上滚动，显示导航栏
-        setVisible(true);
+      const scrollThreshold = 50; // 设置滚动阈值，避免轻微滚动就触发
+      const scrollDirection = currentScrollY > scrollY ? 'down' : 'up';
+
+      // 只有滚动超过阈值时才改变状态
+      if (Math.abs(currentScrollY - scrollY) > scrollThreshold) {
+        if (scrollDirection === 'down' && currentScrollY > 100) {
+          // 向下滚动超过100px时隐藏
+          setVisible(false);
+        } else if (scrollDirection === 'up') {
+          // 向上滚动时显示
+          setVisible(true);
+        }
+        setScrollY(currentScrollY);
       }
-      
-      // 更新滚动位置
-      setScrollY(currentScrollY);
     };
-    
-    // 添加滚动事件监听
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // 组件卸载时移除事件监听
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [scrollY]);
-
-  const handleLogout = () => {
-    setShowLogoutConfirm(true);
-  };
-
-  const confirmLogout = () => {
-    void signOut();
-    setShowLogoutConfirm(false);
-  };
-
-  const cancelLogout = () => {
-    setShowLogoutConfirm(false);
-  };
-
-  // 获取图标函数
-  const getIcon = (path: string) => {
-    switch (path) {
-      case "/":
-        return <Home className="h-5 w-5" />;
-      case "/aboutme":
-        return <User className="h-5 w-5" />;
-      case "/myartical":
-        return <BookOpen className="h-5 w-5" />;
-      case "/guestbook":
-        return <MessageSquare className="h-5 w-5" />;
-      default:
-        return <Menu className="h-5 w-5" />;
-    }
-  };
-
-  // 获取标签名称
-  const getLabel = (path: string) => {
-    switch (path) {
-      case "/":
-        return "首页";
-      case "/aboutme":
-        return "关于Jack";
-      case "/myartical":
-        return "文章";
-      case "/guestbook":
-        return "留言";
-      case "/sign-in":
-        return "登录";
-      default:
-        return "菜单";
-    }
-  };
 
   return (
     <>
-      {/* 顶部固定导航栏 */}
+      {/* 修改导航栏样式 */}
       <div className={cn(
-        "md:hidden sticky top-0 left-0 right-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm border-t border-border shadow-lg transition-transform duration-300",
+        "md:hidden fixed top-0 left-0 right-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm border-b border-border shadow-sm transition-transform duration-300 ease-in-out",
         visible ? "translate-y-0" : "-translate-y-full"
       )}>
         <div className="flex justify-around items-center h-16 px-2">
@@ -168,7 +117,7 @@ export function HeaderMobile() {
               <PopoverContent className="w-56 p-0" align="end" sideOffset={8}>
                 <div className="p-2">
                   <button
-                    onClick={handleLogout}
+                    onClick={() => setShowLogoutConfirm(true)}
                     className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-accent text-sm font-medium transition-colors"
                   >
                     <LogOut className="h-4 w-4" />
@@ -190,6 +139,9 @@ export function HeaderMobile() {
         </div>
       </div>
 
+      {/* 添加补偿高度的占位元素 */}
+      <div className="md:hidden h-16" />
+
       {/* 退出登录确认对话框 */}
       <Dialog open={showLogoutConfirm} onOpenChange={setShowLogoutConfirm}>
         <DialogContent className="sm:max-w-md">
@@ -202,10 +154,10 @@ export function HeaderMobile() {
             </p>
           </div>
           <DialogFooter className="flex justify-between sm:justify-between">
-            <Button variant="outline" onClick={cancelLogout}>
+            <Button variant="outline" onClick={() => setShowLogoutConfirm(false)}>
               取消
             </Button>
-            <Button variant="default" onClick={confirmLogout}>
+            <Button variant="default" onClick={() => signOut()}>
               确认退出
             </Button>
           </DialogFooter>
