@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeScript } from "./_components/theme-script";
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata:Metadata = {
   title: "页面丢失",
@@ -46,6 +48,8 @@ export default async function RootLayout({
       <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
         <ThemeScript />
         {children}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );

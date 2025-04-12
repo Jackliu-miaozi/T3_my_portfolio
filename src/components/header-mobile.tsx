@@ -18,6 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/app/_components/ui/popover";
+import { usePathname } from "next/navigation";
 
 export function HeaderMobile() {
   const { data: session, status: isLoading } = useSession();
@@ -25,15 +26,14 @@ export function HeaderMobile() {
   const [activeTab, setActiveTab] = useState("/");
   const [visible, setVisible] = useState(true);
   const [scrollY, setScrollY] = useState(0);
-  
-  // 设置当前活动标签
+  const pathname = usePathname();
+
+  // 监听路由变化更新活动标签
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setActiveTab(window.location.pathname);
-    }
-  }, []);
-  
-  // 修改滚动事件监听器
+    setActiveTab(pathname);
+  }, [pathname]);
+
+  // 移除原有的手动设置activeTab的逻辑
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
