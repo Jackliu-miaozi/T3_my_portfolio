@@ -37,7 +37,7 @@ export function HeaderMobile() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const scrollThreshold = 50; // 设置滚动阈值，避免轻微滚动就触发
+      const scrollThreshold = 5; // 设置滚动阈值，避免轻微滚动就触发
       const scrollDirection = currentScrollY > scrollY ? 'down' : 'up';
 
       // 只有滚动超过阈值时才改变状态
