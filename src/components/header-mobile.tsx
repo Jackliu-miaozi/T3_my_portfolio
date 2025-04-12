@@ -59,9 +59,9 @@ export function HeaderMobile() {
 
   return (
     <>
-      {/* 修改导航栏样式 */}
+      {/* 修改导航栏样式 - 明确移除上边框 */}
       <div className={cn(
-        "md:hidden fixed top-0 left-0 right-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm border-b border-border shadow-sm transition-transform duration-300 ease-in-out",
+        "md:hidden fixed top-0 left-0 right-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm border-b border-border border-t-0 shadow-sm transition-transform duration-300 ease-in-out",
         visible ? "translate-y-0" : "-translate-y-full"
       )}>
         <div className="flex justify-around items-center h-16 px-2">
