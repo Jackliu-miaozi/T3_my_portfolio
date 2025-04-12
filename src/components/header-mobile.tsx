@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Home, MessageSquare, User, BookOpen, Menu, LogOut, ChevronDown } from "lucide-react";
+import { Home, MessageSquare, User, BookOpen, Menu, LogOut } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import {
@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
 } from "@/app/_components/ui/popover";
 
-export function MobileNav() {
+export function HeaderMobile() {
   const { data: session, status: isLoading } = useSession();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [activeTab, setActiveTab] = useState("/");
@@ -110,10 +110,10 @@ export function MobileNav() {
 
   return (
     <>
-      {/* 底部固定导航栏 */}
+      {/* 顶部固定导航栏 */}
       <div className={cn(
-        "md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm border-t border-border shadow-lg transition-transform duration-300",
-        !visible ? "translate-y-0" : "translate-y-full"
+        "md:hidden sticky top-0 left-0 right-0 z-50 bg-background/95 dark:bg-background/90 backdrop-blur-sm border-t border-border shadow-lg transition-transform duration-300",
+        visible ? "translate-y-0" : "-translate-y-full"
       )}>
         <div className="flex justify-around items-center h-16 px-2">
           {/* 主要导航按钮 */}
@@ -189,8 +189,6 @@ export function MobileNav() {
           )}
         </div>
       </div>
-
-      {/* 已移除全屏弹出菜单，改用Popover组件 */}
 
       {/* 退出登录确认对话框 */}
       <Dialog open={showLogoutConfirm} onOpenChange={setShowLogoutConfirm}>

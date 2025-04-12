@@ -15,7 +15,7 @@ export default function Navbar() {
   const pathname = usePathname();
   return (
     <div>
-      <nav className="absolute left-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform gap-6 md:flex">
+      <nav className="absolute left-1/2  -translate-x-1/2 -translate-y-1/2 transform gap-6 hidden md:flex">
         {navLinks.map((link) => (
           <Link
             key={link.href}

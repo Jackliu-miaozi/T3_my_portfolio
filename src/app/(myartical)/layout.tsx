@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/server/auth";
 import { ThemeScript } from "../_components/theme-script";
 import { TRPCReactProvider } from "@/trpc/react";
+import { HeaderMobile } from "@/components/header-mobile";
 
 export const metadata: Metadata = {
   title: "Jack's 主页",
@@ -27,9 +28,10 @@ export default async function RootLayout({
       <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
         <ThemeScript />
         <TRPCReactProvider>
-
-
-          <SessionProvider session={session}>{children}</SessionProvider>
+          <SessionProvider session={session}>
+          <HeaderMobile />
+            {children}
+          </SessionProvider>
         </TRPCReactProvider>
       </body>
     </html>

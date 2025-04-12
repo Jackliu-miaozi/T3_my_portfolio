@@ -9,6 +9,9 @@ import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
 import { Toaster } from "sonner";
 import { ThemeScript } from "../_components/theme-script";
+import { HeaderMobile } from "@/components/header-mobile";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/server/auth";
 
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
@@ -61,9 +64,11 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -92,10 +97,18 @@ export default function RootLayout({
       </head>
       <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
         <ThemeScript />
-        <Header />
+        {/* 在中等屏幕及以上显示桌面导航栏，小屏幕显示移动导航栏 */}
+
+          <Header />
+
+        <div className="block md:hidden">
+          <SessionProvider session={session}>
+            <HeaderMobile />
+          </SessionProvider>
+        </div>
         <TRPCReactProvider>{children}</TRPCReactProvider>
         <Footer />
-        <Toaster richColors theme="system" position="top-center"/>
+        <Toaster richColors theme="system" position="top-center" />
       </body>
     </html>
   );
