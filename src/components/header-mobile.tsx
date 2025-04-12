@@ -42,7 +42,7 @@ export function HeaderMobile() {
 
       // 只有滚动超过阈值时才改变状态
       if (Math.abs(currentScrollY - scrollY) > scrollThreshold) {
-        if (scrollDirection === 'down' && currentScrollY > 100) {
+        if (scrollDirection === 'down' && currentScrollY > 1) {
           // 向下滚动超过100px时隐藏
           setVisible(false);
         } else if (scrollDirection === 'up') {
