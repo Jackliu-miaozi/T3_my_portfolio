@@ -98,67 +98,79 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="container mx-auto flex h-screen w-screen flex-col items-center justify-center">
+    <div className="container mx-auto flex h-screen w-screen flex-col items-center justify-center px-4 sm:px-0">
       <Card
-        className={`w-full max-w-md ${isLoading ? "pointer-events-none opacity-60" : ""}`}
+        className={`w-full sm:max-w-md ${isLoading ? "pointer-events-none opacity-60" : ""}`}
       >
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-center text-2xl">
+        <CardHeader className="space-y-1 p-4 sm:p-6">
+          <CardTitle className="text-center text-xl sm:text-2xl">
             登录刘正源的网站
           </CardTitle>
-          <CardDescription className="text-center">
+          <CardDescription className="text-center text-sm sm:text-base">
             输入您的账号信息以登录
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleCredentialsSignIn} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">邮箱</Label>
+        <CardContent className="p-4 sm:p-6">
+          <form onSubmit={handleCredentialsSignIn} className="grid gap-3 sm:gap-4">
+            <div className="grid gap-1 sm:gap-2">
+              <Label htmlFor="email" className="text-sm sm:text-base">邮箱</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
                 placeholder="name@example.com"
                 required
+                className="h-10 sm:h-11"
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">密码</Label>
+            <div className="grid gap-1 sm:gap-2">
+              <Label htmlFor="password" className="text-sm sm:text-base">密码</Label>
               <Input
                 id="password"
                 name="password"
                 type="password"
                 placeholder="输入您的密码"
                 required
+                className="h-10 sm:h-11"
               />
             </div>
-            {error && <div className="text-sm text-red-500">{error}</div>}
+            
+            {/* 错误提示 */}
+            {error && <div className="text-xs sm:text-sm text-red-500">{error}</div>}
+            
+            {/* 登录按钮 */}
             <Button
-              className="hover:bg-primary/90 active:bg-primary/70 w-full transition-colors"
+              className="h-10 w-full text-sm sm:h-11 sm:text-base"
               type="submit"
               disabled={isLoading}
               onClick={() => toast("正在登录")}
             >
               {isLoading ? "登录中..." : "登录"}
             </Button>
-            <div className="relative my-4">
+
+            {/* 分隔线 */}
+            <div className="relative my-2 sm:my-4">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card text-muted-foreground px-2">或</span>
+                <span className="bg-card text-muted-foreground px-2 text-xs sm:text-sm">或</span>
               </div>
             </div>
+
+            {/* GitHub登录按钮 */}
             <Button
               type="button"
               variant="outline"
-              className="w-full"
+              className="h-10 w-full text-sm sm:h-11 sm:text-base"
               onClick={handleGithubSignIn}
             >
-              <GithubIcon className="mr-2 h-4 w-4" />
+              <GithubIcon className="mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
               使用GitHub登录
             </Button>
-            <div className="mt-4 flex items-center justify-between text-sm">
+
+            {/* 底部链接 */}
+            <div className="mt-3 flex flex-col items-center gap-2 text-xs sm:mt-4 sm:flex-row sm:justify-between sm:text-sm">
               <Link href="/sign-up" className="text-primary hover:underline">
                 还没有账号？前去注册
               </Link>

@@ -255,20 +255,20 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="container mx-auto flex h-screen w-screen flex-col items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-center text-2xl">
+    <div className="container mx-auto flex h-screen w-screen flex-col items-center justify-center px-4 sm:px-0">
+      <Card className="w-full sm:max-w-md">
+        <CardHeader className="space-y-1 p-4 sm:p-6">
+          <CardTitle className="text-center text-xl sm:text-2xl">
             注册刘正源的网站
           </CardTitle>
-          <CardDescription className="text-center">
+          <CardDescription className="text-center text-sm sm:text-base">
             创建您的账号
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={onSubmit} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name" className="flex">
+        <CardContent className="p-4 sm:p-6">
+          <form onSubmit={onSubmit} className="grid gap-3 sm:gap-4">
+            <div className="grid gap-1 sm:gap-2">
+              <Label htmlFor="name" className="flex text-sm sm:text-base">
                 昵称 <span className="ml-1 text-red-500">*</span>
               </Label>
               <div className="relative">
@@ -283,20 +283,20 @@ export default function SignUpPage() {
                     setFormValues({ ...formValues, name: e.target.value })
                   }
                   onBlur={handleNameBlur}
-                  className={
+                  className={`h-10 sm:h-11 ${
                     validationState.nameChecked
                       ? validationState.nameValid
                         ? "border-green-500 pr-10"
                         : "border-red-500 pr-10"
                       : ""
-                  }
+                  }`}
                 />
                 {validationState.nameChecked && (
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                     {validationState.nameValid ? (
-                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
                     ) : (
-                      <XCircle className="h-5 w-5 text-red-500" />
+                      <XCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
                     )}
                   </div>
                 )}
@@ -305,16 +305,17 @@ export default function SignUpPage() {
                 <p
                   className={
                     validationState.nameValid
-                      ? "text-sm text-green-500"
-                      : "text-sm text-red-500"
+                      ? "text-xs sm:text-sm text-green-500"
+                      : "text-xs sm:text-sm text-red-500"
                   }
                 >
                   {validationState.nameMessage}
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email" className="flex">
+
+            <div className="grid gap-1 sm:gap-2">
+              <Label htmlFor="email" className="flex text-sm sm:text-base">
                 邮箱 <span className="ml-1 text-red-500">*</span>
               </Label>
               <Input
@@ -327,10 +328,12 @@ export default function SignUpPage() {
                 onChange={(e) =>
                   setFormValues({ ...formValues, email: e.target.value })
                 }
+                className="h-10 sm:h-11"
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password" className="flex">
+
+            <div className="grid gap-1 sm:gap-2">
+              <Label htmlFor="password" className="flex text-sm sm:text-base">
                 密码 <span className="ml-1 text-red-500">*</span>
               </Label>
               <div className="relative">
@@ -344,20 +347,20 @@ export default function SignUpPage() {
                   onChange={(e) =>
                     setFormValues({ ...formValues, password: e.target.value })
                   }
-                  className={
+                  className={`h-10 sm:h-11 ${
                     validationState.passwordChecked
                       ? validationState.passwordValid
                         ? "border-green-500 pr-10"
                         : "border-red-500 pr-10"
                       : ""
-                  }
+                  }`}
                 />
                 {validationState.passwordChecked && (
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                     {validationState.passwordValid ? (
-                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
                     ) : (
-                      <AlertCircle className="h-5 w-5 text-red-500" />
+                      <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
                     )}
                   </div>
                 )}
@@ -366,16 +369,17 @@ export default function SignUpPage() {
                 <p
                   className={
                     validationState.passwordValid
-                      ? "text-sm text-green-500"
-                      : "text-sm text-red-500"
+                      ? "text-xs sm:text-sm text-green-500"
+                      : "text-xs sm:text-sm text-red-500"
                   }
                 >
                   {validationState.passwordStrength}
                 </p>
               )}
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="confirmPassword" className="flex">
+
+            <div className="grid gap-1 sm:gap-2">
+              <Label htmlFor="confirmPassword" className="flex text-sm sm:text-base">
                 确认密码 <span className="ml-1 text-red-500">*</span>
               </Label>
               <div className="relative">
@@ -392,34 +396,35 @@ export default function SignUpPage() {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className={
+                  className={`h-10 sm:h-11 ${
                     validationState.passwordsChecked
                       ? validationState.passwordsMatch
                         ? "border-green-500 pr-10"
                         : "border-red-500 pr-10"
                       : ""
-                  }
+                  }`}
                 />
                 {validationState.passwordsChecked && (
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                     {validationState.passwordsMatch ? (
-                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
                     ) : (
-                      <AlertCircle className="h-5 w-5 text-red-500" />
+                      <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
                     )}
                   </div>
                 )}
               </div>
               {validationState.passwordsChecked &&
                 !validationState.passwordsMatch && (
-                  <p className="text-sm text-red-500">两次输入的密码不一致</p>
+                  <p className="text-xs sm:text-sm text-red-500">两次输入的密码不一致</p>
                 )}
               {validationState.passwordsChecked &&
                 validationState.passwordsMatch && (
-                  <p className="text-sm text-green-500">密码输入一致</p>
+                  <p className="text-xs sm:text-sm text-green-500">密码输入一致</p>
                 )}
             </div>
-            {error && <div className="text-sm text-red-500">{error}</div>}
+
+            {error && <div className="text-xs sm:text-sm text-red-500">{error}</div>}
 
             <div className="flex items-start space-x-2">
               <div className="flex h-5 items-center">
@@ -433,11 +438,8 @@ export default function SignUpPage() {
                   required
                 />
               </div>
-              <div className="text-sm">
-                <label
-                  htmlFor="terms"
-                  className="text-gray-700 dark:text-gray-300"
-                >
+              <div className="text-xs sm:text-sm">
+                <label htmlFor="terms" className="text-gray-700 dark:text-gray-300">
                   我已阅读并同意 <span className="text-red-500">*</span>
                   <Link
                     href="/terms"
@@ -451,13 +453,14 @@ export default function SignUpPage() {
             </div>
 
             <Button
-              className="hover:bg-primary/90 active:bg-primary/70 w-full transition-colors"
+              className="h-10 w-full text-sm sm:h-11 sm:text-base"
               type="submit"
               disabled={isLoading || !agreedToTerms || !allFieldsFilled}
             >
               {isLoading ? "注册中..." : "注册"}
             </Button>
-            <div className="mt-4 flex items-center justify-center text-sm">
+
+            <div className="mt-3 flex items-center justify-center text-xs sm:mt-4 sm:text-sm">
               <Link href="/sign-in" className="text-primary hover:underline">
                 已有账号？前去登录
               </Link>
