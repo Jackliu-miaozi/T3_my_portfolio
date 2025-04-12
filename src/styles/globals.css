@@ -28,13 +28,27 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 /* 添加在文件开头 */
-/* .no-flash {
+.no-flash {
   transition: none !important;
 }
 
 html.no-flash * {
   transition: none !important;
-} */
+}
+
+/* 优先加载的关键样式 */
+@layer critical, theme, base, components, utilities;
+
+/* 将关键样式放在critical层 */
+@layer critical {
+  body {
+    font-family: var(--font-sans);
+    background: var(--background);
+    color: var(--foreground);
+  }
+  
+  /* 其他关键样式... */
+}
 /**
  * 浅色模式主题变量
  */
