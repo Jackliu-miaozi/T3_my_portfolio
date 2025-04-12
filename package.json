@@ -60,6 +60,7 @@
     "@wangeditor/editor-for-react": "^1.0.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "critters": "^0.0.25",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.41.0",
     "emoji-picker-react": "^4.12.2",
