@@ -180,17 +180,9 @@ export default async function ArticlePage({
                   返回列表
                 </Button>
               </Link>
-            </AnimatedSection>
-
-            {/* Title */}
-            <AnimatedSection delay={200}>
               <h1 className="mb-3 text-3xl leading-tight font-extrabold text-white sm:text-4xl md:text-5xl lg:text-6xl">
                 {article.title}
               </h1>
-            </AnimatedSection>
-
-            {/* Metadata */}
-            <AnimatedSection delay={300}>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/80">
                 <div className="flex items-center gap-1.5">
                   {/* Optional: Add an icon e.g., <User className="h-4 w-4" /> */}
