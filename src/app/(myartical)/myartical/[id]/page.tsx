@@ -169,7 +169,7 @@ export default async function ArticlePage({
         <div className="absolute inset-0 flex flex-col justify-end">
           <div className="container mx-auto max-w-4xl px-4 pb-12 md:pb-16">
             {/* Back Button */}
-            <AnimatedSection delay={100}>
+
               <Link href="/myartical" className="mb-4 inline-block">
                 <Button
                   variant="outline"
@@ -204,7 +204,7 @@ export default async function ArticlePage({
                   </div>
                 )}
               </div>
-            </AnimatedSection>
+
           </div>
         </div>
       </header>
@@ -219,7 +219,7 @@ export default async function ArticlePage({
             {/* Use theme background, add shadow/border */}
             {/* Optional: Article Summary inside the card */}
             {article.summary && (
-              <AnimatedSection delay={400}>
+
                 <div className="border-border/10 bg-muted/30 rounded-lg border-b p-6 shadow-sm transition-shadow hover:shadow-lg md:p-8">
                   {" "}
                   {/* Subtle background, padding, border bottom */}
@@ -228,14 +228,14 @@ export default async function ArticlePage({
                     &ldquo;{article.summary}&rdquo;
                   </p>
                 </div>
-              </AnimatedSection>
+
             )}
             {/* Article Body */}
-            <AnimatedSection delay={500}>
+
               <ArticleContent content={sanitizedContent} />
-            </AnimatedSection>
+
             {/* Share Section */}
-            <AnimatedSection delay={600}>
+
               <aside className="border-border/10 border-t px-6 -mt-8 pb-8 md:px-8 lg:px-10">
                 {" "}
                 {/* Use aside, add padding, border top */}
@@ -257,7 +257,7 @@ export default async function ArticlePage({
                   </div>
                 </div>
               </aside>
-            </AnimatedSection>
+
           </main>
         </div>
       </div>
