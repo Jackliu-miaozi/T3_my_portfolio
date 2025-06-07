@@ -42,35 +42,71 @@ function stripHtml(html: string) {
   return Array.from(text).length;
 }
 
+/**
+ * 留言表单组件
+ * 使用优化的mutation配置来提供更好的用户体验和性能
+ */
 export function GuestbookForm({ user }: GuestbookFormProps) {
   const utils = api.useUtils();
-  // 创建一个用于提交留言的mutation钩子
-  // 使用tRPC的useMutation来处理留言创建
-  // onSuccess回调在留言创建成功后执行:
-  // 1. 使用utils.post.invalidate()使缓存失效，强制重新获取最新数据
-  // 2. 清空输入框的内容
+  
+  // 优化的mutation配置，提供乐观更新和更好的错误处理
   const createPost = api.post.create.useMutation({
-    // 当mutation被触发时执行
-    onMutate: () => {
+    // 乐观更新：在请求发送前立即更新UI，提供即时反馈
+    onMutate: async (newPost) => {
       setIsSubmitting(true);
+      
+      // 取消正在进行的查询，避免覆盖乐观更新
+      await utils.post.getAll.cancel();
+      
+      // 获取当前缓存数据的快照
+      const previousPosts = utils.post.getAll.getData();
+      
+      // 乐观更新：立即在UI中显示新留言
+       // 确保数据结构与API返回的数据结构一致
+       const optimisticPost = {
+         id: Date.now(), // 临时ID
+         context: newPost.context,
+         createdAt: new Date(), // 使用Date对象而不是字符串
+         createdBy: user.name ?? '匿名用户', // 使用createdBy而不是createdById
+         image: user.image ?? null,
+       };
+      
+      utils.post.getAll.setData(undefined, (old) => {
+        if (!old) return [optimisticPost];
+        return [optimisticPost, ...old];
+      });
+      
+      // 返回上下文对象，用于错误回滚
+      return { previousPosts };
     },
-    // 当mutation发生错误时执行
-    onError: () => {
+    
+    // 错误处理：回滚乐观更新并显示错误信息
+    onError: (error, newPost, context) => {
       setIsSubmitting(false);
-      toast.error("留言被拦截");
+      
+      // 回滚到之前的状态
+      if (context?.previousPosts) {
+        utils.post.getAll.setData(undefined, context.previousPosts);
+      }
+      
+      // 显示具体的错误信息
+      const errorMessage = error.message || "留言提交失败";
+      toast.error(errorMessage);
     },
-    // 当mutation完成时执行（无论成功或失败）
-    onSettled: () => {
-      setIsSubmitting(false);
-    },
-
-    // 当留言创建成功后，执行以下操作
-    onSuccess: async () => {
-      await utils.post.invalidate();
+    
+    // 成功处理：清理表单并显示成功信息
+    onSuccess: async (data) => {
       setMessage("");
-      // 重置编辑器内容
       editor?.commands.setContent("");
       toast.success("留言成功");
+      
+      // 在后台重新验证数据，确保数据一致性
+      await utils.post.getAll.invalidate();
+    },
+    
+    // 完成处理：无论成功或失败都会执行
+    onSettled: () => {
+      setIsSubmitting(false);
     },
   });
   const [message, setMessage] = useState("");

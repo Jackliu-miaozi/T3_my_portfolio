@@ -1,8 +1,8 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
-import { TRPCReactProvider } from "@/trpc/react";
+
+
 // import { HydrateClient } from "@/trpc/server";
 // import { BackgroundAnimation } from "../_components/background-animation";
 import { Header } from "../_components/header";
@@ -10,8 +10,8 @@ import { Footer } from "../_components/footer";
 import { Toaster } from "sonner";
 import { ThemeScript } from "../_components/theme-script";
 import { HeaderMobile } from "@/components/header-mobile";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/server/auth";
+
+
 
 export const metadata: Metadata = {
   title: "Jack's 主页 | 个人网站",
@@ -59,57 +59,24 @@ export const metadata: Metadata = {
   },
 };
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
 
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await auth();
+
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* 其他head内容 */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const storedTheme = localStorage.getItem('theme');
-                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  const theme = storedTheme || (prefersDark ? 'dark' : 'light');
-                  
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                } catch (e) {
-                  console.error('主题初始化失败:', e);
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
-        <ThemeScript />
-        {/* 在中等屏幕及以上显示桌面导航栏，小屏幕显示移动导航栏 */}
 
-          <Header />
-
-        <div className="block md:hidden">
-          <SessionProvider session={session}>
-            <HeaderMobile />
-          </SessionProvider>
-        </div>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-        <Footer />
-        <Toaster richColors theme="system" position="top-center" />
-      </body>
+      <ThemeScript />
+      {/* 在中等屏幕及以上显示桌面导航栏，小屏幕显示移动导航栏 */}
+      <Header />
+      <div className="block md:hidden">
+        <HeaderMobile />
+      </div>
+      {children}
+      <Footer />
+      <Toaster richColors theme="system" position="top-center" />
     </html>
   );
 }

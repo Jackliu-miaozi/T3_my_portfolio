@@ -1,53 +1,96 @@
-// 在文件顶部添加
-import { type Metadata } from "next";
-import { api } from "@/trpc/server";
-import { Header } from "@/app/_components/header";
+"use client";
+
 import { Footer } from "@/app/_components/footer";
-import { cache, Suspense } from "react";
+import { api } from "@/trpc/react";
 
 // 添加导入
 import { ArticlesSkeleton } from "../../../components/articles-skeleton";
 import { ArticleHeader, ArticleCards } from "@/components/article-list";
 
-export const metadata: Metadata = {
-  title: "我的文章 | Jack's 主页",
-  description: "浏览Jack的技术文章、学习笔记和行业见解。",
-  keywords: ["技术文章", "学习笔记", "编程教程", "行业见解"],
-  openGraph: {
-    title: "我的文章 | Jack's 主页",
-    description: "浏览Jack的技术文章、学习笔记和行业见解。",
-    url: "https://www.jackliu.asia",
-    locale: "zh_CN",
-    type: "website",
-  },
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
-
-// 添加预缓存配置
-export const revalidate = 3600; // 1小时后重新验证缓存
-
-// 将数据获取逻辑封装到一个缓存函数中
-// 修改数据获取函数，使用 cache 包装以提高性能
-const getArticles = cache(async () => {
-  const articles = await api.artical.getAll();
-  return articles.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  );
-});
-
-// 创建一个异步组件来处理文章加载
-async function ArticleCardsWrapper({
+/**
+ * 文章列表组件 - 使用 useQuery 缓存数据
+ * 提供智能缓存、错误处理和加载状态
+ */
+function ArticleCardsWrapper({
   formatDate,
 }: {
   formatDate: (dateString: string) => string;
 }) {
-  // 这里的 await 会自动触发 Suspense
-  const articles = await getArticles();
+  // 使用 useQuery 获取文章数据，配置缓存策略
+  const {
+    data: articles,
+    isLoading,
+    error,
+    refetch,
+  } = api.artical.getAll.useQuery(undefined, {
+    // 缓存配置
+    staleTime: 5 * 60 * 1000, // 5分钟内数据被认为是新鲜的
+    gcTime: 10 * 60 * 1000, // 10分钟后清理缓存
+    
+    // 重新获取策略
+    refetchOnWindowFocus: false, // 窗口聚焦时不重新获取
+    refetchOnMount: true, // 组件挂载时重新获取
+    refetchOnReconnect: true, // 网络重连时重新获取
+    
+    // 重试策略
+    retry: (failureCount, error) => {
+      // 最多重试3次，但对于网络错误多重试几次
+      if (failureCount < 3) return true;
+      return false;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
 
-  return <ArticleCards articles={articles} formatDate={formatDate} />;
+  // 加载状态
+  if (isLoading) {
+    return <ArticlesSkeleton />;
+  }
+
+  // 错误状态
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <div className="text-center">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            加载文章时出现错误
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            {error.message || "请检查网络连接后重试"}
+          </p>
+          <button
+            onClick={() => refetch()}
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+          >
+            重试
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // 空状态
+  if (!articles || articles.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+          暂无文章
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400">
+          还没有发布任何文章，请稍后再来查看。
+        </p>
+      </div>
+    );
+  }
+
+  // 对文章按创建时间排序
+  const sortedArticles = [...articles].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+
+  return <ArticleCards articles={sortedArticles} formatDate={formatDate} />;
 }
 
-export default async function ArticlesPage() {
+export default function ArticlesPage() {
   // 格式化日期函数
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -59,14 +102,11 @@ export default async function ArticlesPage() {
   };
 
   return (
-    <div>
-      <Header />
-      <div className="mx-auto max-w-5xl px-4 py-8 md:px-6 md:py-12">
+    <div className="min-h-screen bg-background">
+      <main className="container mx-auto px-4 py-8">
         <ArticleHeader />
-        <Suspense fallback={<ArticlesSkeleton />}>
-          <ArticleCardsWrapper formatDate={formatDate} />
-        </Suspense>
-      </div>
+        <ArticleCardsWrapper formatDate={formatDate} />
+      </main>
       <Footer />
     </div>
   );

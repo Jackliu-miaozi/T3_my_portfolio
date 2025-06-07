@@ -5,6 +5,9 @@ import { Geist } from "next/font/google";
 import { ThemeScript } from "./_components/theme-script";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
+import { auth } from "@/server/auth";
+import { SessionProvider } from "next-auth/react";
+import { TRPCReactProvider } from "@/trpc/react";
 // import Script from 'next/script';
 
 export const metadata: Metadata = {
@@ -21,6 +24,7 @@ const geist = Geist({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -74,7 +78,11 @@ export default async function RootLayout({
       </head>
       <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
         <ThemeScript />
-        {children}
+        <SessionProvider session={session}>
+          <TRPCReactProvider>
+            {children}
+          </TRPCReactProvider>
+        </SessionProvider>
         <SpeedInsights />
         <Analytics />
         {/* 使用next/script加载非关键脚本 */}

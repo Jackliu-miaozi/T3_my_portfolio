@@ -7,33 +7,36 @@ import { auth } from "@/server/auth";
 import { ThemeScript } from "../_components/theme-script";
 import { TRPCReactProvider } from "@/trpc/react";
 import { HeaderMobile } from "@/components/header-mobile";
+import { Header } from "@/app/_components/header";
 
 export const metadata: Metadata = {
-  title: "Jack's 主页",
-  description: "Jack's 主页",
+  title: "我的文章 | Jack's 主页",
+  description: "浏览Jack的技术文章、学习笔记和行业见解。",
+  keywords: ["技术文章", "学习笔记", "编程教程", "行业见解"],
+  openGraph: {
+    title: "我的文章 | Jack's 主页",
+    description: "浏览Jack的技术文章、学习笔记和行业见解。",
+    url: "https://www.jackliu.asia",
+    locale: "zh_CN",
+    type: "website",
+  },
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
+
 
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geist.variable} mx-auto`} suppressHydrationWarning>
-        <ThemeScript />
-        <TRPCReactProvider>
-          <SessionProvider session={session}>
-          <HeaderMobile />
-            {children}
-          </SessionProvider>
-        </TRPCReactProvider>
-      </body>
+      <ThemeScript />
+      <Header />
+      <div className="block md:hidden">
+        <HeaderMobile />
+      </div>
+      {children}
+
     </html>
   );
 }

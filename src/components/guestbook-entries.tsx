@@ -14,15 +14,40 @@ import {
 } from "@/app/_components/ui/dialog";
 import { toast } from "sonner";
 
+/**
+ * 留言板条目组件
+ * 使用优化的useQuery配置来提升性能和用户体验
+ */
 export function GuestbookEntries() {
-  // 添加缓存配置
-  const { data: entries, isLoading } = api.post.getAll.useQuery(undefined, {
-    // 5分钟内不重新请求数据
-    staleTime: 5 * 60 * 1000,
-    // 页面重新获得焦点时重新获取数据
+  // 优化的useQuery配置，提供更好的缓存策略和用户体验
+  const { 
+    data: entries, 
+    isLoading, 
+    isError, 
+    error,
+    refetch 
+  } = api.post.getAll.useQuery(undefined, {
+    // 数据在10分钟内被视为新鲜，不会重新请求
+    staleTime: 10 * 60 * 1000,
+    // 缓存时间为30分钟，超过后数据会被垃圾回收
+    gcTime: 30 * 60 * 1000,
+    // 页面重新获得焦点时重新获取数据，保持数据最新
     refetchOnWindowFocus: true,
-    // 组件重新挂载时使用缓存数据
+    // 组件重新挂载时不重新请求，使用缓存数据
     refetchOnMount: false,
+    // 网络重连时重新获取数据
+    refetchOnReconnect: true,
+    // 启用后台重新验证，在用户不感知的情况下更新数据
+    refetchInterval: false,
+    // 重试配置：失败时重试3次，每次间隔递增
+    retry: (failureCount, error) => {
+      // 如果是网络错误或服务器错误，最多重试3次
+      if (failureCount < 3) {
+        return true;
+      }
+      return false;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 
   const { data: session } = useSession();
@@ -71,6 +96,25 @@ export function GuestbookEntries() {
     }).format(date);
   };
 
+  // 错误状态处理
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 space-y-4">
+        <div className="text-red-500 dark:text-red-400">
+          加载留言失败: {error?.message || '未知错误'}
+        </div>
+        <Button 
+          onClick={() => refetch()} 
+          variant="outline" 
+          size="sm"
+        >
+          重试
+        </Button>
+      </div>
+    );
+  }
+
+  // 加载状态处理
   if (isLoading || !entries) {
     return (
       <div className="flex justify-center py-8">
@@ -81,6 +125,7 @@ export function GuestbookEntries() {
     );
   }
 
+  // 空状态处理
   if (entries.length === 0) {
     return (
       <div className="py-8 text-center text-gray-500 dark:text-gray-400">
