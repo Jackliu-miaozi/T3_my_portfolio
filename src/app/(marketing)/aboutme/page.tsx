@@ -7,8 +7,6 @@ import { AnimatedSection } from "@/app/_components/animated-section";
 // 在文件顶部添加
 import { type Metadata } from "next";
 
-// 设置页面缓存时间为1小时
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "关于我 | Jack's 主页",

@@ -2,6 +2,12 @@ import Link from "next/link";
 import { Button } from "@/app/_components/ui/button";
 import { AnimatedSection } from "@/app/_components/animated-section";
 import "@/styles/globals.css";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "404 - 页面未找到",
+  description: "抱歉，您访问的页面不存在或已被移除。",
+};
 
 export default function NotFound() {
   return (
