@@ -1,11 +1,8 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/server/auth";
 import { ThemeScript } from "../_components/theme-script";
-import { TRPCReactProvider } from "@/trpc/react";
+
 import { HeaderMobile } from "@/components/header-mobile";
 import { Header } from "@/app/_components/header";
 
@@ -19,6 +16,11 @@ export const metadata: Metadata = {
     url: "https://www.jackliu.asia",
     locale: "zh_CN",
     type: "website",
+    images: [
+      {
+        url: "/public/avatar.png",
+      },
+    ],
   },
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };

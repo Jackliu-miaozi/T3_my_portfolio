@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/avatar.png",
+        url: "/public/avatar.png",
       },
     ],
   },
