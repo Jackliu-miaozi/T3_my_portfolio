@@ -20,46 +20,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     "https://t3-my-portfolio-git-test-jackliumiaozis-projects.vercel.app/",
   ),
-  openGraph: {
-    title: "Jack's 主页 | 个人网站",
-    description: "欢迎来到刘正源的个人网站，这里有我的项目、文章和个人介绍。",
-    url: "https://t3-my-portfolio.vercel.app/",
-    siteName: "Jack's 主页",
-    locale: "zh_CN",
-    type: "website",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200, // 建议设置图片宽度
-        height: 630, // 建议设置图片高度
-        alt: "Jack's Website", // 图片替代文本
-      }
-    ]
-  },
-
-  // 这是Twitter卡片的元数据配置
-  // card: 定义Twitter卡片的显示样式，summary_large_image表示大图预览
-  // title: Twitter分享时显示的标题
-  // description: Twitter分享时显示的描述
-  // images: Twitter分享时显示的图片路径
-  twitter: {
-    card: "summary_large_image",
-    title: "Jack's 主页 | 个人网站",
-    description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200, // 建议设置图片宽度
-        height: 630, // 建议设置图片高度
-        alt: "Jack's Website", // 图片替代文本
-      }
-    ]
-  },
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon-16x16.svg",
-    apple: "/apple-touch-icon.svg",
-  },
 };
 
 

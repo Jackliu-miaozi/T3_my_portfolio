@@ -25,6 +25,14 @@ export const metadata: Metadata = {
     siteName: "Jack's 主页",
     locale: "zh_CN",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200, // 建议设置图片宽度
+        height: 630, // 建议设置图片高度
+        alt: "Jack's Website", // 图片替代文本
+      }
+    ]
   },
 
   // 这是Twitter卡片的元数据配置
@@ -36,6 +44,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Jack's 主页 | 个人网站",
     description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200, // 建议设置图片宽度
+        height: 630, // 建议设置图片高度
+        alt: "Jack's Website", // 图片替代文本
+      }
+    ]
   },
   icons: {
     icon: "/favicon.svg",
@@ -72,6 +88,10 @@ export default async function RootLayout({
             .dark { background-color: #111; color: #f5f5f5; }
           `
         }} />
+        <meta property="og:image" content="<generated>" />
+        <meta property="og:image:type" content="<generated>" />
+        <meta property="og:image:width" content="<generated>" />
+        <meta property="og:image:height" content="<generated>" />
 
 
         <script

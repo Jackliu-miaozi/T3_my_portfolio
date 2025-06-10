@@ -11,7 +11,10 @@ export default async function RootLayout({
 
   return (
     <html >
-
+      <meta property="og:image" content="<generated>" />
+      <meta property="og:image:type" content="<generated>" />
+      <meta property="og:image:width" content="<generated>" />
+      <meta property="og:image:height" content="<generated>" />
       {children}
 
       <Toaster richColors theme="system" />
