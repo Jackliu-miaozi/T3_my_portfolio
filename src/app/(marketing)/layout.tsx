@@ -27,11 +27,6 @@ export const metadata: Metadata = {
     siteName: "Jack's 主页",
     locale: "zh_CN",
     type: "website",
-    images: [
-      {
-        url: "/avatar.png",
-      },
-    ],
   },
 
   // 这是Twitter卡片的元数据配置
@@ -43,14 +38,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Jack's 主页 | 个人网站",
     description: "欢迎来到Jack的个人网站，这里有我的项目、文章和个人介绍。",
-    images: [
-      {
-        url: "/avatar.png",
-        width: 1200,
-        height: 630,
-        alt: "Jack's Website",
-      },
-    ],
   },
   icons: {
     icon: "/favicon.svg",
