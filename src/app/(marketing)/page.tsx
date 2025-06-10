@@ -6,6 +6,10 @@ export default async function Home() {
 
   return (
     <div className="bg-background">
+      <meta property="og:image" content="<generated>" />
+      <meta property="og:image:type" content="<generated>" />
+      <meta property="og:image:width" content="<generated>" />
+      <meta property="og:image:height" content="<generated>" />
       <HeroSection />
     </div>
   );
