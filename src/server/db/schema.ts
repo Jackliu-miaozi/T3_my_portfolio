@@ -1,7 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import { index, primaryKey, sqliteTableCreator } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
-import { randomUUID } from "crypto";
 
 
 /**
@@ -130,7 +129,7 @@ export const myartical = createTable(
 export const images = createTable(
   "images",
   (d) => ({
-    id: d.text("id").primaryKey().notNull().$defaultFn(() => randomUUID()),
+    id: d.text("id").primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
     fileName: d.text("file_name").notNull(),
     fileType: d.text("file_type").notNull(),
     data: d.text("data", { length: 2147483647 }).notNull(),
@@ -144,7 +143,7 @@ export const images = createTable(
 export const articleLikes = createTable(
   "article_likes",
   (d) => ({
-    id: d.text("id").primaryKey().notNull().$defaultFn(() => randomUUID()),
+    id: d.text("id").primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
     articleId: d.integer("article_id").notNull(),
     ipAddress: d.text("ip_address").notNull(),
     createdAt: d.integer("created_at", { mode: "timestamp" }).notNull().default(sql`CURRENT_TIMESTAMP`),
@@ -161,7 +160,7 @@ export const articleLikes = createTable(
 export const articleViews = createTable(
   "article_views",
   (d) => ({
-    id: d.text("id").primaryKey().notNull().$defaultFn(() => randomUUID()),
+    id: d.text("id").primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
     articleId: d.integer("article_id").notNull(),
     ipAddress: d.text("ip_address").notNull(),
     createdAt: d.integer("created_at", { mode: "timestamp" }).notNull().default(sql`CURRENT_TIMESTAMP`),
